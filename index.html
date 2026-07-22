@@ -350,6 +350,227 @@ nav{position:sticky}
 .logo:hover .lg-a{transform:scale(.88)}
 .logo:active .lg-hot{transform:scale(.85)}
 </style>
+<style>
+.ropt{border:1.5px solid var(--line-strong);border-radius:14px;padding:15px 16px;cursor:pointer;margin-bottom:10px;transition:.15s;background:var(--card)}
+.ropt:hover{border-color:var(--marigold);background:var(--marigold-bg)}
+.ropt b{display:block;font-size:15px;margin-bottom:2px}
+.ropt span{font-size:12.5px;color:var(--slate)}
+.gal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:10px}
+.gal-tile{aspect-ratio:4/3;border-radius:14px;background:linear-gradient(135deg,#EFEDE4,#DEDCCF);display:flex;align-items:flex-end;padding:12px;font-size:12.5px;color:var(--slate);font-weight:600}
+.learn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.learn-card{padding:14px 16px;font-size:13.5px;color:var(--slate);line-height:1.5}
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.testi{padding:18px 20px}
+.testi p{font-size:13.5px;color:var(--slate);font-style:italic;margin-bottom:10px;line-height:1.65}
+.testi b{font-size:13.5px;display:block}
+.testi span{font-size:12px;color:var(--mist)}
+.faq{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:14px 18px;margin-bottom:10px}
+.faq summary{font-weight:600;font-size:14px;cursor:pointer}
+.faq p{font-size:13.5px;color:var(--slate);margin-top:8px;line-height:1.65}
+.jnames{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.jnames .chipmem{padding:6px 14px}
+.vac{border:1.5px solid var(--marigold)!important;background:linear-gradient(180deg,var(--marigold-bg),var(--card) 70%)}
+.jd-sec b{display:block;font-size:13px;margin:12px 0 6px;color:var(--ink)}
+.jd-sec ul{padding-left:18px;font-size:13px;color:var(--slate);line-height:1.8}
+</style>
+<style>
+.home-hero{padding:54px 0 22px}
+.home-hero p{font-size:15.5px}
+.searchbox{margin:24px auto 0}
+.statebar{margin:30px 0 4px}
+.count-note{margin:4px 0 40px}
+.count-note a{color:var(--marigold-deep);font-weight:600}
+.sect{border-top:1px solid var(--line);margin-top:38px;padding-top:32px}
+.sect-h{display:flex;align-items:baseline;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.sect-h h3{font-size:20px}
+.sect-h span{font-size:13px;color:var(--mist)}
+.gal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:0}
+@media(max-width:640px){.gal-grid{grid-template-columns:repeat(2,1fr)}}
+.gal-tile{aspect-ratio:4/3;border-radius:16px;display:flex;align-items:flex-end;padding:14px;font-size:12.5px;color:var(--slate);font-weight:600}
+.gt0{background:linear-gradient(135deg,#EFE9DB,#E3DAC4)}
+.gt1{background:linear-gradient(135deg,#E6ECE3,#D5DFCE)}
+.gt2{background:linear-gradient(135deg,#EDE6EC,#DFD4DD)}
+.gt3{background:linear-gradient(135deg,#E8EAF1,#D7DAE7)}
+.learn-list{display:grid;grid-template-columns:repeat(2,1fr);gap:0 48px;max-width:820px}
+@media(max-width:640px){.learn-list{grid-template-columns:1fr}}
+.learn-list div{font-size:14px;color:var(--slate);padding:11px 0;border-bottom:1px solid var(--line);line-height:1.5}
+.testi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:30px 48px;max-width:900px}
+@media(max-width:700px){.testi-grid{grid-template-columns:1fr}}
+.testi{padding:0;border:none;background:transparent}
+.testi p{font-size:14.5px;color:var(--ink);font-style:italic;margin-bottom:12px;line-height:1.7}
+.testi b{font-size:14px;display:block}
+.testi span{font-size:12.5px;color:var(--mist)}
+.faq-list{max-width:820px}
+.faq{border:none;border-bottom:1px solid var(--line);border-radius:0;background:transparent;padding:17px 0;margin:0}
+.faq:first-of-type{border-top:1px solid var(--line)}
+.faq summary{font-size:15px;font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:14px;list-style:none;cursor:pointer}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--mist);font-size:20px;font-weight:400;transition:transform .2s;flex-shrink:0}
+.faq[open] summary::after{transform:rotate(45deg)}
+.faq p{max-width:680px}
+</style>
+<style>
+.about-p{font-size:14.5px;color:var(--slate);line-height:1.75;max-width:760px;margin-bottom:16px}
+.crow{display:flex;gap:10px 26px;flex-wrap:wrap;font-size:13.5px;color:var(--slate);font-weight:500}
+.crow span{display:inline-flex;align-items:center;gap:6px}
+.mstone-list{max-width:860px}
+.mstone{display:flex;gap:16px;padding:17px 0;border-bottom:1px solid var(--line)}
+.mstone:first-child{padding-top:2px}
+.mstone:last-child{border-bottom:none}
+.ms-dot{width:10px;height:10px;border-radius:50%;background:var(--marigold);margin-top:8px;flex-shrink:0;box-shadow:0 0 0 4px var(--marigold-bg)}
+.ms-body{flex:1;min-width:0}
+.ms-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ms-top b{font-size:15px}
+.ms-date{font-size:12.5px;color:var(--mist);display:block;margin:2px 0 6px}
+.ms-body p{font-size:13.5px;color:var(--slate);line-height:1.65;max-width:720px;margin:0}
+.sect-first{border-top:none;margin-top:8px;padding-top:0}
+</style>
+<style>
+.det-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0 56px;max-width:920px;margin-top:6px}
+@media(max-width:700px){.det-grid{grid-template-columns:1fr}}
+.det-row{display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid var(--line);font-size:14px;min-width:0}
+.det-ic{width:24px;text-align:center;flex-shrink:0;font-size:16px}
+.det-l{color:var(--mist);min-width:88px;flex-shrink:0}
+.det-v{color:var(--ink);font-weight:500;word-break:break-word}
+.ms-year{font-family:var(--disp);font-size:16px;font-weight:700;margin:28px 0 2px;color:var(--ink)}
+.ms-year:first-child{margin-top:0}
+</style>
+<style>
+.home-hero{padding:38px 0 12px}
+.searchbox{margin:20px auto 0}
+.statebar{margin:22px 0 2px}
+.count-note{margin:10px 0 30px}
+.addcol{display:inline-flex;align-items:center;gap:8px;background:var(--marigold-bg);border:1.5px solid var(--marigold);color:var(--marigold-deep);font-weight:700;font-size:13.5px;padding:9px 20px;border-radius:99px;transition:.15s}
+.addcol:hover{background:var(--marigold);color:#231A02;transform:translateY(-1px)}
+</style>
+<style>
+.count-note{margin:14px 0 22px}
+</style>
+<style>
+.count-note{margin:8px 0 18px}
+</style>
+<style>
+.uchip{display:flex;align-items:center;gap:9px;border:1.5px solid var(--line-strong);border-radius:99px;padding:4px 14px 4px 5px;background:var(--card);transition:.15s}
+.uchip:hover{border-color:var(--ink);box-shadow:0 4px 14px rgba(27,31,58,.08)}
+.uav{width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;font-family:var(--disp);flex-shrink:0}
+.uinfo{display:flex;flex-direction:column;line-height:1.2;text-align:left}
+.uinfo b{font-size:13px;color:var(--ink)}
+.uinfo small{font-size:11px;color:var(--mist)}
+.me-head{display:flex;align-items:center;gap:18px;padding:34px 0 8px;flex-wrap:wrap}
+.me-av{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:800;font-size:24px}
+.me-head h2{font-size:clamp(22px,3vw,30px)}
+.me-head .sub{font-size:14px;color:var(--slate);margin-top:2px}
+.tix{border:1.5px dashed var(--marigold);border-radius:16px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:16px;background:var(--card);margin-bottom:12px;max-width:660px;flex-wrap:wrap}
+.tix b{font-size:15px;display:block}
+.tix .t-sub{font-size:12.5px;color:var(--mist);margin-top:2px}
+.tix .t-code{font-family:var(--disp);font-weight:800;font-size:15px;letter-spacing:.06em;color:var(--marigold-deep)}
+.folrow{display:flex;gap:8px;flex-wrap:wrap}
+</style>
+<style>
+.qtiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0 6px}
+@media(max-width:700px){.qtiles{grid-template-columns:repeat(2,1fr)}}
+.qtile{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;cursor:pointer;transition:.15s;text-align:left}
+.qtile:hover{box-shadow:0 10px 24px rgba(27,31,58,.08);transform:translateY(-2px);border-color:var(--marigold)}
+.qtile .qi{font-size:22px;display:block;margin-bottom:8px}
+.qtile b{font-size:14px;display:block}
+.qtile span{font-size:12px;color:var(--mist)}
+.app-row{display:flex;gap:16px;align-items:center;padding:15px 0;border-bottom:1px solid var(--line);flex-wrap:wrap;max-width:760px}
+.app-row:last-child{border-bottom:none}
+.app-info{flex:1;min-width:180px}
+.app-info b{font-size:14.5px;display:block}
+.app-info span{font-size:12.5px;color:var(--mist)}
+.app-pipe{width:150px}
+.notif-row{display:flex;gap:12px;align-items:flex-start;padding:13px 0;border-bottom:1px solid var(--line);max-width:760px;font-size:13.5px;color:var(--slate)}
+.notif-row:last-child{border-bottom:none}
+.notif-row b{color:var(--ink)}
+.sev{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--line);max-width:660px;flex-wrap:wrap}
+.sev:last-child{border-bottom:none}
+.sev b{font-size:14.5px;display:block}
+.sev span{font-size:12.5px;color:var(--mist)}
+</style>
+<style>
+.spin{width:28px;height:28px;border:3px solid var(--marigold-bg);border-top-color:var(--marigold);border-radius:50%;animation:sp .9s linear infinite;margin:18px 0 6px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.achint{font-size:13px;margin-top:8px}
+.achint a{color:var(--marigold-deep);font-weight:700;cursor:pointer}
+</style>
+<style>
+.col-img.pend{filter:grayscale(.45) brightness(1.02);opacity:.9}
+.pendban{display:flex;gap:14px;align-items:center;background:var(--marigold-bg);border:1.5px solid var(--marigold);border-radius:16px;padding:14px 18px;margin-bottom:18px;flex-wrap:wrap}
+.pendban b{font-size:14px;display:block}
+.pendban span{font-size:12.5px;color:var(--slate);display:block;margin-top:2px}
+</style>
+<style>
+.shelf-h{display:flex;align-items:baseline;gap:12px;margin:44px 0 16px;flex-wrap:wrap}
+.shelf-h h3{font-size:20px}
+.shelf-h span{font-size:13px;color:var(--mist)}
+.hscroll{display:flex;gap:18px;overflow-x:auto;padding:2px 2px 14px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.hscroll::-webkit-scrollbar{height:8px}
+.hscroll::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:8px}
+.hcard{width:280px;flex-shrink:0;scroll-snap-align:start}
+</style>
+<style>
+.cgal{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:158px 158px;gap:10px;border-radius:24px;overflow:hidden;margin-bottom:20px}
+.cg-main{grid-row:1/3;background-size:cover;background-position:center;position:relative}
+.cg-side{background-size:cover;background-position:center;position:relative}
+@media(max-width:700px){.cgal{grid-template-columns:1fr 1fr;grid-template-rows:140px 90px}.cg-main{grid-row:auto;grid-column:1/3}}
+.gadd{position:absolute;right:14px;bottom:14px;background:rgba(255,255,255,.96);border-radius:99px;padding:8px 16px;font-weight:700;font-size:13px;box-shadow:0 2px 12px rgba(0,0,0,.16);transition:.15s}
+.gadd:hover{transform:scale(1.04)}
+.chero{position:relative}
+.evd-poster.evpast{filter:grayscale(.55);opacity:.92}
+</style>
+<style>
+.mgbar{display:flex;gap:8px;align-items:center;background:var(--ink);color:#fff;border-radius:16px;padding:12px 16px;margin:16px 0 4px;flex-wrap:wrap}
+.mgbar .mg-l{font-size:12.5px;opacity:.85;margin-right:auto}
+.mgbar button{background:rgba(255,255,255,.12);color:#fff;border-radius:99px;padding:7px 14px;font-size:12.5px;font-weight:600;transition:.15s}
+.mgbar button:hover{background:var(--marigold);color:#231A02}
+</style>
+<style>
+.mgstrip{display:flex;gap:14px;align-items:center;background:var(--ink);color:#fff;border-radius:14px;padding:11px 18px;margin:16px 0 4px;flex-wrap:wrap;font-size:13px}
+.mgstrip .mg-r{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.mgstrip a{color:var(--marigold);font-weight:600;cursor:pointer}
+.sect-h .sedit{margin-left:auto}
+.rowtools{display:inline-flex;gap:6px;margin-left:10px}
+.rowtools button,.tdel,.xdel{width:26px;height:26px;border-radius:8px;background:var(--paper);border:1px solid var(--line-strong);font-size:12px;display:inline-flex;align-items:center;justify-content:center;transition:.12s;flex-shrink:0}
+.rowtools button:hover,.tdel:hover,.xdel:hover{border-color:var(--ink);background:var(--card)}
+.gal-add{border:2px dashed var(--line-strong);background:transparent;color:var(--slate);font-weight:600;align-items:center;justify-content:center;display:flex;cursor:pointer;font-size:13.5px}
+.gal-add:hover{border-color:var(--marigold);color:var(--marigold-deep)}
+.gal-tile{position:relative}
+.gal-tile .tdel{position:absolute;top:8px;right:8px}
+.mrow-flex{display:flex;align-items:center}
+</style>
+<style>
+.wzdots{display:flex;gap:6px;margin:4px 0 16px}
+.wzdots span{width:30px;height:5px;border-radius:5px;background:var(--line-strong)}
+.wzdots span.on{background:var(--marigold)}
+.wzstep{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--marigold-deep)}
+.wzitem{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);border-radius:12px;margin-bottom:8px;font-size:13.5px;background:var(--paper)}
+.wzitem b{flex:1}
+.wzrow{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}
+.wzrow .field{flex:1;min-width:120px;margin-bottom:8px}
+.wzfoot{display:flex;gap:10px;justify-content:flex-end;margin-top:10px}
+.wzrev{font-size:13.5px;color:var(--slate);line-height:1.9}
+.wzrev b{color:var(--ink)}
+</style>
+<style>
+.rec-grid{display:grid;grid-template-columns:1fr 330px;gap:24px;align-items:start;margin-top:4px}
+@media(max-width:900px){.rec-grid{grid-template-columns:1fr}}
+.rec-side{position:sticky;top:84px}
+.rec-side .card{padding:18px 20px;margin-bottom:14px}
+.rs-live{color:var(--green-deep);font-weight:700;font-size:13px}
+.rs-row{display:flex;gap:11px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.rs-row:last-child{border-bottom:none;padding-bottom:2px}
+.rs-row .ri{width:20px;text-align:center;flex-shrink:0}
+.rs-row b{display:block;font-size:13.5px}
+.rs-row span{font-size:12px;color:var(--mist)}
+.ddl{background:var(--marigold-bg);color:var(--marigold-deep);font-weight:700;font-size:11.5px;padding:3px 10px;border-radius:99px;white-space:nowrap}
+.avstack{display:flex;align-items:center}
+.avstack .avm{width:26px;height:26px;border-radius:50%;border:2px solid var(--card);margin-left:-8px;display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:800;font-family:var(--disp);color:#fff}
+.avstack .avm:first-child{margin-left:0}
+.applied-btn{background:var(--green-bg)!important;color:var(--green-deep)!important;cursor:default}
+.elig{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.elig span{background:var(--paper);border:1px solid var(--line);border-radius:99px;padding:5px 12px;font-size:12px;font-weight:600;color:var(--slate)}
+</style>
 </head>
 <body>
 <nav>
@@ -360,7 +581,7 @@ nav{position:sticky}
       <a class="nav-link" data-v="societies" href="#" onclick="goSocieties();return false"><span class="nico">🎭</span><span class="nlabel">Societies</span></a>
       <a class="nav-link" data-v="events" href="#" onclick="goEvents();return false"><span class="nico">🎪</span><span class="nlabel">Events</span></a>
     </div>
-    <button class="btn btn-gold btn-sm nav-right" onclick="toast('Sign-in flow comes next — this demo browses as a guest')">Sign in</button>
+    <button class="btn btn-gold btn-sm nav-right" id="navUser" onclick="openSignup()">Sign in</button>
   </div>
 </nav>
 <div class="crumbbar"><div class="wrap"><div id="crumbs"></div></div></div>
@@ -375,9 +596,10 @@ nav{position:sticky}
         <input type="text" id="homeSearch" placeholder="Search colleges — try Miranda House" oninput="renderColleges()">
       </div>
     </div>
-    <div class="statebar" id="stateBar"></div>
+    
     <p class="count-note" id="countNote"></p>
     <div class="college-grid" id="collegeGrid"></div>
+    <div id="pendShelf"></div>
   </div>
 </div>
 
@@ -386,6 +608,7 @@ nav{position:sticky}
 <div class="view" id="v-societies"><div class="wrap" id="societiesPage"></div></div>
 <div class="view" id="v-events"><div class="wrap" id="eventsPage"></div></div>
 <div class="view" id="v-event"><div class="wrap" id="eventPage"></div></div>
+<div class="view" id="v-me"><div class="wrap" id="mePage"></div></div>
 
 <footer><div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px"><span><b style="color:var(--ink)">UniGrid</b> — find your college, find your people.</span><span>Made for campus, by campus 🪔</span></div></footer>
 
@@ -407,21 +630,24 @@ const DATA=[
     {y:2026,date:"Jan 2026",tag:"Project",title:"Project Dhara launched",text:"A water-purification venture with RWA partners in Sonipat — 400 households onboarded in the pilot month, run end-to-end by our first-year operations team.",media:2},
     {y:2025,date:"Nov 2025",tag:"Event",title:"Udyam '25 — our flagship summit",text:"650 attendees from 28 colleges, 14 speakers from the development sector, and volunteer certificates issued to 40 students recruited through UniGrid.",media:3},
     {y:2025,date:"Aug 2025",tag:"Recruitment",title:"Fresher drive '25 wrapped",text:"389 applications, 72 shortlists, 21 selections — our first fully digital drive. Every selected member now carries verified experience on their profile.",media:0},
-    {y:2024,date:"Sep 2024",tag:"Achievement",title:"Best emerging project — DU social impact awards",text:"Project Kilkari won at the university level in its first year of operations.",media:1}
+    {y:2024,date:"Sep 2024",tag:"Achievement",title:"Best emerging project — DU social impact awards",text:"Project Kilkari won at the university level in its first year of operations.",media:1},
+    {y:2023,date:"Oct 2023",tag:"Project",title:"Project Kilkari pilot",text:"Our first paper-bag pilot with 15 women artisans in northwest Delhi \u2014 the seed of what became a national-finalist project.",media:1}
    ],
    recruitment:{status:"live",title:"Fresher recruitment 2026",closes:"24 Aug 2026",orientation:"18 Aug · Main auditorium · 5 pm",applied:214,
     roles:[{r:"Marketing & outreach",seats:6},{r:"Project research",seats:8},{r:"Finance & accounts",seats:4},{r:"Design & content",seats:5}],
     stages:[
- {d:"18 Aug",s:"Orientation",st:"done",venue:"Main auditorium \u00b7 5 pm",banner:1,desc:"An open intro to our projects, teams and what we look for in freshers. No sign-up needed \u2014 just show up. Slides and recording are shared here after the session."},
- {d:"19\u201324 Aug",s:"Applications open",st:"now",cta:1,desc:"Apply to up to 2 roles below. Your UniGrid profile attaches automatically \u2014 you only answer 3 short questions per role. Takes about 10 minutes."},
- {d:"26 Aug",s:"Shortlist announced",st:"upcoming",desc:"Shortlisted candidates get a UniGrid notification and email, and can book an interview slot right from this page."},
- {d:"28\u201330 Aug",s:"Interviews",st:"upcoming",materials:[{l:"\ud83d\udcc4 Slot booking sheet",m:"Opening slot booking sheet"},{l:"\ud83d\udcd8 What to expect (PDF)",m:"Opening interview guide"}],desc:"15-minute conversations with two core members. No preparation needed \u2014 we want to see how you think, not what you've memorised."},
- {d:"1 Sep",s:"Results",st:"upcoming",desc:"Selected members are added to the team automatically and the role appears on their UniGrid profile as verified experience. Everyone gets a response \u2014 no ghosting."}
+ {d:"18 Aug",s:"Orientation",st:"done",venue:"Main auditorium \u00b7 5 pm",banner:1,photos:3,materials:[{l:"\ud83d\udcd8 Orientation deck (PDF)",m:"Opening the orientation deck"}],desc:"An open intro to our projects and teams \u2014 no sign-up needed. Photos and the deck from the session are attached here by the society."},
+ {d:"19\u201324 Aug",s:"Form filling",st:"now",form:1,desc:"Fill the application form below \u2014 the society adds its own form link here. Your UniGrid profile attaches automatically; takes about 10 minutes."},
+ {d:"26 Aug",s:"Shortlist \u2014 Round 1",st:"upcoming",names:["Ananya Gupta","Riya Sharma","Kabir Mehta","Sara Iyer","Dev Kapoor","+ 59 more"],group:1,desc:"Shortlisted candidates are listed here and added to a round group where the society circulates next-step information."},
+ {d:"28 Aug",s:"Group discussion",st:"upcoming",task:"Groups of 6 \u00b7 topic released 30 minutes before your slot. Read our Project Kilkari one-pager beforehand.",group:1,desc:"GD groups, slots and the task are announced here by the society."},
+ {d:"29\u201330 Aug",s:"Interviews",st:"upcoming",names:["Announced after the GD round"],materials:[{l:"\ud83d\udcc4 Slot booking sheet",m:"Opening the slot booking sheet"}],group:1,desc:"Candidates clearing the GD pick an interview slot and join the interview group for timings and updates."},
+ {d:"1 Sep",s:"Results",st:"upcoming",desc:"Final selections are announced here and added to the team automatically \u2014 the role shows on your UniGrid profile as verified experience. Everyone gets a response, no ghosting."}
 ]},
    events:[
     {n:"Udyam '26 — impact summit",d:"2 Nov 2026",type:"Event",open:true,meta:"Registrations open · free entry",b:0},
     {n:"Case challenge: rural fintech",d:"14 Sep 2026",type:"Case comp",open:true,meta:"₹40k prize pool · teams of 3",b:2},
-    {n:"Volunteer call — Diwali mela stalls",d:"18 Oct 2026",type:"Volunteering",open:false,meta:"30 spots · certificate provided",b:1}
+    {n:"Volunteer call — Diwali mela stalls",d:"18 Oct 2026",type:"Volunteering",open:false,meta:"30 spots · certificate provided",b:1},
+    {n:"Fresher orientation open house",d:"12 Jul 2026",type:"Event",open:false,meta:"Intro session for the 2026 batch",b:1}
    ]},
   {id:"drama",name:"Ariels — Dramatics Society",cat:"Theatre & stage",verified:true,members:52,followers:2480,founded:1966,
    tagline:"Stage productions and street theatre with six decades of history.",
@@ -563,6 +789,610 @@ function crumbs(items){$("crumbs").innerHTML=items.map((it,i)=>i<items.length-1?
 function goHome(){show("home");crumbs([]);setNav("colleges");renderColleges()}
 function setNav(v){document.querySelectorAll(".nav-link").forEach(x=>x.classList.toggle("active",x.dataset.v===v))}
 
+/* ---------- ACCOUNTS / INDEPENDENT CLUBS / COMMUNITY ADDS ---------- */
+let USER=null,TICKETS=[],APPS=[],SAVEDEV=[],_appSoc="",_appRole="";
+const FREEMAIL=["gmail.com","googlemail.com","yahoo.com","yahoo.in","yahoo.co.in","outlook.com","hotmail.com","live.com","rediffmail.com","icloud.com","protonmail.com","proton.me","aol.com","zoho.com"];
+function isOfficialEmail(v){v=(v||"").trim().toLowerCase();if(!v.includes("@"))return false;const d=v.split("@")[1];return !!d&&d.includes(".")&&!FREEMAIL.includes(d)}
+const INDIE=[
+ {id:"circuitdeb",name:"The Debating Circuit",cat:"Debating",verified:true,members:120,followers:4200,founded:2019,tagline:"India's independent parliamentary debating collective.",about:"An inter-college debating community running tournaments, training camps and an adjudication pool across India — open to students of any campus, no college affiliation needed.",posts:[{y:2026,date:"Feb 2026",tag:"Event",title:"National open — 64 teams",text:"Our flagship tournament hosted teams from 30+ colleges across five cities.",media:2}],recruitment:{status:"live",title:"Member intake 2026",closes:"10 Sep 2026",orientation:"30 Aug · Online",applied:230,roles:[{r:"Debater",seats:40},{r:"Adjudicator",seats:20}],stages:[{d:"30 Aug",s:"Orientation",st:"upcoming"},{d:"10 Sep",s:"Applications close",st:"upcoming"},{d:"15 Sep",s:"Trials",st:"upcoming"}]},events:[{n:"Winter open 2026",d:"12 Dec 2026",type:"Case comp",open:true,meta:"64 teams · national circuit",b:0}],contact:{email:"hello@debatingcircuit.in",insta:"@debating.circuit",web:"debatingcircuit.in",linkedin:""}},
+ {id:"yfcdelhi",name:"Youth for Climate Delhi",cat:"Community service",verified:false,members:200,followers:3100,founded:2020,tagline:"A city-wide volunteer collective for climate action.",about:"Independent of any single college — clean-up drives, tree plantations and climate-literacy workshops run by students from across Delhi NCR.",posts:[],recruitment:{status:"upcoming",title:"Volunteer intake",closes:"Opens 5 Sep",orientation:"5 Sep · Lodhi Garden",applied:0,roles:[{r:"Volunteer",seats:100}],stages:[{d:"5 Sep",s:"Orientation",st:"upcoming"}]},events:[{n:"Yamuna clean-up drive",d:"21 Sep 2026",type:"Volunteering",open:true,meta:"200 volunteers · gloves provided",b:2}],contact:{email:"team@yfcdelhi.org",insta:"@yfc.delhi",web:"",linkedin:""}}
+];
+const INDIE_COL={id:"__indie",name:"Independent club",city:"Pan-India",state:"India",type:"Independent",est:"—",cover:"#33385A",img:"",womens:false,societies:INDIE,about:"Clubs and collectives that aren't tied to any single college."};
+function findCollege(id){return id==="__indie"?INDIE_COL:DATA.find(c=>c.id===id)}
+
+function openSignup(){
+  if(USER){openProfile();return}
+  $("modalBox").innerHTML=`<h3>Join UniGrid</h3><div class="ropt" onclick="signupForm('student')"><b>🎓 Fresher / Student</b><span>Compete, apply to drives &amp; track every round</span></div>
+    <div class="ropt" onclick="signupForm('head')"><b>🎭 College society head</b><span>Host recruitments &amp; events \u2014 manage everything from your page</span></div>`;
+  $("modalBg").classList.add("on");
+}
+function signupForm(role){
+  const collegeOpts=DATA.map(c=>`<option>${c.name}</option>`).join("");
+  const common=`<div class="field"><label>Full name</label><input id="suName" placeholder="Ananya Gupta"></div>
+    <div class="field"><label>Email</label><input id="suEmail" type="email" placeholder="ananya@gmail.com"></div>
+    <div class="field"><label>Phone number</label><input id="suPhone" type="tel" placeholder="+91 98XXXXXX21"></div>`;
+  let extra="";
+  if(role==="student")extra=`<div class="field"><label>City</label><select id="suCity">${[...new Set(DATA.map(c=>c.city))].map(ci=>`<option>${ci}</option>`).join("")}</select></div>
+    <div class="field"><label>College</label><select id="suCol">${DATA.map(c=>`<option value="${c.id}">${c.name}</option>`).join("")}</select><small style="font-size:12px;color:var(--mist)">Your college gets pinned to the top of your homepage.</small></div>
+    <div class="field"><label>Course &amp; year</label><input id="suCourse" placeholder="B.A. (H) Economics · 1st year"></div>`;
+  if(role==="head")extra=`<div class="field"><label>College</label><select id="suHCol" onchange="fillHeadSoc(this.value)">${DATA.map(c=>`<option value="${c.id}">${c.name} \u2014 ${c.city}</option>`).join("")}</select></div>
+    <div class="field"><label>Which society do you run?</label><select id="suHSoc">${headSocOptions(DATA[0].id)}</select><small style="font-size:12px;color:var(--mist)">Only this account gets edit access to that page.</small></div>
+    <div class="field"><label>Your position</label><select><option>President</option><option>Vice president</option><option>General secretary</option><option>Core team member</option></select></div>
+    <div class="field"><label>Official society email</label><input id="suOffMail" placeholder="society@college.ac.in"><small style="font-size:12px;color:var(--mist)">We verify every society head before granting admin access to the page.</small></div>
+    <div class="field"><label>Password</label><input id="suPass" type="password" placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"></div>`;
+  if(role==="indie")extra=`<div class="field"><label>Club name</label><input placeholder="Youth for Climate Delhi"></div>
+    <div class="field"><label>City / region</label><input placeholder="Delhi NCR"></div>
+    <div class="field"><label>Category</label><select><option>Community service</option><option>Debating</option><option>Arts &amp; media</option><option>Business &amp; entrepreneurship</option><option>Other</option></select></div>
+    <div class="field"><label>Contact email</label><input placeholder="team@club.org"></div>`;
+  const title=role==="student"?"Student sign-up":role==="head"?"Society head sign-up":"Independent club sign-up";
+  const sub=role==="student"?"Your profile auto-fills every application you ever submit":role==="head"?"Admin access unlocks after a quick manual verification":"Independent clubs get the same tools as college societies";
+  $("modalBox").innerHTML=`<h3>${title}</h3><p class="m-sub">${sub}</p>${common}${extra}
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:4px">
+      <button class="btn btn-ghost btn-sm" onclick="openSignup()">Back</button>
+      <button class="btn btn-gold btn-sm" onclick="finishSignup('${role}')">Create account</button></div>`;
+}
+function finishSignup(role){
+  const el=$("suName");const n=(el&&el.value&&el.value.trim())||"Ananya Gupta";
+  if(role==="head"){const om=$("suOffMail");if(!isOfficialEmail(om&&om.value)){toast("Society heads must sign up with an official email \u2014 personal Gmail/Yahoo IDs are not accepted");return}}
+  USER={name:n,role};
+  if(role==="head"){const hc=$("suHCol"),hs=$("suHSoc");if(hc&&hc.value&&hs&&hs.value&&hs.value!=="__new"){USER.manages={cid:hc.value,sid:hs.value}}const om2=$("suOffMail");if(om2&&om2.value)USER.email=om2.value.trim();}
+  const em=$("suEmail");if(em&&em.value)USER.email=USER.email||em.value.trim();
+  const ph=$("suPhone");if(ph&&ph.value)USER.phone=ph.value.trim();
+  if(role==="student"){
+    const cs=$("suCol");if(cs&&cs.value)USER.college=cs.value;
+    const cc=$("suCity");if(cc&&cc.value)USER.city=cc.value;
+    const co=$("suCourse");if(co&&co.value)USER.course=co.value.trim();
+  }
+  closeModal();updateNavChip();
+  if(role==="student"&&USER.college){
+    const cn=(findCollege(USER.college)||{}).name||"Your college";
+    toast(`Welcome, ${n.split(" ")[0]}! ${cn} is now pinned to the top of your homepage`);
+    goHome();
+  }else{
+    if(role==="head"&&USER.manages){const ms=findCollege(USER.manages.cid).societies.find(x=>x.id===USER.manages.sid);toast(`You now manage ${ms.name} \u2014 open its page and tap \ud83d\udee0 Manage`)}
+    else toast(role==="head"?"Account created \u2014 now add your society from your college page":role==="indie"?"Club account created \u2014 pending verification":`Welcome, ${n.split(" ")[0]}!`);
+  }
+}
+function updateNavChip(){
+  const b=document.getElementById("navUser");if(!b||!USER)return;
+  const col=USER.college?findCollege(USER.college):null;
+  const sub=USER.role==="student"?`${col?initials(col.name)+" \u00b7 ":""}${USER.city||col&&col.city||""}`.replace(/^ \u00b7 /,""):USER.role==="head"?"Society head":"Club lead";
+  b.className="nav-right";b.style.padding="0";b.style.background="none";b.style.border="none";
+  b.innerHTML=`<span class="uchip"><span class="uav">${initials(USER.name)}</span><span class="uinfo"><b>${USER.name.split(" ")[0]}</b><small>${sub||"UniGrid member"}</small></span></span>`;
+}
+function signOut(){
+  USER=null;TICKETS=[];
+  const b=document.getElementById("navUser");
+  if(b){b.className="btn btn-gold btn-sm nav-right";b.style.padding="";b.style.background="";b.style.border="";b.innerHTML="Sign in"}
+  toast("Signed out");goHome();
+}
+function registerEvent(){
+  const {e,s,c}=curEv;
+  TICKETS.push({n:e.n,d:e.d,type:e.type,soc:s.name,col:c.name,code:"UG-"+(2400+TICKETS.length*37)});
+  toast(USER?`${e.type==="Volunteering"?"Volunteer application sent!":"Registered!"} Ticket saved in your profile`:`${e.type==="Volunteering"?"Volunteer application sent!":"Registered!"} Sign up to keep your ticket`);
+}
+function submitApp(){
+  closeModal();
+  APPS.push({soc:_appSoc,role:_appRole,col:curCollege?curCollege.name:"",stage:1});
+  if(curSoc&&curSoc.recruitment&&curSoc.recruitment.status==="live")curSoc.recruitment.applied=(curSoc.recruitment.applied||0)+1;
+  toast(USER?"Application submitted \u2014 track it in your profile":"Application submitted \u2014 sign up to track it");
+}
+function saveEvent(){
+  const {e,s,c}=curEv;
+  if(SAVEDEV.some(x=>x.n===e.n)){toast("Already saved \u2014 it's in your profile");return}
+  SAVEDEV.push({n:e.n,d:e.d,soc:s.name,cid:c.id,sid:s.id,i:s.events.indexOf(e)});
+  toast(USER?"Saved \u2014 find it in your profile":"Saved \u2014 sign up to keep your list");
+}
+function jumpTo(id){const x=document.getElementById(id);if(x&&x.scrollIntoView)x.scrollIntoView({behavior:"smooth"})}
+function openProfile(){
+  if(!USER){openSignup();return}
+  show("me");crumbs([]);setNav("");
+  const col=USER.college?findCollege(USER.college):null;
+  const mc=avColor(USER.name);
+  const roleLabel=USER.role==="student"?"Fresher / Student":USER.role==="head"?"College society head":"Independent club lead";
+  const folKeys=Object.keys(followed).filter(k=>followed[k]);
+  const tiles=`<div class="qtiles">
+    <button class="qtile" onclick="jumpTo('sec-apps')"><span class="qi">\ud83d\udccb</span><b>Applications</b><span>${APPS.length} in progress</span></button>
+    <button class="qtile" onclick="jumpTo('sec-tix')"><span class="qi">\ud83c\udf9f</span><b>Tickets</b><span>${TICKETS.length} pass${TICKETS.length===1?"":"es"}</span></button>
+    <button class="qtile" onclick="jumpTo('sec-saved')"><span class="qi">\u2764\ufe0f</span><b>Saved</b><span>${SAVEDEV.length} event${SAVEDEV.length===1?"":"s"} \u00b7 ${folKeys.length} societies</span></button>
+    <button class="qtile" onclick="toast('Your inbox opens when a member or society replies')"><span class="qi">\u2709\ufe0f</span><b>Messages</b><span>Inbox</span></button>
+  </div>`;
+  const det=[["\ud83d\udc64","Name",USER.name],["\ud83c\udfab","Account type",roleLabel]];
+  if(col)det.push(["\ud83c\udf93","College",col.name]);
+  if(USER.city)det.push(["\ud83d\udccd","City",USER.city]);
+  if(USER.course)det.push(["\ud83d\udcda","Course",USER.course]);
+  if(USER.email)det.push(["\u2709","Email",USER.email]);
+  if(USER.phone)det.push(["\ud83d\udcf1","Phone",USER.phone]);
+  det.push(["\ud83d\udcc5","Member since","Jul 2026"]);
+  const detSec=`<div class="sect"><div class="sect-h"><h3>My details</h3><button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="toast('Profile editing arrives with full accounts')">Edit</button></div>
+    <div class="det-grid">${det.map(([ic,l,v])=>`<div class="det-row"><span class="det-ic">${ic}</span><span class="det-l">${l}</span><span class="det-v">${v}</span></div>`).join("")}</div></div>`;
+  const STAGES=["Applied","Shortlist","Interview","Result"];
+  const appSec=`<div class="sect" id="sec-apps"><div class="sect-h"><h3>My applications</h3><span>every drive you've applied to, one tracker</span></div>
+    ${APPS.length?APPS.map(a=>`<div class="app-row">
+      <div class="app-info"><b>${a.soc}</b><span>${a.role}${a.col?" \u00b7 "+a.col:""}</span></div>
+      <div class="app-pipe"><div class="pipe">${STAGES.map((_,i)=>`${i?'<span class="seg'+(i<a.stage?' done':'')+'"></span>':''}<span class="dot${i<a.stage?' done':i===a.stage-0?'':''}${i===a.stage-1?' now':''}"></span>`).join("")}</div>
+      <div class="pipe-labels" style="font-size:10px"><span>Applied</span><span>Result</span></div></div>
+      <span class="pill pill-gold">Under review</span></div>`).join("")
+     :`<div class="empty" style="max-width:660px;text-align:left;padding:20px 22px">No applications yet. Apply through any society's recruitment drive and track every stage here \u2014 shortlists, interviews and results.
+      <div style="margin-top:12px"><button class="btn btn-primary btn-sm" onclick="goSocieties()">See who's recruiting</button></div></div>`}</div>`;
+  const folChips=folKeys.map(k=>{const p=k.split("/");const cc=findCollege(p[0]);const ss=cc&&cc.societies.find(x=>x.id===p[1]);return ss?`<span class="chipmem" style="cursor:pointer" onclick="openSociety('${p[0]}','${p[1]}')">${ss.name}</span>`:""}).join("");
+  const socSec=`<div class="sect"><div class="sect-h"><h3>My societies</h3></div>
+    <div class="empty" style="max-width:660px;text-align:left;padding:18px 22px">No selections yet \u2014 when a society selects you through a drive, it appears here as verified experience.</div>
+    ${folKeys.length?`<div style="margin-top:16px"><b style="font-size:14px;display:block;margin-bottom:10px">Following (${folKeys.length})</b><div class="folrow">${folChips}</div></div>`:""}</div>`;
+  const savedSec=`<div class="sect" id="sec-saved"><div class="sect-h"><h3>Saved events</h3><span>your wishlist</span></div>
+    ${SAVEDEV.length?SAVEDEV.map(v=>`<div class="sev"><div><b>${v.n}</b><span>${v.d} \u00b7 by ${v.soc}</span></div>
+      <button class="btn btn-ghost btn-sm" onclick="openEvent('${v.cid}','${v.sid}',${v.i})">View</button></div>`).join("")
+     :`<div class="empty" style="max-width:660px;text-align:left;padding:18px 22px">Nothing saved yet \u2014 tap \u2661 Save on any event to build your list.</div>`}</div>`;
+  const tixSec=`<div class="sect" id="sec-tix"><div class="sect-h"><h3>My tickets</h3><span>your event passes</span></div>
+    ${TICKETS.length?TICKETS.map(t=>`<div class="tix"><div><b>${t.n}</b><span class="t-sub">${t.d} \u00b7 by ${t.soc} \u00b7 ${t.col}</span></div>
+      <div style="text-align:right"><span class="t-code">${t.code}</span><span class="pill pill-green" style="display:block;margin-top:6px">Confirmed</span></div></div>`).join("")
+     :`<div class="empty" style="max-width:660px;text-align:left;padding:18px 22px">No tickets yet \u2014 register for any event and your pass appears here with its entry code.</div>`}</div>`;
+  let notifs=[];
+  folKeys.forEach(k=>{const p=k.split("/");const cc=findCollege(p[0]);const ss=cc&&cc.societies.find(x=>x.id===p[1]);if(!ss)return;
+    if(ss.recruitment.status==="live")notifs.push(`<b>${ss.name}</b> is recruiting \u2014 applications close ${ss.recruitment.closes}`);
+    ss.events.slice(0,1).forEach(e=>notifs.push(`<b>${ss.name}</b> opened registrations for ${e.n} (${e.d})`));});
+  notifs=notifs.slice(0,4);
+  const notifSec=`<div class="sect"><div class="sect-h"><h3>Notifications</h3><span>from societies you follow</span></div>
+    ${notifs.length?notifs.map(n=>`<div class="notif-row"><span>\ud83d\udd14</span><span>${n}</span></div>`).join("")
+     :`<div class="empty" style="max-width:660px;text-align:left;padding:18px 22px">Follow societies to get their recruitment and event alerts here.</div>`}</div>
+    <div style="height:44px"></div>`;
+  $("mePage").innerHTML=`
+    <div class="me-head">
+      <div class="me-av" style="background:${mc[0]};color:${mc[1]}">${initials(USER.name)}</div>
+      <div style="flex:1;min-width:200px"><h2>${USER.name}</h2><div class="sub">${roleLabel}${col?` \u00b7 ${col.name}`:""}${USER.city?` \u00b7 ${USER.city}`:""}</div></div>
+      <button class="btn btn-ghost btn-sm" onclick="signOut()">Sign out</button>
+    </div>
+    ${tiles}${detSec}${appSec}${socSec}${savedSec}${tixSec}${notifSec}`;
+  window.scrollTo({top:0});
+}
+
+function openVerifyCollege(cid){
+  const c=findCollege(cid);
+  $("modalBox").innerHTML=`<h3>Verify ${c.name}</h3><p class="m-sub">Only society heads, union members or faculty of ${c.name} can verify this page. We confirm via your official email.</p>
+    <div class="field"><label>Your role</label><select id="vfRole"><option>Society head</option><option>Students' Union member</option><option>Faculty / staff</option></select></div>
+    <div class="field"><label>Society / Union name</label><input id="vfOrg" placeholder="Enactus ${c.name}"></div>
+    <div class="field"><label>Official email</label><input id="vfMail" placeholder="you@college.ac.in"><small style="font-size:12px;color:var(--mist)">A verification link is sent to this address before the page goes fully live.</small></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:4px">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-gold btn-sm" onclick="verifyCollegeSubmit('${cid}')">Verify page</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function verifyCollegeSubmit(cid){
+  const m=($("vfMail").value||"").trim();
+  if(!isOfficialEmail(m)){toast("Enter your official college/society email \u2014 personal Gmail/Yahoo IDs are not accepted");return}
+  const c=findCollege(cid);
+  c.pending=false;
+  c.about=c.about.replace(/ \u2014 details.*$/,"").replace(/details are being verified.*$/,"")+" Verified by a "+(($("vfRole").value)||"society head").toLowerCase()+" of the college.";
+  closeModal();renderCollege("","soc");
+  toast(`${c.name} verified \u2713 \u2014 the page is now fully live on UniGrid`);
+}
+let MANAGE=false;
+function isAdminOf(s){return !!(USER&&USER.role==="head"&&USER.manages&&USER.manages.sid===s.id)}
+function toggleManage(){MANAGE=!MANAGE;renderSociety(curTab);toast(MANAGE?"Manage mode on \u2014 edit any section right where you see it":"All changes saved \u2014 back to public view")}
+function manageBar(s){
+  if(!MANAGE||!isAdminOf(s))return "";
+  return `<div class="mgstrip"><span>\ud83d\udee0 <b>Editing ${s.name}</b> \u00b7 Admin \u00b7 changes save instantly &amp; are logged</span>
+    <span class="mg-r"><a onclick="inviteEditor()">Invite editor</a> \u00b7 <a onclick="transferOwn()">Transfer ownership</a>
+    <button class="btn btn-gold btn-sm" onclick="toggleManage()">\u2713 Done</button></span></div>`;
+}
+function mAdm(){return MANAGE&&isAdminOf(curSoc)}
+function editProfileHead(){
+  if(!isAdminOf(curSoc))return;const s=curSoc;
+  $("modalBox").innerHTML=`<h3>Edit profile</h3>
+    <div class="field"><label>Society name</label><input id="epN" value="${s.name}"></div>
+    <div class="field"><label>Tagline</label><input id="epT" value="${s.tagline}"></div>
+    <div class="field"><label>Category</label><input id="epC" value="${s.cat}"></div>
+    <div class="field"><label>Founded</label><input id="epF" value="${s.founded}"></div>
+    <div class="field"><label>Members</label><input id="epM" value="${s.members}"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="saveProfileHead()">Save</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function saveProfileHead(){const s=curSoc;
+  s.name=$("epN").value.trim()||s.name;s.tagline=$("epT").value.trim()||s.tagline;
+  s.cat=$("epC").value.trim()||s.cat;s.founded=$("epF").value.trim()||s.founded;
+  const m=parseInt($("epM").value);if(m)s.members=m;
+  closeModal();renderSociety(curTab);toast("Profile updated \u00b7 logged");
+}
+function editAbout(){
+  if(!isAdminOf(curSoc))return;
+  $("modalBox").innerHTML=`<h3>Edit about</h3>
+    <div class="field"><label>About ${curSoc.name}</label><textarea id="eaTxt" rows="5" style="width:100%;border:1.5px solid var(--line-strong);border-radius:12px;padding:12px;font:inherit">${curSoc.about}</textarea></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="curSoc.about=$('eaTxt').value.trim()||curSoc.about;closeModal();renderSociety('profile');toast('About updated \u00b7 logged')">Save</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function editDetails(){
+  if(!isAdminOf(curSoc))return;const ct=curSoc.contact;
+  $("modalBox").innerHTML=`<h3>Edit details</h3>
+    <div class="field"><label>Email</label><input id="ecE" value="${ct.email||""}"></div>
+    <div class="field"><label>Instagram</label><input id="ecI" value="${ct.insta||""}"></div>
+    <div class="field"><label>Website</label><input id="ecW" value="${ct.web||""}"></div>
+    <div class="field"><label>LinkedIn</label><input id="ecL" value="${ct.linkedin||""}"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="curSoc.contact={email:$('ecE').value.trim(),insta:$('ecI').value.trim(),web:$('ecW').value.trim(),linkedin:$('ecL').value.trim()};closeModal();renderSociety('profile');toast('Details updated \u00b7 logged')">Save</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function addMilestone(pi){
+  if(!isAdminOf(curSoc))return;
+  const p=pi!==undefined?curSoc.posts[pi]:null;
+  $("modalBox").innerHTML=`<h3>${p?"Edit":"Add a"} milestone</h3>
+    <div class="field"><label>Title</label><input id="amT" value="${p?p.title:""}" placeholder="Won the inter-college finals"></div>
+    <div class="field"><label>Type</label><select id="amTag">${["Achievement","Project","Event","Recruitment"].map(t=>`<option ${p&&p.tag===t?"selected":""}>${t}</option>`).join("")}</select></div>
+    <div class="field"><label>Details</label><input id="amX" value="${p?p.text:""}" placeholder="What happened and why it matters"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="saveMilestone(${pi!==undefined?pi:"undefined"})">Save</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function saveMilestone(pi){
+  const t=($("amT").value||"").trim();if(!t){toast("Give it a title");return}
+  const obj={y:2026,date:"Jul 2026",tag:$("amTag").value||"Achievement",title:t,text:($("amX").value||"").trim()||"Added by the society.",media:0};
+  if(pi!==undefined){const old=curSoc.posts[pi];obj.y=old.y;obj.date=old.date;curSoc.posts[pi]=obj}
+  else curSoc.posts.unshift(obj);
+  closeModal();renderSociety("profile");toast("Milestone saved \u00b7 logged");
+}
+function delMilestone(pi){if(!isAdminOf(curSoc))return;curSoc.posts.splice(pi,1);renderSociety("profile");toast("Milestone removed \u00b7 logged")}
+function addPhoto(){
+  if(!isAdminOf(curSoc))return;
+  $("modalBox").innerHTML=`<h3>Add a photo</h3><p class="m-sub">Upload opens here in the full app \u2014 give the photo a caption for now</p>
+    <div class="field"><label>Caption</label><input id="apC" placeholder="Fresher welcome day-out"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="savePhoto()">Add</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function savePhoto(){const c=($("apC").value||"").trim();if(!c){toast("Give the photo a caption");return}
+  ensureRich(curSoc,"gallery");curSoc.gallery.push(c);closeModal();renderSociety("profile");toast("Photo slot added \u00b7 logged")}
+function delPhoto(i){if(!isAdminOf(curSoc))return;ensureRich(curSoc,"gallery");curSoc.gallery.splice(i,1);renderSociety("profile");toast("Photo removed \u00b7 logged")}
+function addLearn(){
+  if(!isAdminOf(curSoc))return;
+  $("modalBox").innerHTML=`<h3>Add a learning</h3>
+    <div class="field"><label>What members learn</label><input id="alT" placeholder="Running a real event end-to-end"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="const v=$('alT').value.trim();if(v){ensureRich(curSoc,'learn');curSoc.learn.push(v);closeModal();renderSociety('profile');toast('Added \u00b7 logged')}else toast('Write something first')">Add</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function delLearn(i){if(!isAdminOf(curSoc))return;ensureRich(curSoc,"learn");curSoc.learn.splice(i,1);renderSociety("profile");toast("Removed \u00b7 logged")}
+function addTesti(){
+  if(!isAdminOf(curSoc))return;
+  $("modalBox").innerHTML=`<h3>Add a testimonial</h3>
+    <div class="field"><label>Member name</label><input id="atN" placeholder="Ishita Verma"></div>
+    <div class="field"><label>Year \u00b7 role</label><input id="atY" placeholder="3rd year \u00b7 Project lead"></div>
+    <div class="field"><label>Quote</label><input id="atQ" placeholder="What they said about the society"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="saveTesti()">Add</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function saveTesti(){const n=$("atN").value.trim(),q=$("atQ").value.trim();if(!n||!q){toast("Name and quote needed");return}
+  ensureRich(curSoc,"testi");curSoc.testi.push({n:n,y:$("atY").value.trim()||"Member",q:q});closeModal();renderSociety("profile");toast("Testimonial added \u00b7 logged")}
+function delTesti(i){if(!isAdminOf(curSoc))return;ensureRich(curSoc,"testi");curSoc.testi.splice(i,1);renderSociety("profile");toast("Removed \u00b7 logged")}
+function addFaq(){
+  if(!isAdminOf(curSoc))return;
+  $("modalBox").innerHTML=`<h3>Add an FAQ</h3>
+    <div class="field"><label>Question</label><input id="afQ" placeholder="Do first-years get real work?"></div>
+    <div class="field"><label>Answer</label><input id="afA" placeholder="Yes \u2014 from the first month."></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="saveFaq()">Add</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function saveFaq(){const q=$("afQ").value.trim(),a=$("afA").value.trim();if(!q||!a){toast("Both fields needed");return}
+  ensureRich(curSoc,"faqs");curSoc.faqs.push([q,a]);closeModal();renderSociety("profile");toast("FAQ added \u00b7 logged")}
+function delFaq(i){if(!isAdminOf(curSoc))return;ensureRich(curSoc,"faqs");curSoc.faqs.splice(i,1);renderSociety("profile");toast("Removed \u00b7 logged")}
+function toggleDrive(){
+  if(!isAdminOf(curSoc))return;const r=curSoc.recruitment;
+  if(r.status==="live"){r.status="closed";toast("Drive closed \u00b7 logged")}
+  else{
+    if(!r.roles.length){
+      r.title="Fresher recruitment 2026";r.closes="30 Sep 2026";r.orientation="TBA";r.applied=0;
+      r.roles=[{r:"Member",seats:20}];
+      r.stages=[{d:"Now",s:"Form filling",st:"now",form:1,desc:"Fill the application form \u2014 the society adds its own form link here."},{d:"Later",s:"Interviews",st:"upcoming",desc:"Details shared by the society."},{d:"Later",s:"Results",st:"upcoming",desc:"Announced here."}];
+    }
+    r.status="live";toast("Recruitment is LIVE \u00b7 logged");
+  }
+  renderSociety("recruit");
+}
+function addRole(){
+  if(!isAdminOf(curSoc))return;
+  $("modalBox").innerHTML=`<h3>Add a role</h3>
+    <div class="field"><label>Role name</label><input id="arR" placeholder="Marketing &amp; outreach"></div>
+    <div class="field"><label>Seats</label><input id="arS" value="5"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="saveRole()">Add</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function saveRole(){const r=$("arR").value.trim();if(!r){toast("Name the role");return}
+  curSoc.recruitment.roles.push({r:r,seats:parseInt($("arS").value)||5});closeModal();renderSociety("recruit");toast("Role added \u00b7 logged")}
+function delRole(i){if(!isAdminOf(curSoc))return;curSoc.recruitment.roles.splice(i,1);renderSociety("recruit");toast("Role removed \u00b7 logged")}
+function addStage(){
+  if(!isAdminOf(curSoc))return;
+  $("modalBox").innerHTML=`<h3>Add a stage</h3><p class="m-sub">Design your own process \u2014 stages appear in order on the Recruitment tab</p>
+    <div class="field"><label>Stage name</label><input id="asgN" placeholder="Group discussion"></div>
+    <div class="field"><label>Date</label><input id="asgD" placeholder="28 Aug"></div>
+    <div class="field"><label>Description for candidates</label><input id="asgX" placeholder="Groups and slots announced here"></div>
+    <div class="field"><label>Attach</label><select id="asgA"><option value="">Nothing</option><option value="form">Application form link</option><option value="group">Round group join</option><option value="task">Task for candidates</option></select></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="saveStage()">Add stage</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function saveStage(){const n=$("asgN").value.trim();if(!n){toast("Name the stage");return}
+  const st={d:$("asgD").value.trim()||"TBA",s:n,st:"upcoming",desc:$("asgX").value.trim()||"Details shared by the society."};
+  const a=$("asgA").value;if(a==="form")st.form=1;if(a==="group")st.group=1;if(a==="task")st.task="Task details added by the society.";
+  curSoc.recruitment.stages.push(st);closeModal();renderSociety("recruit");toast("Stage added \u00b7 logged")}
+function delStage(i){if(!isAdminOf(curSoc))return;curSoc.recruitment.stages.splice(i,1);renderSociety("recruit");toast("Stage removed \u00b7 logged")}
+function postVacancy(){
+  if(!isAdminOf(curSoc))return;
+  $("modalBox").innerHTML=`<h3>Post a vacancy</h3>
+    <div class="field"><label>Position</label><input id="pvR" placeholder="Lights &amp; sound operator"></div>
+    <div class="field"><label>Note</label><input id="pvN" placeholder="Mid-year vacancy \u00b7 1 seat"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="saveVacancy()">Post</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function saveVacancy(){
+  const r=($("pvR").value||"").trim();if(!r){toast("Name the position");return}
+  (VAC[curSoc.id]=VAC[curSoc.id]||[]).push({r:r,note:($("pvN").value||"").trim()||"Mid-year vacancy \u00b7 open till filled"});
+  closeModal();renderSociety("recruit");toast("Vacancy posted \u00b7 logged");
+}
+function delVacancy(i){if(!isAdminOf(curSoc))return;VAC[curSoc.id].splice(i,1);renderSociety("recruit");toast("Vacancy removed \u00b7 logged")}
+function inviteEditor(){
+  if(!isAdminOf(curSoc))return;
+  $("modalBox").innerHTML=`<h3>Invite an editor</h3><p class="m-sub">Editors update content and post \u2014 they can't delete the page or manage access. Max 4.</h3></p>
+    <div class="field"><label>Their email</label><input id="ieM" placeholder="coreteam@member.com"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="(curSoc.editors=curSoc.editors||[]).push($('ieM').value.trim());closeModal();toast('Editor invite sent \u00b7 logged')">Send invite</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function transferOwn(){
+  if(!isAdminOf(curSoc))return;
+  $("modalBox").innerHTML=`<h3>Transfer ownership</h3><p class="m-sub">For committee handover \u2014 the page belongs to the official email, so it survives every year's change.</p>
+    <div class="field"><label>New admin's official email</label><input id="toM" placeholder="newpresident@college.ac.in"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="isOfficialEmail($('toM').value)?(closeModal(),toast('Transfer link sent \u2014 ownership moves once they confirm \u00b7 logged')):toast('Use an OFFICIAL email \u2014 personal Gmail/Yahoo won\\'t work')">Send transfer link</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function toggleStep(h){const c=h.parentElement.querySelector(".jcontent");if(!c)return;const on=c.style.display!=="none";c.style.display=on?"none":"block";h.classList.toggle("open",!on)}
+let WZ=null;
+function wzDots(n,t){return `<div class="wzdots">${Array.from({length:t}).map((_,i)=>`<span class="${i<n?"on":""}"></span>`).join("")}</div>`}
+function openHostDrive(){
+  if(!isAdminOf(curSoc))return;
+  WZ={t:"drive",step:1,d:{title:"Fresher recruitment 2026",closes:"30 Sep 2026",orient:"",roles:[],stages:[]}};
+  wzShow();
+}
+function openHostEvent(){
+  if(!isAdminOf(curSoc))return;
+  WZ={t:"event",step:1,d:{n:"",date:"",type:"Event",meta:"",price:"",open:true}};
+  wzShow();
+}
+function wzCollect(){
+  const d=WZ.d,g=id=>{const e=$(id);return e&&e.value?e.value.trim():""};
+  if(WZ.t==="drive"){
+    if(WZ.step===1){d.title=g("wzTitle")||d.title;d.closes=g("wzCloses")||d.closes;d.orient=g("wzOrient")||d.orient}
+  }else{
+    if(WZ.step===1){d.n=g("wzEvName")||d.n;d.date=g("wzEvDate")||d.date;d.type=g("wzEvType")||d.type}
+    if(WZ.step===2){d.meta=g("wzEvMeta")||d.meta;d.price=g("wzEvPrice");const o=$("wzEvOpen");if(o)d.open=o.value!=="college"}
+  }
+}
+function wzNext(){wzCollect();
+  if(WZ.t==="drive"&&WZ.step===2&&!WZ.d.roles.length){toast("Add at least one role");return}
+  if(WZ.t==="drive"&&WZ.step===3&&!WZ.d.stages.length){toast("Add at least one round");return}
+  if(WZ.t==="event"&&WZ.step===1&&!( $("wzEvName")&&$("wzEvName").value.trim() )&&!WZ.d.n){toast("Name the event");return}
+  WZ.step++;wzShow();
+}
+function wzBack(){wzCollect();WZ.step--;wzShow()}
+function wzAddRole(){const r=($("wzRoleN").value||"").trim();if(!r){toast("Name the role");return}
+  WZ.d.roles.push({r:r,seats:parseInt($("wzRoleS").value)||5});wzShow()}
+function wzDelRole(i){WZ.d.roles.splice(i,1);wzShow()}
+function wzAddStage(){const n=($("wzStN").value||"").trim();if(!n){toast("Name the round");return}
+  const st={d:($("wzStD").value||"").trim()||"TBA",s:n,st:"upcoming",desc:($("wzStX").value||"").trim()||"Details shared by the society."};
+  const a=$("wzStA").value;if(a==="form")st.form=1;if(a==="group")st.group=1;if(a==="task")st.task="Task details added by the society.";
+  WZ.d.stages.push(st);wzShow()}
+function wzDelStage(i){WZ.d.stages.splice(i,1);wzShow()}
+function wzShow(){
+  const d=WZ.d;let body="",title="",total=WZ.t==="drive"?4:3;
+  if(WZ.t==="drive"){
+    title="Host a recruitment drive";
+    if(WZ.step===1)body=`<div class="field"><label>Drive title</label><input id="wzTitle" value="${d.title}"></div>
+      <div class="field"><label>Applications close</label><input id="wzCloses" value="${d.closes}" placeholder="30 Sep 2026"></div>
+      <div class="field"><label>Orientation (optional)</label><input id="wzOrient" value="${d.orient}" placeholder="25 Aug \u00b7 Main auditorium \u00b7 5 pm"></div>
+      <div class="wzfoot"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button><button class="btn btn-gold btn-sm" onclick="wzNext()">Next: Roles \u2192</button></div>`;
+    if(WZ.step===2)body=`${d.roles.map((x,i)=>`<div class="wzitem"><b>${x.r}</b><span>${x.seats} seats</span><button class="xdel" onclick="wzDelRole(${i})">\u00d7</button></div>`).join("")}
+      <div class="wzrow"><div class="field"><label>Role name</label><input id="wzRoleN" placeholder="Marketing &amp; outreach"></div>
+      <div class="field" style="max-width:90px"><label>Seats</label><input id="wzRoleS" value="5"></div>
+      <button class="btn btn-primary btn-sm" style="margin-bottom:8px" onclick="wzAddRole()">＋ Add</button></div>
+      <div class="wzfoot"><button class="btn btn-ghost btn-sm" onclick="wzBack()">\u2190 Back</button><button class="btn btn-gold btn-sm" onclick="wzNext()">Next: Rounds \u2192</button></div>`;
+    if(WZ.step===3)body=`${d.stages.map((x,i)=>`<div class="wzitem"><b>${i+1}. ${x.s}</b><span>${x.d}${x.form?" \u00b7 \ud83d\udcdd form":""}${x.group?" \u00b7 \ud83d\udcac group":""}${x.task?" \u00b7 \ud83c\udfaf task":""}</span><button class="xdel" onclick="wzDelStage(${i})">\u00d7</button></div>`).join("")}
+      <div class="wzrow"><div class="field"><label>Round name</label><input id="wzStN" placeholder="Group discussion"></div>
+      <div class="field" style="max-width:110px"><label>Date</label><input id="wzStD" placeholder="28 Aug"></div></div>
+      <div class="wzrow"><div class="field"><label>Note for candidates</label><input id="wzStX" placeholder="Groups &amp; slots announced here"></div>
+      <div class="field" style="max-width:170px"><label>Attach</label><select id="wzStA"><option value="">Nothing</option><option value="form">Form link</option><option value="group">Round group</option><option value="task">Task</option></select></div>
+      <button class="btn btn-primary btn-sm" style="margin-bottom:8px" onclick="wzAddStage()">＋ Add</button></div>
+      <div class="wzfoot"><button class="btn btn-ghost btn-sm" onclick="wzBack()">\u2190 Back</button><button class="btn btn-gold btn-sm" onclick="wzNext()">Review \u2192</button></div>`;
+    if(WZ.step===4)body=`<div class="wzrev"><b>${d.title}</b><br>Closes: <b>${d.closes}</b>${d.orient?`<br>Orientation: <b>${d.orient}</b>`:""}
+      <br>Roles: <b>${d.roles.map(x=>`${x.r} (${x.seats})`).join(", ")}</b>
+      <br>Process: <b>${d.stages.map((x,i)=>`${i+1}. ${x.s}`).join(" \u2192 ")}</b>
+      <br><span style="font-size:12.5px;color:var(--mist)">Goes live instantly \u2014 students can apply the moment you publish.</span></div>
+      <div class="wzfoot"><button class="btn btn-ghost btn-sm" onclick="wzBack()">\u2190 Back</button><button class="btn btn-gold btn-sm" onclick="publishDrive()">\ud83d\ude80 Publish drive</button></div>`;
+  }else{
+    title="Host an event";
+    if(WZ.step===1)body=`<div class="field"><label>Event name</label><input id="wzEvName" value="${d.n}" placeholder="Udyam '27 \u2014 impact summit"></div>
+      <div class="field"><label>Date</label><input id="wzEvDate" value="${d.date}" placeholder="2 Nov 2026"></div>
+      <div class="field"><label>Type</label><select id="wzEvType"><option ${d.type==="Event"?"selected":""}>Event</option><option ${d.type==="Case comp"?"selected":""}>Case comp</option><option ${d.type==="Volunteering"?"selected":""}>Volunteering</option></select></div>
+      <div class="wzfoot"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button><button class="btn btn-gold btn-sm" onclick="wzNext()">Next: Details \u2192</button></div>`;
+    if(WZ.step===2)body=`<div class="field"><label>One-line details</label><input id="wzEvMeta" value="${d.meta}" placeholder="\u20b940k prize pool \u00b7 teams of 3"></div>
+      <div class="field"><label>Entry fee (blank = free)</label><input id="wzEvPrice" value="${d.price}" placeholder="\u20b9199 entry"></div>
+      <div class="field"><label>Who can attend</label><select id="wzEvOpen"><option value="all" ${d.open?"selected":""}>Open to all colleges</option><option value="college" ${!d.open?"selected":""}>Our college only</option></select></div>
+      <div class="wzfoot"><button class="btn btn-ghost btn-sm" onclick="wzBack()">\u2190 Back</button><button class="btn btn-gold btn-sm" onclick="wzNext()">Review \u2192</button></div>`;
+    if(WZ.step===3)body=`<div class="wzrev"><b>${d.n||"(untitled)"}</b><br>${d.date||"TBA"} \u00b7 ${d.type} \u00b7 ${d.open?"Open to all colleges":"College only"}<br>${d.meta||""} ${d.price?"\u00b7 "+d.price:"\u00b7 Free entry"}
+      <br><span style="font-size:12.5px;color:var(--mist)">Appears on your page, your college's page and the Events section instantly.</span></div>
+      <div class="wzfoot"><button class="btn btn-ghost btn-sm" onclick="wzBack()">\u2190 Back</button><button class="btn btn-gold btn-sm" onclick="publishEvent()">\ud83c\udfaa Publish event</button></div>`;
+  }
+  $("modalBox").innerHTML=`<span class="wzstep">Step ${WZ.step} of ${total}</span>${wzDots(WZ.step,total)}<h3 style="margin-bottom:14px">${title}</h3>${body}`;
+  $("modalBg").classList.add("on");
+}
+function publishDrive(){
+  const d=WZ.d,r=curSoc.recruitment;
+  r.title=d.title;r.closes=d.closes;r.orientation=d.orient||"TBA";r.applied=0;
+  r.roles=d.roles;r.stages=d.stages.map((s,i)=>({...s,st:i===0?"now":"upcoming"}));
+  r.status="live";WZ=null;closeModal();renderSociety("recruit");
+  toast("\ud83d\ude80 Drive published \u2014 live for students right now");
+}
+function publishEvent(){
+  const d=WZ.d;if(!d.n){toast("Name the event first");return}
+  curSoc.events.push({n:d.n,d:d.date||"TBA",type:d.type,open:d.open,meta:d.meta||"Details coming soon",price:d.price||"",b:curSoc.events.length%4});
+  WZ=null;closeModal();renderSociety("events");
+  toast("\ud83c\udfaa Event published \u2014 visible across UniGrid");
+}
+function headSocOptions(cid){
+  const c=findCollege(cid)||DATA[0];
+  return c.societies.map(s=>`<option value="${s.id}">${s.name}</option>`).join("")+'<option value="__new">My society isn\'t listed yet</option>';
+}
+function fillHeadSoc(cid){const el=$("suHSoc");if(el)el.innerHTML=headSocOptions(cid)}
+function openAddSociety(cid){
+  $("modalBox").innerHTML=`<h3>Add your society</h3><p class="m-sub">For official college societies \u2014 verified through your society's official email.</p>
+    <div class="field"><label>College</label><select id="asCol">${DATA.map(c=>`<option value="${c.id}" ${c.id===cid?"selected":""}>${c.name} \u2014 ${c.city}</option>`).join("")}</select></div>
+    <div class="field"><label>Your name</label><input id="asYou" placeholder="Ananya Gupta"></div>
+    <div class="field"><label>Society name</label><input id="asName" placeholder="Enactus, The Dramatics Society\u2026"></div>
+    <div class="field"><label>Category</label><select id="asCat"><option>Social entrepreneurship</option><option>Theatre &amp; stage</option><option>Debating</option><option>Music</option><option>Dance</option><option>Fine arts</option><option>Literature</option><option>Tech &amp; coding</option><option>Commerce &amp; finance</option><option>Community service</option><option>Media &amp; photography</option><option>Sports</option><option>Other</option></select></div>
+    <div class="field"><label>One-line about the society</label><input id="asTag" placeholder="What does your society do?"></div>
+    <div class="field"><label>Your position</label><select id="asPos"><option>President</option><option>Vice president</option><option>General secretary</option><option>Core team member</option></select></div>
+    <div class="field"><label>Official society email</label><input id="asMail" placeholder="society@college.ac.in"><small style="font-size:12px;color:var(--mist)">A confirmation link goes to this address \u2014 personal Gmail/Yahoo won't work.</small></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:4px">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-gold btn-sm" onclick="addSocietySubmit()">Add society</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function addSocietySubmit(){
+  const n=($("asName").value||"").trim();
+  if(!n){toast("Give the society a name first");return}
+  const colId=$("asCol").value;const c=findCollege(colId);
+  if(!c){toast("Pick a college");return}
+  if(c.societies.find(s=>s.name.toLowerCase()===n.toLowerCase())){toast(`${n} is already listed at ${c.name}`);return}
+  const mail=($("asMail").value||"").trim();
+  if(!isOfficialEmail(mail)){toast("Use the society's OFFICIAL email \u2014 personal Gmail/Yahoo won't work");return}
+  const id="s"+Date.now();
+  const tag=($("asTag").value||"").trim()||"A student society at "+c.name+".";
+  c.societies.push({id:id,name:n,cat:$("asCat").value||"Other",verified:false,pending:true,members:1,followers:0,founded:2026,
+    tagline:tag,about:tag+" This page was just created and is pending verification \u2014 the society's team can complete it once the official email is confirmed.",
+    posts:[],events:[],contact:{email:mail,insta:"",web:"",linkedin:""},
+    recruitment:{status:"closed",title:"",closes:"",orientation:"",applied:0,roles:[],stages:[]}});
+  const yn=($("asYou")&&$("asYou").value.trim())||"Society admin";
+  if(!USER)USER={name:yn,role:"head",email:mail};
+  USER.manages={cid:colId,sid:id};updateNavChip();
+  closeModal();openSociety(colId,id);
+  toast(`${n} added \u2014 you're the admin. Confirmation link sent to ${mail}`);
+}
+function verifySocietyNow(cid,sid){
+  const c=findCollege(cid);const s=c.societies.find(x=>x.id===sid);
+  s.pending=false;s.verified=true;
+  s.about=s.about.replace(/ This page was just created.*$/,"");
+  openSociety(cid,sid);
+  toast(`${s.name} verified \u2713 \u2014 the page is now fully live`);
+}
+function openAddCollege(){
+  $("modalBox").innerHTML=`<h3>Add your college</h3><p class="m-sub">Only society heads, union members or faculty with an <b>official email</b> can add a college \u2014 our AI fills in the rest and our team verifies it.</p>
+    <div class="field"><label>College name</label><input id="acName" placeholder="St. Joseph's College" oninput="acCheck(this.value)"><div class="achint" id="acHint"></div></div>
+    <div class="field"><label>City</label><input id="acCity" placeholder="Bengaluru"></div>
+    <div class="field"><label>Your official email <span style="color:var(--red)">*</span></label><input id="acMail" placeholder="you@college.ac.in"><small style="font-size:12px;color:var(--mist)">Personal emails (Gmail, Yahoo\u2026) are not accepted.</small></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:4px">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-gold btn-sm" onclick="addCollegeSubmit()">\u2728 Add college</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function acCheck(v){
+  const h=$("acHint");if(!h)return;
+  v=(v||"").trim().toLowerCase();
+  if(v.length<3){h.innerHTML="";return}
+  const hit=DATA.find(c=>c.name.toLowerCase().includes(v));
+  h.innerHTML=hit?`Already on UniGrid: <a onclick="closeModal();openCollege('${hit.id}')">${hit.name} \u2192 Open it</a>`:"";
+}
+function addCollegeSubmit(){
+  const n=($("acName").value||"").trim();
+  if(!n){toast("Give the college a name first");return}
+  if(DATA.find(c=>c.name.toLowerCase()===n.toLowerCase())){toast("That college is already on UniGrid");return}
+  if(!isOfficialEmail($("acMail")&&$("acMail").value)){toast("Adding a college needs your official email \u2014 personal Gmail/Yahoo IDs are not accepted");return}
+  let city=($("acCity").value||"").split(",")[0].trim();
+  if(city)city=city.charAt(0).toUpperCase()+city.slice(1);
+  $("modalBox").innerHTML=`<h3>\u2728 Asking UniGrid AI about ${n}\u2026</h3><p class="m-sub">Fetching the real affiliation, founding year and details \u2014 a few seconds</p><div class="spin"></div>`;
+  finishAddCollege(n,city);
+}
+const KNOWN={"iit delhi":{city:"New Delhi",state:"Delhi",type:"Institute of National Importance",est:1961,about:"The Indian Institute of Technology Delhi is one of India's premier engineering institutes, an Institute of National Importance established in 1961 at Hauz Khas, New Delhi."},
+"iit bombay":{city:"Mumbai",state:"Maharashtra",type:"Institute of National Importance",est:1958,about:"IIT Bombay, established in 1958 at Powai, Mumbai, is one of India's leading engineering and research institutions."},
+"iit madras":{city:"Chennai",state:"Tamil Nadu",type:"Institute of National Importance",est:1959,about:"IIT Madras, established in 1959, is consistently ranked India's top engineering institute (NIRF)."},
+"iit kanpur":{city:"Kanpur",state:"Uttar Pradesh",type:"Institute of National Importance",est:1959,about:"IIT Kanpur, established in 1959, is a premier engineering institute known for its research culture."},
+"iit kharagpur":{city:"Kharagpur",state:"West Bengal",type:"Institute of National Importance",est:1951,about:"IIT Kharagpur, established in 1951, is the oldest of the IITs."},
+"iit roorkee":{city:"Roorkee",state:"Uttarakhand",type:"Institute of National Importance",est:1847,about:"IIT Roorkee traces its roots to 1847, making it Asia's oldest engineering institution."},
+"bits pilani":{city:"Pilani",state:"Rajasthan",type:"Deemed university",est:1964,about:"BITS Pilani is a leading private deemed university known for engineering and its no-attendance academic culture."},
+"aiims delhi":{city:"New Delhi",state:"Delhi",type:"Institute of National Importance",est:1956,about:"AIIMS New Delhi, established in 1956, is India's foremost medical institution."},
+"iim ahmedabad":{city:"Ahmedabad",state:"Gujarat",type:"Institute of National Importance",est:1961,about:"IIM Ahmedabad, established in 1961, is India's top-ranked management institute."},
+"iim bangalore":{city:"Bengaluru",state:"Karnataka",type:"Institute of National Importance",est:1973,about:"IIM Bangalore, established in 1973, is one of India's premier management institutes."},
+"nit trichy":{city:"Tiruchirappalli",state:"Tamil Nadu",type:"Institute of National Importance",est:1964,about:"NIT Trichy, established in 1964, is consistently ranked India's top NIT."},
+"jnu":{city:"New Delhi",state:"Delhi",type:"Central university",est:1969,about:"Jawaharlal Nehru University, established in 1969, is a leading central university known for research and social sciences."},
+"jamia millia islamia":{city:"New Delhi",state:"Delhi",type:"Central university",est:1920,about:"Jamia Millia Islamia, established in 1920, is a central university in New Delhi."}};
+function fallbackEnrich(n,city){
+  const key=n.toLowerCase().replace(/\s+/g," ").trim();
+  for(const k in KNOWN){if(key===k||key.includes(k)||k.includes(key))return KNOWN[k]}
+  const SM={"delhi":"Delhi","new delhi":"Delhi","mumbai":"Maharashtra","pune":"Maharashtra","bengaluru":"Karnataka","bangalore":"Karnataka","chennai":"Tamil Nadu","kolkata":"West Bengal","hyderabad":"Telangana","ahmedabad":"Gujarat","jaipur":"Rajasthan","lucknow":"Uttar Pradesh","chandigarh":"Chandigarh"};
+  let type="Affiliation being verified";
+  if(/\biit\b|indian institute of technology/i.test(n))type="Institute of National Importance";
+  else if(/\bnit\b|national institute of technology/i.test(n))type="Institute of National Importance";
+  else if(/\biim\b|indian institute of management/i.test(n))type="Institute of National Importance";
+  else if(/aiims/i.test(n))type="Institute of National Importance";
+  else if(/university/i.test(n))type="University";
+  return {city:city||"India",state:SM[(city||"").toLowerCase()]||"India",type:type,est:"\u2014",about:`${n}${city?", "+city:""} \u2014 details are being verified by the UniGrid team. Societies of this institution can create their pages right away, and college admins can claim this page to complete it.`};
+}
+async function aiLookupCollege(n,city){
+  try{
+    const call=fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,messages:[{role:"user",
+      content:`Return ONLY minified JSON, no prose, no markdown: {"city":"","state":"","type":"","est":"","about":""} with accurate real facts about the Indian higher-education institution named "${n}"${city?` (user-provided city hint: ${city})`:""}. type = its real affiliation/category, e.g. "Institute of National Importance", "University of Delhi", "Autonomous", "Central university", "Private university". est = founding year as a string. about = 2 factual sentences. Use "" for any field you are not sure about. Never guess an affiliation.`}]})});
+    const timeout=new Promise((_,rej)=>setTimeout(()=>rej(new Error("timeout")),9000));
+    const r=await Promise.race([call,timeout]);
+    const d=await r.json();
+    const t=(d.content||[]).filter(x=>x.type==="text").map(x=>x.text||"").join("");
+    const j=JSON.parse(t.replace(/```json|```/g,"").trim());
+    if(j&&(j.type||j.about))return j;
+    return null;
+  }catch(e){return null}
+}
+async function finishAddCollege(n,city){
+  city=(city||"").split(",")[0].trim();if(city)city=city.charAt(0).toUpperCase()+city.slice(1);
+  const ai=await aiLookupCollege(n,city);
+  const fb=fallbackEnrich(n,city);
+  const d=ai?{city:ai.city||fb.city,state:ai.state||fb.state,type:ai.type||fb.type,est:ai.est||fb.est,about:ai.about||fb.about}:fb;
+  DATA.push({id:"c"+Date.now(),name:n,city:d.city,state:d.state,est:d.est,type:d.type,cover:"#26215C",img:"",pending:true,societies:[],about:d.about+(ai?"":"")});
+  cityFilter="All";buildFilters();closeModal();goHome();
+  toast(ai?`${n} is live \u2014 AI verified the details, human check pending`:`${n} is live \u2014 details ${d.type==="Affiliation being verified"?"to be":"auto-"}verified. Now add your society!`);
+}
+
+function openAddClub(){
+  $("modalBox").innerHTML=`<h3>Add an independent club</h3><p class="m-sub">For clubs and collectives that aren't part of any college — city circuits, volunteer networks, creator communities.</p>
+    <div class="field"><label>Club name</label><input id="icName" placeholder="Mumbai Quiz Collective"></div>
+    <div class="field"><label>Category</label><select id="icCat"><option>Community service</option><option>Debating</option><option>Arts &amp; media</option><option>Business &amp; entrepreneurship</option><option>Quizzing</option><option>Other</option></select></div>
+    <div class="field"><label>One-line description</label><input id="icAbout" placeholder="What does the club do?"></div>
+    <div class="field"><label>Contact email</label><input id="icMail" placeholder="team@club.org"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:4px">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-gold btn-sm" onclick="addClubSubmit()">Add club</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function addClubSubmit(){
+  const n=($("icName").value||"").trim();
+  if(!n){toast("Give the club a name first");return}
+  const ab=($("icAbout").value||"").trim()||"A new independent club on UniGrid.";
+  INDIE.push({id:"i"+Date.now(),name:n,cat:$("icCat").value||"Other",verified:false,members:1,followers:0,founded:2026,tagline:ab,about:ab+" Pending verification on UniGrid.",posts:[],events:[],contact:{email:($("icMail").value||"").trim(),insta:"",web:"",linkedin:""},recruitment:{status:"closed",title:"",closes:"",orientation:"",applied:0,roles:[],stages:[]}});
+  closeModal();socCollege="__indie";goSocieties();
+  toast(`${n} added — pending verification`);
+}
+
+function genUnion(c){
+  const seed=[...c.id].reduce((a,ch)=>a+ch.charCodeAt(0),0)+7;
+  const FE=["Aisha","Riya","Sara","Meera","Zoya","Naina","Ananya","Priya","Tara","Diya"];
+  const MIX=["Aisha","Kabir","Riya","Aarav","Sara","Ishaan","Meera","Dev","Zoya","Arjun"];
+  const L=["Sharma","Verma","Khan","Mehta","Iyer","Das","Kapoor","Singh","Nair","Gupta"];
+  const roles=["President","Vice president","General secretary","Joint secretary","Treasurer","Cultural secretary"];
+  const pool=c.womens?FE:MIX;
+  return roles.map((r,i)=>({n:pool[(seed+i*3)%pool.length]+" "+L[(seed+i*5)%L.length],r}));
+}
+
 /* ---------- COLLEGE FACTS ---------- */
 const FACTS={
  mh:{fest:"Tempest",web:"mirandahouse.ac.in",streams:"Arts & Sciences \u00b7 women's college",students:"~3,500"},
@@ -601,6 +1431,7 @@ function collegeFacts(c){
   return rows;
 }
 function aboutLong(c){
+  if(!c.societies.length)return c.about;
   const f=FACTS[c.id]||{};
   let extra=` Its ${c.societies.length} societies on UniGrid span ${[...new Set(c.societies.map(s=>s.cat.toLowerCase()))].slice(0,3).join(", ")} and more`;
   extra+=f.fest?`, and the annual fest ${f.fest} is one of the most awaited weeks on the ${c.city} college calendar.`:` \u2014 with fresher recruitment season being the busiest time of the year.`;
@@ -610,19 +1441,17 @@ function aboutLong(c){
 /* ---------- HOME ---------- */
 function buildFilters(){
   CITIES=["All",...new Set(DATA.map(c=>c.city))];
-  $("stateBar").innerHTML=CITIES.map((s,i)=>`<button class="chip ${s===cityFilter?'on':''}" onclick="setCity(${i})">${s}</button>`).join("");
 }
 function setCity(i){cityFilter=CITIES[i];buildFilters();renderColleges()}
 function renderColleges(){
   const q=($("homeSearch").value||"").toLowerCase();
-  const list=DATA.filter(c=>(cityFilter==="All"||c.city===cityFilter)&&(c.name.toLowerCase().includes(q)||c.city.toLowerCase().includes(q)));
-  $("countNote").textContent=`${list.length} college${list.length!==1?"s":""} · ${list.reduce((a,c)=>a+c.societies.length,0)} societies listed`;
-  $("collegeGrid").innerHTML=list.map(c=>{
-    const live=c.societies.filter(s=>s.recruitment.status==="live").length;
-    return `<div class="college" onclick="openCollege('${c.id}')">
-      <div class="col-img" style="${c.img?`background-image:url(${c.img})`:`background:${c.cover}`}">
-        ${live?`<span class="pill">\u25cf ${live} recruiting now</span>`:""}
-        <button class="saveheart" data-on="0" onclick="event.stopPropagation();toggleSave(this)">\u2661</button>
+  const list=DATA.filter(c=>c.name.toLowerCase().includes(q)||c.city.toLowerCase().includes(q));
+  const ver=list.filter(c=>!c.pending),pen=list.filter(c=>c.pending);
+  if(USER&&USER.college){const pi=ver.findIndex(c=>c.id===USER.college);if(pi>0){const p=ver.splice(pi,1)[0];ver.unshift(p)}}
+  $("countNote").innerHTML=`<a href="#" onclick="openAddCollege();return false">College missing? Add it</a>`;
+  const colCard=c=>`<div class="college" onclick="openCollege('${c.id}')">
+      <div class="col-img${c.pending?' pend':''}" style="${c.img?`background-image:url(${c.img})`:`background:${c.cover}`}">
+        ${USER&&USER.college===c.id?`<span class="pill" style="color:var(--marigold-deep)">\u2b50 Your college</span>`:c.pending?`<span class="pill" style="color:var(--marigold-deep)">\u23f3 Under verification</span>`:""}
         ${!c.img?`<div class="col-init">${initials(c.name)}</div>`:""}
       </div>
       <div class="col-info">
@@ -630,14 +1459,30 @@ function renderColleges(){
         <div class="l1">${c.city}, ${c.state} \u00b7 ${c.type}</div>
         <div class="l2">${c.societies.length} societ${c.societies.length===1?"y":"ies"} \u00b7 est. ${c.est}</div>
       </div>
-    </div>`}).join("")||`<div class="empty" style="grid-column:1/-1">No colleges match "${q}". Your college missing? <b>Suggest it</b> and we'll add it.</div>`;
+    </div>`;
+  $("collegeGrid").innerHTML=ver.map(colCard).join("")||(pen.length?"":`<div class="empty" style="grid-column:1/-1">No colleges match "${q}". Your college missing? <b>Suggest it</b> and we'll add it.</div>`);
+  $("pendShelf").innerHTML=pen.length?`
+    <div class="shelf-h"><h3>\u23f3 Under verification</h3></div>
+    <div class="hscroll">${pen.map(c=>`<div class="hcard">${colCard(c)}</div>`).join("")}</div>`:"";
 }
 
 /* ---------- COLLEGE PAGE ---------- */
 function openCollege(id){
-  curCollege=DATA.find(c=>c.id===id);
+  curCollege=findCollege(id);
   crumbs([{t:"Colleges",fn:"goHome()"},{t:curCollege.name}]);setNav("colleges");
-  curCtab="soc";renderCollege("");show("college");
+  curCtab="union";renderCollege("");show("college");
+}
+function galleryHTML(c){
+  const addBtn=`<button class="gadd" onclick="event.stopPropagation();toast('College admins can add up to 8 photos once the page is verified')">\ud83d\udcf7 Add photos</button>`;
+  const ph=(c.imgs&&c.imgs.filter(Boolean))||[];
+  if(ph.length>1){
+    return `<div class="cgal">
+      <div class="cg-main" style="background-image:url(${ph[0]})"></div>
+      <div class="cg-side" style="${ph[1]?`background-image:url(${ph[1]})`:`background:${c.cover}`}"></div>
+      <div class="cg-side" style="${ph[2]?`background-image:url(${ph[2]})`:`background:${c.cover}`}">${addBtn}</div>
+    </div>`;
+  }
+  return `<div class="chero" style="${c.img?`background-image:url(${c.img})`:`background:${c.cover}`}">${!c.img?`<div class="col-init" style="font-size:70px">${initials(c.name)}</div>`:""}${addBtn}</div>`;
 }
 function renderCollege(q,tab){
   const c=curCollege;q=(q||"").toLowerCase();
@@ -648,47 +1493,58 @@ function renderCollege(q,tab){
   const socPanel=`
     <div class="sec-title" style="margin-top:0">
       <h3>Societies at ${c.name}</h3>
-      <div class="searchbox"><span class="s-icon">\u2315</span><input type="text" placeholder="Search societies\u2026" value="${q}" oninput="renderCollege(this.value)"></div>
+      <div class="searchbox"><span class="s-icon">\u2315</span><input type="text" placeholder="Search societies\u2026" value="${q}" oninput="renderCollege(this.value,'soc')"></div>
+      <button class="btn btn-ghost btn-sm" onclick="openAddSociety('${c.id}')">+ Add your society</button>
     </div>
     <div class="soc-grid">${socs.map(s=>{
       const col=avColor(s.name);
-      const rp=s.recruitment.status==="live"?'<span class="pill pill-green">Recruiting</span>':s.recruitment.status==="upcoming"?'<span class="pill pill-gold">Opens soon</span>':'';
+      const rp=s.pending?'<span class="pill" style="color:var(--marigold-deep)">\u23f3 Under verification</span>':s.recruitment.status==="live"?'<span class="pill pill-green">Recruiting</span>':s.recruitment.status==="upcoming"?'<span class="pill pill-gold">Opens soon</span>':'';
       return `<div class="card soc" onclick="openSociety('${c.id}','${s.id}')">
         <div class="soc-top"><div class="avatar" style="background:${col[0]};color:${col[1]};width:46px;height:46px;font-size:15px">${initials(s.name)}</div>
           <div><h4>${s.name} ${s.verified?'<span class="vcheck" title="Verified">\u2713</span>':''}</h4><div class="soc-cat">${s.cat}</div></div></div>
         <p>${s.tagline}</p>
         <div class="soc-meta"><span>${s.members} members</span><span>${s.followers.toLocaleString("en-IN")} followers</span>${rp}</div>
-      </div>`}).join("")||`<div class="empty" style="grid-column:1/-1">No societies match "${q}".</div>`}
+      </div>`}).join("")||(q?`<div class="empty" style="grid-column:1/-1">No societies match "${q}".</div>`:`<div class="empty" style="grid-column:1/-1">No societies here yet \u2014 <b style="cursor:pointer;color:var(--marigold-deep)" onclick="openAddSociety('${c.id}')">be the first to add yours</b>.</div>`)}
     </div>`;
-  const evPanel=evAll.length?`
-    <div class="sec-title" style="margin-top:0"><h3>Upcoming at ${c.name}</h3></div>
-    <div class="evd-grid">${evAll.map(({e,s,i})=>evCardHTML(e,s,c.id,i)).join("")}</div>`
-    :`<div class="empty" style="margin-bottom:70px">No upcoming events at ${c.name} yet. Follow its societies to catch the next one.</div>`;
+  const up=evAll.filter(x=>!evPast(x.e.d)),pastEv=evAll.filter(x=>evPast(x.e.d));
+  const evPanel=`
+    <div class="sec-title" style="margin-top:0"><h3>Upcoming events</h3></div>
+    ${up.length?`<div class="evd-grid" style="padding-bottom:10px">${up.map(({e,s,i})=>evCardHTML(e,s,c.id,i)).join("")}</div>`
+      :`<div class="empty" style="margin-bottom:20px">No upcoming events at ${c.name} right now.</div>`}
+    ${pastEv.length?`<div class="sec-title"><h3>Past events</h3></div>
+      <div class="evd-grid">${pastEv.map(({e,s,i})=>evCardHTML(e,s,c.id,i,null,true)).join("")}</div>`:""}`;
+  const union=genUnion(c);
+  const unionPanel=`
+    <div class="sec-title" style="margin-top:0"><h3>Students' Union ${c.est!=="\u2014"?"2026\u201327":""}</h3></div>
+    <p style="font-size:13.5px;color:var(--slate);max-width:620px;margin:-6px 0 16px">The elected union represents every student of ${c.name} \u2014 fest budgets, society coordination and student welfare all run through them.</p>
+    <div class="mem-grid">${union.map(m=>{const mc=avColor(m.n);return `<div class="mem"><div class="avatar" style="background:${mc[0]};color:${mc[1]}">${initials(m.n)}</div><b>${m.n}</b><span class="m-role">${m.r}</span><div class="m-course">Students' Union \u00b7 ${c.name}</div><div class="m-actions"><button class="btn btn-primary btn-sm" onclick="openMsg('${m.n}','Students\\' Union \u00b7 ${c.name.replace(/'/g,"\\'")}')">Message</button></div></div>`}).join("")}</div>
+    <div class="card" style="padding:14px 18px;margin:14px 0 70px;font-size:13px;color:var(--slate)">Union pages are claimed and maintained by the elected office-bearers each year \u2014 election results update this section automatically.</div>`;
   $("collegePage").innerHTML=`
     <div class="ctitle">
       <div style="flex:1;min-width:220px"><h2>${c.name}</h2><div class="sub">${c.city}, ${c.state} \u00b7 ${c.type} \u00b7 Established ${c.est}</div></div>
       <button class="btn btn-ghost btn-sm" onclick="toast('College link copied')">\u2197 Share</button>
-      <button class="btn btn-ghost btn-sm" data-on="0" onclick="toggleSave(this)">\u2661 Save</button>
     </div>
-    <div class="chero" style="${c.img?`background-image:url(${c.img})`:`background:${c.cover}`}">${!c.img?`<div class="col-init" style="font-size:70px">${initials(c.name)}</div>`:""}</div>
+    ${c.pending?`<div class="pendban"><span style="font-size:20px">\u23f3</span><div style="flex:1;min-width:220px"><b>This page is under verification</b><span>Details were auto-filled. A society or union head of ${c.name} can verify this page to make it appear fully on UniGrid.</span></div><button class="btn btn-gold btn-sm" onclick="openVerifyCollege('${c.id}')">Verify this college</button></div>`:""}
+    ${galleryHTML(c)}
     <div class="cstats">
       <div class="cstat"><b>${c.societies.length}</b><span>societies</span></div>
       <div class="cstat"><b>${live}</b><span>recruiting now</span></div>
-      <div class="cstat"><b>${evAll.length}</b><span>upcoming events</span></div>
+      <div class="cstat"><b>${up.length}</b><span>upcoming events</span></div>
     </div>
     <div class="card about-block"><b style="display:block;font-family:var(--disp);font-size:16.5px;margin-bottom:6px;color:var(--ink)">About ${c.name}</b>${aboutLong(c)}</div>
     <div class="sec-title" style="margin:22px 0 12px"><h3>Quick facts</h3></div>
     <div class="tkn" style="margin-bottom:24px">${collegeFacts(c).map(([ic,l,v])=>`<div><span>${ic}</span><span><b style="color:var(--ink)">${l}:</b> ${v}</span></div>`).join("")}</div>
     <div class="stabs">
+      <button class="stab ${t==='union'?'on':''}" onclick="renderCollege('','union')">Students' Union</button>
       <button class="stab ${t==='soc'?'on':''}" onclick="renderCollege('','soc')">Societies</button>
       <button class="stab ${t==='events'?'on':''}" onclick="renderCollege('','events')">Events${evAll.length?` (${evAll.length})`:''}</button>
     </div>
-    <div class="stab-panel on">${t==='soc'?socPanel:evPanel}</div>`;
+    <div class="stab-panel on">${t==='union'?unionPanel:t==='soc'?socPanel:evPanel}</div>`;
   if(t==='soc'&&q){const inp=$("collegePage").querySelector(".searchbox input");if(inp&&inp.focus){inp.focus();inp.setSelectionRange(q.length,q.length)}}
 }
 /* ---------- SOCIETY PAGE ---------- */
-function openSociety(cid,sid,tab){
-  curCollege=DATA.find(c=>c.id===cid);
+function openSociety(cid,sid,tab){MANAGE=false;
+  curCollege=findCollege(cid);
   curSoc=curCollege.societies.find(s=>s.id===sid);
   crumbs([{t:"Colleges",fn:"goHome()"},{t:curCollege.name,fn:`openCollege('${cid}')`},{t:curSoc.name}]);setNav("societies");
   curHistYear=null;curEvFilter="All";renderSociety(tab||"profile");show("society");
@@ -704,11 +1560,11 @@ function renderSociety(tab){
     <div class="page-cover" style="background:${col[0]}"></div>
     <div class="page-head">
       <div class="avatar page-logo" style="background:${col[0]};color:${col[1]}">${initials(s.name)}</div>
-      <div class="page-title"><h2>${s.name} ${s.verified?'<span class="vcheck" title="Verified society" style="font-size:20px">\u2713</span>':''}</h2>
+      <div class="page-title"><h2>${s.name} ${s.verified?'<span class="vcheck" title="Verified society" style="font-size:20px">\u2713</span>':''} ${MANAGE&&isAdminOf(s)?`<button class="btn btn-ghost btn-sm" style="vertical-align:middle" onclick="editProfileHead()">\u270e Edit</button>`:""}</h2>
         <p>${s.cat} \u00b7 ${c.name} \u00b7 Est. ${s.founded}</p></div>
       <div class="page-actions">
         <button class="btn btn-ghost btn-sm" onclick="toast('Society link copied')">Share</button>
-        <button class="btn ${isF?'btn-ghost':'btn-primary'} btn-sm" onclick="toggleFollow('${fKey}')">${isF?'Following \u2713':'Follow'}</button>
+        <button class="btn ${isF?'btn-ghost':'btn-primary'} btn-sm" onclick="toggleFollow('${fKey}')">${isF?'Following \u2713':'Follow'}</button>${isAdminOf(s)?`<button class="btn ${MANAGE?'btn-gold':'btn-primary'} btn-sm" onclick="toggleManage()">${MANAGE?'\u2713 Done editing':'\ud83d\udee0 Manage page'}</button>`:''}
       </div>
     </div>
     <div class="page-stats">
@@ -718,68 +1574,70 @@ function renderSociety(tab){
       <div><b>${s.events.length}</b> <span>upcoming events</span></div>
     </div>
     ${rp}
+    ${s.pending?`<div class="pendban" style="margin-top:16px"><span style="font-size:20px">\u23f3</span><div style="flex:1;min-width:220px"><b>This society is under verification</b><span>A confirmation link was sent to ${s.contact.email}. The page appears fully on UniGrid once it's confirmed.</span></div><button class="btn btn-gold btn-sm" onclick="verifySocietyNow('${curCollege.id}','${s.id}')">I've confirmed \u2014 verify</button></div>`:""}
+    ${manageBar(s)}
     <div class="stabs">${tabsDef.map(([k,l])=>`<button class="stab ${t===k?'on':''}" onclick="renderSociety('${k}')">${l}</button>`).join("")}</div>
     <div class="stab-panel on">${panels[t](s)}</div>`;
 }
 function toggleFollow(k){followed[k]=!followed[k];renderSociety(curTab);toast(followed[k]?"Following \u2014 you'll be notified about drives and events":"Unfollowed")}
 
+const RICH={enactus:{
+ learn:["Running a real social venture end-to-end","Field research & community partnerships","Pitching to national judges","Team, budget & deadline management"],
+ testi:[{n:"Ishita Verma",y:"3rd year \u00b7 Project lead",q:"I joined for the CV point and stayed for the field visits. Running Kilkari taught me more than any classroom."},{n:"Naina Gupta",y:"2nd year \u00b7 Marketing",q:"The seniors genuinely mentor you \u2014 my first campaign went live within a month of joining."}],
+ faqs:[["Do first-years get real work?","Yes \u2014 every fresher is placed on a live project team within their first month."],["How much time does it take weekly?","4\u20136 hours in normal weeks; more during nationals and Udyam."],["Is there an interview for every role?","Yes, a short 15-minute conversation after the GD round. No preparation needed."],["Can I be part of another society too?","Many members are \u2014 we only ask that project deadlines are respected."]],
+ gallery:["Nationals '26","Team bonding \u00b7 Lodhi Garden","Field visit \u00b7 Sonipat","Udyam '25 crew","Fresher welcome day-out","Late-night prep"]}};
+function richBase(s){
+ if(RICH[s.id])return RICH[s.id];
+ const seed=[...s.id].reduce((a,ch)=>a+ch.charCodeAt(0),0);
+ const FE=["Aisha","Riya","Sara","Meera","Zoya","Naina"],MIX=["Aisha","Kabir","Riya","Aarav","Sara","Ishaan"],L=["Sharma","Verma","Khan","Mehta","Iyer","Das"];
+ const pool=(curCollege&&curCollege.womens)?FE:MIX;
+ const n1=pool[seed%pool.length]+" "+L[seed%L.length],n2=pool[(seed+3)%pool.length]+" "+L[(seed+2)%L.length];
+ return {learn:["Working in a real "+s.cat.toLowerCase()+" team","Planning and running events end-to-end","Public speaking & collaboration","Leading juniors as you grow"],
+ testi:[{n:n1,y:"3rd year",q:"The best part of my college life \u2014 the work is real and the people become family."},{n:n2,y:"2nd year",q:"Joined as a nervous fresher; a year later I was managing our biggest event."}],
+ faqs:[["Do first-years get real work?","Yes \u2014 freshers are involved from their first month."],["How much time does it take weekly?","Usually 3\u20135 hours, more before flagship events."],["What does selection look for?","Interest and honesty over experience \u2014 most members start with none."]],
+ gallery:["Event day","Team bonding","Day out","Rehearsals & prep"]};
+}
+function richFor(s){const b=richBase(s);
+  return {gallery:s.gallery||b.gallery,learn:s.learn||b.learn,testi:s.testi||b.testi,faqs:s.faqs||b.faqs}}
+function ensureRich(s,k){if(!s[k]){const b=richBase(s);s[k]=b[k].map(x=>Array.isArray(x)?[...x]:(typeof x==="object"?{...x}:x))}}
 /* profile & history tab */
-let curHistYear=null,curEvFilter="All",UPDstore={};
-function toggleStep(btn){btn.classList.toggle('open');const c=btn.parentElement.querySelector('.jcontent');c.style.display=c.style.display==='none'?'block':'none'}
-function setHistYear(y){curHistYear=y;renderSociety('profile')}
-function setEvFilter(i){curEvFilter=["All","Event","Case comp","Volunteering","Open to all"][i];renderSociety('events')}
-function openMsg(name){
-  $("modalBox").innerHTML=`<h3>Message ${name}</h3><p class="m-sub">${curSoc.name} \u00b7 messages are delivered to their UniGrid inbox</p>
-    <div class="field"><textarea rows="4" placeholder="Hi ${name.split(' ')[0]}, I wanted to ask about\u2026"></textarea></div>
-    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
-    <button class="btn btn-gold btn-sm" onclick="closeModal();toast('Message sent to ${name} \u2014 you\\'ll be notified when they reply')">Send message</button></div>`;
-  $("modalBg").classList.add("on");
-}
-function postUpdate(){
-  const ta=$("updText");const v=(ta.value||"").trim();
-  if(!v){toast("Write your update first");return}
-  const k=curCollege.id+"/"+curSoc.id;
-  (UPDstore[k]=UPDstore[k]||[]).unshift({d:"Just now",pill:"pill-gold",tag:$("updTag").value,t:v.split("\n")[0].slice(0,70),x:v});
-  renderSociety('updates');
-  toast(`Update posted \u2014 ${curSoc.followers.toLocaleString("en-IN")} followers notified on UniGrid`);
-}
-function feedHTML(s,list){
-  const col=avColor(s.name);
-  return list.map(p=>{
-    const tagPill=p.tag==="Achievement"?"pill-gold":p.tag==="Recruitment"?"pill-green":"pill-gray";
-    return `<div class="card post">
-      <div class="post-head"><div class="avatar" style="background:${col[0]};color:${col[1]}">${initials(s.name)}</div>
-        <div><b>${s.name}</b><span>${p.date}</span></div><span class="pill ${tagPill}">${p.tag}</span></div>
-      <h4>${p.title}</h4><p>${p.text}</p>
-      ${p.media?`<div class="post-media">${Array.from({length:Math.min(p.media,2)}).map(()=>'<div class="post-ph">photo</div>').join("")}${p.media>2?`<div class="post-ph">+ ${p.media-2}</div>`:""}</div>`:""}
-      <div class="post-foot"><span onclick="toast('Liked!')" style="cursor:pointer">\u2661 Like</span><span onclick="toast('Sharing link copied')" style="cursor:pointer">\u2197 Share</span></div>
-    </div>`}).join("");
-}
-
-/* profile & history tab */
+function ayStart(p){const m=(p.date||"").slice(0,3);return ["Jan","Feb","Mar","Apr","May","Jun"].includes(m)?p.y-1:p.y}
 function tabProfile(s){
-  const info=`<div class="card info-card">
-    <h4>Info</h4>
-    <div class="info-row"><span>Category</span><span>${s.cat}</span></div>
-    <div class="info-row"><span>Founded</span><span>${s.founded}</span></div>
-    <div class="info-row"><span>Members</span><span>${s.members}</span></div>
-    <div class="info-row"><span>Email</span><span>${s.contact.email||"\u2014"}</span></div>
-    <div class="info-row"><span>Instagram</span><span>${s.contact.insta||"\u2014"}</span></div>
-    <div class="info-row"><span>LinkedIn</span><span>${s.contact.linkedin||"\u2014"}</span></div>
-    <div class="info-row"><span>Website</span><span>${s.contact.web||"\u2014"}</span></div>
-    <div class="info-row"><span>Status</span><span>${s.verified?"Verified on UniGrid \u2713":"Verification pending"}</span></div>
-  </div>
-  <div class="card info-card" style="margin-top:14px"><h4>About</h4><p style="font-size:13.5px;color:var(--slate);line-height:1.65">${s.about}</p></div>`;
-  const cur=s.posts.filter(p=>p.y>=2026);
-  const pastYears=[...new Set(s.posts.filter(p=>p.y<2026).map(p=>p.y))].sort((a,b)=>b-a);
-  if(curHistYear===null)curHistYear=pastYears[0]||null;
-  const curSec=`<div class="sec-title" style="margin-top:0"><h3>Current activities \u00b7 2026\u201327</h3></div>
-    ${cur.length?feedHTML(s,cur):`<div class="empty" style="margin-bottom:20px">Nothing posted this year yet \u2014 the society updates this section themselves.</div>`}`;
-  const pastSec=`<div class="sec-title"><h3>Past activities</h3></div>
-    ${pastYears.length?`<div class="chipbar" style="margin-bottom:16px">${pastYears.map(y=>`<button class="chip ${y===curHistYear?'on':''}" onclick="setHistYear(${y})">${y}\u2013${(y+1)%100}</button>`).join("")}</div>
-    ${feedHTML(s,s.posts.filter(p=>p.y===curHistYear))}`
-    :`<div class="empty">No archive yet \u2014 every year of activity builds up here, so the society's legacy never graduates.</div>`}`;
-  return `<div class="two-col"><div>${info}</div><div>${curSec}${pastSec}</div></div>`;
+  const ADM=MANAGE&&isAdminOf(s);
+  const btn=(fn,label)=>ADM?`<button class="btn btn-ghost btn-sm sedit" onclick="${fn}">${label}</button>`:"";
+  const ct=s.contact;
+  const det=[["\ud83c\udff7","Category",s.cat],["\ud83d\udcc5","Founded",s.founded],["\ud83d\udc65","Members",s.members+" active members"],["\u2709","Email",ct.email],["\ud83d\udcf7","Instagram",ct.insta],["\ud83d\udd17","LinkedIn",ct.linkedin],["\ud83c\udf10","Website",ct.web]].filter(x=>x[2]);
+  det.push(["\u2705","Status",s.verified?"Verified on UniGrid":"Verification pending"]);
+  const aboutSec=`<div class="sect sect-first"><div class="sect-h"><h3>About</h3>${btn("editAbout()","\u270e Edit about")}</div>
+    <p class="about-p">${s.about}</p>
+    <div class="sect-h" style="margin-top:18px"><h3 style="font-size:16px">Details</h3>${btn("editDetails()","\u270e Edit details")}</div>
+    <div class="det-grid">${det.map(([ic,l,v])=>`<div class="det-row"><span class="det-ic">${ic}</span><span class="det-l">${l}</span><span class="det-v">${v}</span></div>`).join("")}</div></div>`;
+  const idx=s.posts.map((p,oi)=>({p,oi})).sort((a,b)=>b.p.y-a.p.y);
+  const groups={};idx.forEach(x=>{const k=ayStart(x.p);(groups[k]=groups[k]||[]).push(x)});
+  const years=Object.keys(groups).map(Number).sort((a,b)=>b-a);
+  const msRow=x=>{
+    const p=x.p;
+    const tagPill=p.tag==="Achievement"?"pill-gold":p.tag==="Recruitment"?"pill-green":"pill-gray";
+    return `<div class="mstone"><div class="ms-dot"></div><div class="ms-body">
+      <div class="ms-top"><b>${p.title}</b><span class="pill ${tagPill}">${p.tag}</span>${ADM?`<span class="rowtools"><button onclick="addMilestone(${x.oi})">\u270e</button><button onclick="delMilestone(${x.oi})">\ud83d\uddd1</button></span>`:""}</div>
+      <span class="ms-date">${p.date}</span><p>${p.text}</p></div></div>`};
+  const tlSec=(idx.length||ADM)?`<div class="sect"><div class="sect-h"><h3>Journey &amp; milestones</h3><span>year by year, all in one view</span>${btn("addMilestone()","＋ Add milestone")}</div>
+    ${idx.length?`<div class="mstone-list">${years.map(y=>`<div class="ms-year">${y}\u2013${String((y+1)%100).padStart(2,"0")}</div>${groups[y].map(msRow).join("")}`).join("")}</div>`
+      :`<div class="empty" style="text-align:left;padding:18px 22px;max-width:660px">No milestones yet \u2014 add your first one.</div>`}</div>`
+   :`<div class="sect"><div class="sect-h"><h3>Journey &amp; milestones</h3></div>
+      <div class="empty">Nothing added yet \u2014 societies maintain their own milestones here, and the archive builds up year after year.</div></div>`;
+  const R=richFor(s);
+  const lifeSec=`<div class="sect"><div class="sect-h"><h3>Life at ${s.name}</h3><span>events \u00b7 team bonding \u00b7 day outs</span></div>
+    <div class="gal-grid">${R.gallery.slice(0,ADM?12:6).map((g,i)=>`<div class="gal-tile gt${i%4}"><span>${g}</span>${ADM?`<button class="tdel" onclick="delPhoto(${i})">\u00d7</button>`:""}</div>`).join("")}
+    ${ADM?`<div class="gal-tile gal-add" onclick="addPhoto()">＋ Add photo</div>`:""}</div></div>`;
+  const learnSec=`<div class="sect"><div class="sect-h"><h3>What members learn</h3>${btn("addLearn()","＋ Add")}</div>
+    <div class="learn-list">${R.learn.map((l,i)=>`<div class="mrow-flex"><span style="flex:1">\u2726&nbsp; ${l}</span>${ADM?`<button class="xdel" onclick="delLearn(${i})">\u00d7</button>`:""}</div>`).join("")}</div></div>`;
+  const testiSec=`<div class="sect"><div class="sect-h"><h3>From the members</h3>${btn("addTesti()","＋ Add testimonial")}</div>
+    <div class="testi-grid">${R.testi.map((t,i)=>`<div class="testi"><p>\u201c${t.q}\u201d</p><div class="mrow-flex"><span style="flex:1"><b>${t.n}</b><span style="display:block;font-size:12.5px;color:var(--mist)">${t.y}</span></span>${ADM?`<button class="xdel" onclick="delTesti(${i})">\u00d7</button>`:""}</div></div>`).join("")}</div></div>`;
+  const faqSec=`<div class="sect"><div class="sect-h"><h3>FAQs</h3>${btn("addFaq()","＋ Add FAQ")}</div>
+    <div class="faq-list">${R.faqs.map(([q,a],i)=>`<details class="faq"><summary>${q}${ADM?`<button class="xdel" style="margin-left:auto" onclick="event.preventDefault();event.stopPropagation();delFaq(${i})">\u00d7</button>`:""}</summary><p>${a}</p></details>`).join("")}</div></div>
+    <div style="height:44px"></div>`;
+  return aboutSec+tlSec+lifeSec+learnSec+testiSec+faqSec;
 }
 
 /* members tab */
@@ -808,43 +1666,143 @@ function tabMembers(s){
   return `<div class="sec-title" style="margin-top:0"><h3>Core team 2026\u201327</h3></div><div class="mem-grid">${cards}</div>${allSec}`;
 }
 
-/* recruitment tab \u2014 journey stepper */
+/* recruitment tab \u2014 society-defined process, JDs, vacancies */
+const VAC={drama:[{r:"Lights & sound operator",note:"Mid-year vacancy \u00b7 1 seat \u00b7 open till filled"}],players:[{r:"Production manager",note:"Mid-year vacancy \u00b7 1 seat"}]};
+function jdFor(role){
+  const s=curSoc;
+  return {
+    resp:[`Own ${role.toLowerCase()} work across ${s.name}'s projects and events`,"Work in a 4\u20138 member team with weekly check-ins","Represent the society at inter-college events and on campus"],
+    req:["Open to 1st & 2nd years \u00b7 no prior experience needed","4\u20136 hours a week in normal weeks, more before flagship events","Curiosity and follow-through matter more than existing skills"],
+    terms:["Selection is merit-based through the stages listed on this page","Membership is reviewed each semester on participation","Members follow the society's and the college's code of conduct","On selection, the role appears on your UniGrid profile as verified experience"]};
+}
+function openJD(i){
+  const role=curSoc.recruitment.roles[i].r,jd=jdFor(role);
+  $("modalBox").innerHTML=`<h3>${role}</h3><p class="m-sub">${curSoc.name} \u00b7 job description &amp; terms</p>
+    <div class="jd-sec"><b>What you'll do</b><ul>${jd.resp.map(x=>`<li>${x}</li>`).join("")}</ul>
+    <b>Who it's for</b><ul>${jd.req.map(x=>`<li>${x}</li>`).join("")}</ul>
+    <b>Terms &amp; conditions</b><ul>${jd.terms.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+    <p style="font-size:12.5px;color:var(--mist);margin-top:12px">To apply, follow the recruitment process above \u2014 applications go through the Form filling stage.</p>
+    <div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Close</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function openVJD(vi){
+  const v=VAC[curSoc.id][vi],jd=jdFor(v.r);
+  $("modalBox").innerHTML=`<h3>${v.r}</h3><p class="m-sub">${curSoc.name} \u00b7 ${v.note}</p>
+    <div class="jd-sec"><b>What you'll do</b><ul>${jd.resp.map(x=>`<li>${x}</li>`).join("")}</ul>
+    <b>Who it's for</b><ul>${jd.req.map(x=>`<li>${x}</li>`).join("")}</ul>
+    <b>Terms &amp; conditions</b><ul>${jd.terms.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal()">Close</button>
+      <button class="btn btn-gold btn-sm" onclick="applyVac(${vi})">Apply via form</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function applyVac(vi){const r=VAC[curSoc.id][vi].r;closeModal();openApply(curSoc.name,r)}
+function stageContent(st,soc){
+  let out="";
+  if(st.banner)out+=`<div class="jbanner"><b>${st.s} \u00b7 ${soc.name}</b><span>${st.d}${st.venue?" \u00b7 "+st.venue:""}</span></div>`;
+  if(st.desc)out+=`<p>${st.desc}</p>`;
+  if(st.photos)out+=`<div class="post-media" style="margin:10px 0">${Array.from({length:Math.min(st.photos,3)}).map(()=>'<div class="post-ph" style="width:96px;height:64px">photo</div>').join("")}</div>`;
+  if(st.task)out+=`<div class="autofill" style="margin:10px 0"><b>Task \u00b7 set by the society</b>${st.task}</div>`;
+  if(st.names)out+=`<div style="font-size:12px;font-weight:700;color:var(--marigold-deep);text-transform:uppercase;letter-spacing:.08em;margin-top:10px">Selected for this round</div><div class="jnames">${st.names.map(n=>`<span class="chipmem">${n}</span>`).join("")}</div>`;
+  if(st.materials)out+=`<div class="jlinks">${st.materials.map(m=>`<button class="jlink" onclick="toast('${m.m}')">${m.l}</button>`).join("")}</div>`;
+  const acts=[];
+  if(st.form)acts.push(`<button class="btn btn-gold btn-sm" onclick="toast('Opening the application form added by the society')">\ud83d\udcdd Fill the application form</button>`);
+  if(st.group)acts.push(`<button class="btn btn-ghost btn-sm" onclick="toast('Request sent \u2014 the society adds this round\\'s candidates to the group')">\ud83d\udcac Join this round's group</button>`);
+  if(acts.length)out+=`<div style="display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 6px">${acts.join("")}</div>`;
+  return out;
+}
+function notifyMe(){toast("You\u2019ll be notified the moment applications open")}
+function daysLeft(d){
+  const M={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+  const parts=(d||"").replace(/[\u2013\u2014-]/g," ").split(/\s+/).filter(Boolean);
+  const day=parseInt(parts[0]);const mon=parts.find(p=>M[p.slice(0,3)]!==undefined);const yr=parseInt(parts[parts.length-1]);
+  if(!day||!mon||!yr)return null;
+  return Math.ceil((new Date(yr,M[mon.slice(0,3)],day)-new Date(2026,6,19))/86400000);
+}
+function hasApplied(s){return APPS.some(a=>a.soc===s.name)}
+function openApplyPicker(){
+  const roles=curSoc.recruitment.roles;
+  if(roles.length===1){openApply(curSoc.name,roles[0].r);return}
+  $("modalBox").innerHTML=`<h3>Choose a role</h3><p class="m-sub">${curSoc.name} \u00b7 pick the role you're applying for</p>
+    ${roles.map((x,i)=>`<div class="ropt" onclick="closeModal();openApply(curSoc.name,curSoc.recruitment.roles[${i}].r)"><b>${x.r}</b><span>${x.seats} seats \u00b7 open to 1st &amp; 2nd years \u00b7 <a onclick="event.stopPropagation();openJD(${i})" style="color:var(--marigold-deep);font-weight:700;cursor:pointer">View JD</a></span></div>`).join("")}`;
+  $("modalBg").classList.add("on");
+}
+function avStack(s){
+  const seed=[...s.id].reduce((a,ch)=>a+ch.charCodeAt(0),0);
+  const cols=["#7A2E4A","#26215C","#0E4D3C","#8A5B06"];
+  const ins=["AG","RS","KM","SI"];
+  return `<span class="avstack">${ins.map((x,i)=>`<span class="avm" style="background:${cols[(seed+i)%4]}">${x}</span>`).join("")}</span>`;
+}
 function tabRecruit(s){
   const r=s.recruitment;
-  if(r.status==="closed"||!r.roles.length)return `<div class="empty">No recruitment drive is open right now.<br><span style="font-size:13px">Follow ${s.name} \u2014 you'll know the second applications drop.</span></div>`;
-  const statusPill=r.status==="live"?'<span class="pill pill-green">Applications open</span>':'<span class="pill pill-gold">Opening soon</span>';
+  const ADM=MANAGE&&isAdminOf(s);
+  const admBar=ADM?`<div class="card" style="padding:14px 18px;margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;border:1.5px solid var(--marigold)">
+    <b style="font-size:13px;margin-right:auto">\ud83d\udee0 Recruitment controls</b>
+    <button class="btn btn-gold btn-sm" onclick="openHostDrive()">\ud83d\ude80 Host drive (wizard)</button>
+    <button class="btn ${r.status==="live"?"btn-ghost":"btn-gold"} btn-sm" onclick="toggleDrive()">${r.status==="live"?"\u23f8 Close drive":"\u25b6 Open recruitment"}</button>
+    <button class="btn btn-ghost btn-sm" onclick="addRole()">＋ Role</button>
+    <button class="btn btn-ghost btn-sm" onclick="addStage()">＋ Stage</button>
+    <button class="btn btn-ghost btn-sm" onclick="postVacancy()">＋ Vacancy</button></div>`:"";
+  const vacs=VAC[s.id]||[];
+  const vacSec=vacs.length?`
+    <div class="sec-title"><h3>Vacant positions \u2014 apply anytime</h3></div>
+    <div class="role-grid">${vacs.map((v,vi)=>`<div class="card role-card vac"><h5>${v.r} ${ADM?`<button class="xdel" style="float:right" onclick="delVacancy(${vi})">\u00d7</button>`:""}</h5><span class="r-seats">${v.note}</span>
+      <div style="display:flex;gap:8px"><button class="btn btn-ghost btn-sm" onclick="openVJD(${vi})">View JD</button><button class="btn btn-gold btn-sm" onclick="openVJD(${vi})">Apply</button></div></div>`).join("")}</div>`:"";
+  if(r.status==="closed"||!r.roles.length){
+    return admBar+(vacs.length?`<div class="card" style="padding:16px 20px;margin-bottom:8px;font-size:13.5px;color:var(--slate)">No fresher drive is live right now \u2014 but there are open vacancies below.</div>${vacSec}`
+      :`<div class="empty">No recruitment drive is open right now.<br><span style="font-size:13px">Follow ${s.name} \u2014 you'll know the second applications drop.</span></div>`);
+  }
+  const live=r.status==="live";
+  const dl=daysLeft(r.closes);
+  const applied=hasApplied(s);
   const stages=r.stages||[];
   const journey=stages.map((st,i)=>{
     const state=st.st||"upcoming";
     const pill=state==="done"?'<span class="pill pill-green">Done \u2713</span>':state==="now"?'<span class="pill pill-gold">In progress</span>':'<span class="pill pill-gray">Upcoming</span>';
     const openNow=state==="now";
-    const banner=st.banner?`<div class="jbanner"><b>Orientation \u00b7 ${s.name}</b><span>${st.d} \u00b7 ${st.venue||""}</span></div>`:"";
-    const mats=st.materials?`<div class="jlinks">${st.materials.map(m=>`<button class="jlink" onclick="toast('${m.m}')">${m.l}</button>`).join("")}</div>`:"";
-    const cta=st.cta&&r.status==="live"?`<div style="margin:10px 0 6px"><button class="btn btn-gold btn-sm" onclick="document.getElementById('rolesSec').scrollIntoView({behavior:'smooth'})">See open roles &amp; apply \u2193</button></div>`:"";
     return `<div class="jstep ${state}">
       <div class="jrail"><div class="jdot">${state==="done"?"\u2713":i+1}</div>${i<stages.length-1?'<div class="jline"></div>':''}</div>
       <div class="jbody">
         <div class="jhead ${openNow?'open':''}" onclick="toggleStep(this)">
-          <div><b>${st.s}</b><span class="jdate">${st.d}</span></div>${pill}<i class="chev">\u25be</i>
+          <div><b>Round ${i+1} \u00b7 ${st.s}</b><span class="jdate">${st.d}</span></div>${pill}${ADM?`<button class="xdel" onclick="event.stopPropagation();delStage(${i})">\u00d7</button>`:""}<i class="chev">\u25be</i>
         </div>
-        <div class="jcontent" style="display:${openNow?'block':'none'}">${banner}<p>${st.desc||"Details will be shared by the society closer to the date."}</p>${mats}${cta}</div>
+        <div class="jcontent" style="display:${openNow?'block':'none'}">${stageContent(st,s)||"<p>Details will be shared by the society closer to the date.</p>"}</div>
       </div></div>`}).join("");
-  return `
-  <div class="card drive-hero">
-    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><h4>${r.title}</h4>${statusPill}</div>
-    <p class="dh-sub">Every step of this drive runs on UniGrid \u2014 completed steps get ticked off as the dates pass.</p>
-    <div class="dh-meta">
-      <div><b>${r.roles.length}</b><span>open roles</span></div>
-      <div><b>${r.roles.reduce((a,x)=>a+x.seats,0)}</b><span>total seats</span></div>
-      <div><b>${r.applied||"\u2014"}</b><span>applied so far</span></div>
-      <div><b>${r.closes}</b><span>${r.status==="live"?"applications close":"drive opens"}</span></div>
+  const sidebar=`<div class="rec-side">
+    <div class="card">
+      ${live?`<div class="rs-live">\u25cf Applications open</div>`:`<div style="color:var(--marigold-deep);font-weight:700;font-size:13px">\u23f3 Opening soon</div>`}
+      <div style="display:flex;align-items:center;gap:10px;margin:8px 0 4px;flex-wrap:wrap">
+        <b style="font-family:var(--disp);font-size:17px">${live?"Free to apply":r.closes}</b>
+        ${live&&dl!==null?`<span class="ddl">\u23f1 ${dl>0?dl+" day"+(dl===1?"":"s")+" left":"closes today"}</span>`:""}
+      </div>
+      ${live?(applied?`<button class="btn btn-gold applied-btn" style="width:100%;justify-content:center">\u2713 Applied \u00b7 track in your profile</button>`
+        :`<button class="btn btn-gold" style="width:100%;justify-content:center" onclick="openApplyPicker()">Apply now</button>`)
+        :`<button class="btn btn-primary" style="width:100%;justify-content:center" onclick="notifyMe()">\ud83d\udd14 Notify me</button>`}
+      <div style="display:flex;align-items:center;gap:10px;margin-top:14px">${avStack(s)}<span style="font-size:12.5px;color:var(--mist)"><b style="color:var(--ink)">${r.applied||0}</b> applied so far</span></div>
     </div>
-  </div>
-  <div class="sec-title"><h3>The process \u2014 start to finish</h3></div>
-  <div class="journey">${journey}</div>
-  <div class="sec-title" id="rolesSec"><h3>Open positions</h3></div>
-  <div class="role-grid">${r.roles.map(x=>`<div class="card role-card"><h5>${x.r}</h5><span class="r-seats">${x.seats} seats \u00b7 open to 1st &amp; 2nd years</span>
-    ${r.status==="live"?`<button class="btn btn-gold btn-sm" onclick="openApply('${s.name.replace(/'/g,"\\'")}','${x.r.replace(/'/g,"\\'")}')">Apply</button>`:`<button class="btn btn-ghost btn-sm" onclick="toast('You\\'ll be notified when this opens')">Notify me</button>`}</div>`).join("")}</div>`;
+    <div class="card">
+      <b style="font-family:var(--disp);font-size:15px">Important dates</b>
+      <div class="rs-row" style="margin-top:6px"><span class="ri">\ud83d\uddd3</span><div><b>Applications close</b><span>${r.closes}</span></div></div>
+      ${r.orientation&&r.orientation!=="TBA"?`<div class="rs-row"><span class="ri">\ud83c\udfaf</span><div><b>Orientation</b><span>${r.orientation}</span></div></div>`:""}
+      ${stages.length?`<div class="rs-row"><span class="ri">\ud83c\udfc1</span><div><b>Final round</b><span>${stages[stages.length-1].s} \u00b7 ${stages[stages.length-1].d}</span></div></div>`:""}
+    </div>
+    <div class="card">
+      <b style="font-family:var(--disp);font-size:15px">Eligibility</b>
+      <div class="elig"><span>\ud83c\udf93 1st &amp; 2nd years</span><span>\ud83d\udc64 Individual</span><span>\ud83c\udfab Free</span><span>\u2713 No experience needed</span></div>
+    </div>
+  </div>`;
+  const left=`<div>
+    <div class="sec-title" style="margin-top:0"><h3>Stages &amp; Timeline</h3><span style="font-size:13px;color:var(--mist)">process set by ${s.name} \u00b7 ${stages.length} rounds</span></div>
+    <div class="journey">${journey}</div>
+    <div class="sec-title" id="rolesSec"><h3>Open positions</h3></div>
+    <div class="role-grid">${r.roles.map((x,i)=>`<div class="card role-card"><h5>${x.r} ${ADM?`<button class="xdel" style="float:right" onclick="delRole(${i})">\u00d7</button>`:""}</h5><span class="r-seats">${x.seats} seats \u00b7 open to 1st &amp; 2nd years</span>
+      <button class="btn btn-ghost btn-sm" onclick="openJD(${i})">View JD &amp; terms</button></div>`).join("")}</div>
+    ${vacSec}
+  </div>`;
+  return admBar+`
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:4px"><h3 style="font-family:var(--disp);font-size:21px">${r.title}</h3>${live?'<span class="pill pill-green">Live</span>':'<span class="pill pill-gold">Opening soon</span>'}</div>
+  <p style="font-size:13px;color:var(--mist);margin:0 0 16px">by ${s.name} \u00b7 every society designs its own process \u00b7 your application auto-fills from your UniGrid profile</p>
+  <div class="rec-grid">${left}${sidebar}</div>`;
 }
 
 /* events tab \u2014 district-style showcase */
@@ -854,9 +1812,13 @@ function posterBG(e){
   const img=EVIMG[set[e.b%set.length]];
   return `background-image:linear-gradient(180deg,rgba(12,14,32,0) 42%,rgba(12,14,32,.72) 100%),url(${img});background-size:cover;background-position:center`;
 }
-function evCardHTML(e,s,cid,idx,cname){
+function evPast(d){const M={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+  const parts=(d||"").replace(/[\u2013\u2014-]/g," ").split(/\s+/).filter(Boolean);
+  const day=parseInt(parts[0]);const mon=parts.find(p=>M[p.slice(0,3)]!==undefined);const yr=parseInt(parts[parts.length-1]);
+  if(!day||!mon||!yr)return false;return new Date(yr,M[mon.slice(0,3)],day)<new Date(2026,6,19)}
+function evCardHTML(e,s,cid,idx,cname,past){
   return `<div class="evd" onclick="openEvent('${cid}','${s.id}',${idx})">
-    <div class="evd-poster" style="${posterBG(e)}"><span class="pill ${e.open?'pill-gold':'pill-gray'}">${e.open?'Open to all colleges':'College only'}</span><h4>${e.n}</h4></div>
+    <div class="evd-poster${past?' evpast':''}" style="${posterBG(e)}"><span class="pill ${past?'pill-gray':e.open?'pill-gold':'pill-gray'}">${past?'Completed':e.open?'Open to all colleges':'College only'}</span><h4>${e.n}</h4></div>
     <div class="evd-body">
       <div class="evd-date">${e.d}</div>
       <div class="evd-name">by <a href="#" onclick="event.stopPropagation();openSociety('${cid}','${s.id}');return false" style="font-weight:600;color:var(--marigold-deep)">${s.name}</a>${cname?` \u00b7 ${cname}`:''}</div>
@@ -866,10 +1828,12 @@ function evCardHTML(e,s,cid,idx,cname){
     </div></div>`;
 }
 function tabEvents(s){
-  if(!s.events.length)return `<div class="empty">No upcoming events yet.<br><span style="font-size:13px">Follow ${s.name} so you don't miss the next one.</span></div>`;
+  const ADM=MANAGE&&isAdminOf(s);
+  const hostBar=ADM?`<div class="card" style="padding:14px 18px;margin-bottom:16px;display:flex;gap:10px;align-items:center;border:1.5px solid var(--marigold)"><b style="font-size:13px;margin-right:auto">\ud83d\udee0 Event controls</b><button class="btn btn-gold btn-sm" onclick="openHostEvent()">\ud83c\udfaa Host an event (wizard)</button></div>`:"";
+  if(!s.events.length)return hostBar+`<div class="empty">No upcoming events yet.<br><span style="font-size:13px">Follow ${s.name} so you don't miss the next one.</span></div>`;
   const F=["All","Event","Case comp","Volunteering","Open to all"];
   const list=s.events.map((e,i)=>({e,i})).filter(({e})=>curEvFilter==="All"||(curEvFilter==="Open to all"?e.open:e.type===curEvFilter));
-  return `<div class="chipbar" style="margin-bottom:18px">${F.map((f,i)=>`<button class="chip ${f===curEvFilter?'on':''}" onclick="setEvFilter(${i})">${f}</button>`).join("")}</div>
+  return hostBar+`<div class="chipbar" style="margin-bottom:18px">${F.map((f,i)=>`<button class="chip ${f===curEvFilter?'on':''}" onclick="setEvFilter(${i})">${f}</button>`).join("")}</div>
   ${list.length?`<div class="evd-grid" style="padding-bottom:20px">${list.map(({e,i})=>evCardHTML(e,s,curCollege.id,i)).join("")}</div>`:`<div class="empty">Nothing under "${curEvFilter}" right now.</div>`}`;
 }
 
@@ -893,13 +1857,13 @@ function setSocCollege(v){socCollege=v;goSocieties()}
 function setSocQuery(v){socQuery=v;goSocieties(true)}
 function goSocieties(keepFocus){
   show("societies");crumbs([]);setNav("societies");
-  const pool=(socCollege==="all"?DATA:DATA.filter(c=>c.id===socCollege)).flatMap(c=>c.societies.map(s=>({s,c})));
+  const base=socCollege==="all"?[...DATA,INDIE_COL]:socCollege==="__indie"?[INDIE_COL]:DATA.filter(c=>c.id===socCollege);
+  const pool=base.flatMap(c=>c.societies.map(s=>({s,c})));
   const q=(socQuery||"").toLowerCase();
   const list=pool.filter(({s})=>s.name.toLowerCase().includes(q)||s.cat.toLowerCase().includes(q));
-  const colName=socCollege==="all"?null:DATA.find(c=>c.id===socCollege).name;
+  const colName=socCollege==="all"?null:socCollege==="__indie"?"Independent clubs":DATA.find(c=>c.id===socCollege).name;
   $("societiesPage").innerHTML=`
-    <div class="section-head" style="padding:40px 0 20px"><span class="eyebrow">Across every campus</span><h2>${colName?"Societies at "+colName:"All societies"}</h2>
-      <p>Pick a college to narrow down, or search everything at once.</p></div>
+    <div class="section-head" style="padding:40px 0 20px"><h2>${colName?(socCollege==="__indie"?"Independent clubs":"Societies at "+colName):"All societies"}</h2></div>
     <div class="bookbar">
       <div class="bb-seg"><label>\ud83c\udf93 College</label>
         <select onchange="setSocCollege(this.value)"><option value="all">All colleges</option>${DATA.map(c=>`<option value="${c.id}" ${c.id===socCollege?"selected":""}>${c.name} \u2014 ${c.city}</option>`).join("")}</select></div>
@@ -907,13 +1871,17 @@ function goSocieties(keepFocus){
         <input id="socQ" value="${socQuery}" placeholder="Enactus, dramatics, debating\u2026" oninput="setSocQuery(this.value)"></div>
       <button class="bb-btn" onclick="goSocieties()">Search</button>
     </div>
-    <p class="count-note" style="text-align:left;margin:0 0 16px">${list.length} societ${list.length===1?"y":"ies"} found</p>
+    <div style="display:flex;align-items:center;gap:12px;margin:0 0 16px;flex-wrap:wrap">
+      <p class="count-note" style="text-align:left;margin:0">${list.length} societ${list.length===1?"y":"ies"} found</p>
+      <button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="openAddSociety()">+ Add your society</button>
+    </div>
     <div class="soc-grid">${list.map(({s,c})=>{
       const col=avColor(s.name);
-      const rp=s.recruitment.status==="live"?'<span class="pill pill-green">Recruiting</span>':s.recruitment.status==="upcoming"?'<span class="pill pill-gold">Opens soon</span>':'';
+      const indie=c.id==="__indie";
+      const rp=s.pending?'<span class="pill" style="color:var(--marigold-deep)">\u23f3 Under verification</span>':s.recruitment.status==="live"?'<span class="pill pill-green">Recruiting</span>':s.recruitment.status==="upcoming"?'<span class="pill pill-gold">Opens soon</span>':indie?'<span class="pill pill-gray">Independent</span>':'';
       return `<div class="card soc" onclick="openSociety('${c.id}','${s.id}')">
         <div class="soc-top"><div class="avatar" style="background:${col[0]};color:${col[1]};width:46px;height:46px;font-size:15px">${initials(s.name)}</div>
-          <div><h4>${s.name} ${s.verified?'<span class="vcheck">\u2713</span>':''}</h4><div class="soc-cat">${s.cat} \u00b7 ${c.name}</div></div></div>
+          <div><h4>${s.name} ${s.verified?'<span class="vcheck">\u2713</span>':''}</h4><div class="soc-cat">${s.cat} \u00b7 ${indie?"Independent club \u00b7 pan-India":c.name}</div></div></div>
         <p>${s.tagline}</p>
         <div class="soc-meta"><span>${s.members} members</span><span>${s.followers.toLocaleString("en-IN")} followers</span>${rp}</div></div>`}).join("")
       ||`<div class="empty" style="grid-column:1/-1">Nothing matches \u2014 try clearing the college filter or a broader search.</div>`}</div>`;
@@ -921,34 +1889,36 @@ function goSocieties(keepFocus){
 }
 
 /* ---------- ALL EVENTS PAGE ---------- */
-let evCollege2="all",evSoc2="all",evType2="All";
-function setEvSel(k,v){if(k==="c"){evCollege2=v;evSoc2="all"}else if(k==="s"){evSoc2=v}else{evType2=v}goEvents()}
-function goEvents(){
+let evCollege2="all",evType2="All",evQ2="";
+function setEvSel(k,v){if(k==="c"){evCollege2=v}else if(k==="q"){evQ2=v;goEvents(true);return}else{evType2=v}goEvents()}
+function goEvents(keepFocus){
   show("events");crumbs([]);setNav("events");
-  const socPool=(evCollege2==="all"?DATA:DATA.filter(c=>c.id===evCollege2)).flatMap(c=>c.societies.map(s=>({s,c})));
+  const base2=evCollege2==="all"?[...DATA,INDIE_COL]:evCollege2==="__indie"?[INDIE_COL]:DATA.filter(c=>c.id===evCollege2);
+  const socPool=base2.flatMap(c=>c.societies.map(s=>({s,c})));
   let all=socPool.flatMap(({s,c})=>s.events.map((e,i)=>({e,s,c,i})));
-  if(evSoc2!=="all")all=all.filter(({s})=>s.id===evSoc2);
+  const q=(evQ2||"").toLowerCase();
+  if(q)all=all.filter(({e,s})=>e.n.toLowerCase().includes(q)||s.name.toLowerCase().includes(q));
   const types=["All","Event","Case comp","Volunteering","Open to all"];
   const list=all.filter(({e})=>evType2==="All"||(evType2==="Open to all"?e.open:e.type===evType2));
   $("eventsPage").innerHTML=`
-    <div class="section-head" style="padding:40px 0 20px"><span class="eyebrow">Fests \u00b7 case comps \u00b7 volunteering</span><h2>All events</h2>
-      <p>Filter by college and society if you want \u2014 or browse everything happening across India's campuses.</p></div>
+    <div class="section-head" style="padding:40px 0 20px"><h2>All events</h2></div>
     <div class="bookbar">
       <div class="bb-seg"><label>\ud83c\udf93 College</label>
-        <select onchange="setEvSel('c',this.value)"><option value="all">All colleges</option>${DATA.map(c=>`<option value="${c.id}" ${c.id===evCollege2?"selected":""}>${c.name} \u2014 ${c.city}</option>`).join("")}</select></div>
-      <div class="bb-seg"><label>\ud83c\udfad Society</label>
-        <select onchange="setEvSel('s',this.value)"><option value="all">All societies</option>${[...new Map(socPool.map(({s,c})=>[s.id,{s,c}])).values()].map(({s,c})=>`<option value="${s.id}" ${s.id===evSoc2?"selected":""}>${s.name}${evCollege2==="all"?" \u2014 "+c.name:""}</option>`).join("")}</select></div>
+        <select onchange="setEvSel('c',this.value)"><option value="all">All colleges &amp; clubs</option><option value="__indie" ${evCollege2==="__indie"?"selected":""}>Independent clubs</option>${DATA.map(c=>`<option value="${c.id}" ${c.id===evCollege2?"selected":""}>${c.name} \u2014 ${c.city}</option>`).join("")}</select></div>
+      <div class="bb-seg"><label>\ud83c\udfaa Event or society</label>
+        <input id="evQ" value="${evQ2}" placeholder="Udyam, Malhar, Enactus\u2026" oninput="setEvSel('q',this.value)"></div>
       <button class="bb-btn" onclick="goEvents()">Search</button>
     </div>
     <div class="chipbar" style="margin-bottom:6px">${types.map(t=>`<button class="chip ${t===evType2?'on':''}" onclick="setEvSel('t','${t}')">${t}</button>`).join("")}</div>
     <p class="count-note" style="text-align:left;margin:0 0 16px">${list.length} event${list.length===1?"":"s"} found</p>
     ${list.length?`<div class="evd-grid">${list.map(({e,s,c,i})=>evCardHTML(e,s,c.id,i,c.name)).join("")}</div>`:`<div class="empty" style="margin-bottom:70px">Nothing matches those filters \u2014 clear a filter or check back soon.</div>`}`;
+  if(keepFocus){const inp=$("evQ");if(inp&&inp.focus){inp.focus();inp.setSelectionRange(evQ2.length,evQ2.length)}}
 }
 
 /* ---------- EVENT DETAIL PAGE ---------- */
 let curEv=null;
 function openEvent(cid,sid,i){
-  const c=DATA.find(x=>x.id===cid);const s=c.societies.find(x=>x.id===sid);const e=s.events[i];
+  const c=findCollege(cid);const s=c.societies.find(x=>x.id===sid);const e=s.events[i];
   curEv={e,s,c};curCollege=c;curSoc=s;
   crumbs([{t:"Colleges",fn:"goHome()"},{t:c.name,fn:`openCollege('${cid}')`},{t:s.name,fn:`openSociety('${cid}','${sid}')`},{t:e.n}]);
   setNav("events");renderEvent();show("event");
@@ -1013,7 +1983,8 @@ function renderEvent(){
         <div class="card">
           <div class="elive">\u25cf Registration is live now</div>
           <div class="eprice" style="margin:6px 0 12px">${e.price||"Free entry"}</div>
-          <button class="btn btn-gold" style="width:100%;justify-content:center" onclick="toast('${e.type==="Volunteering"?"Volunteer application sent!":"Registered \u2014 see you there!"} Check My events for your pass')">${verb}</button>
+          <button class="btn btn-gold" style="width:100%;justify-content:center" onclick="registerEvent()">${verb}</button>
+          <button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;margin-top:10px" onclick="saveEvent()">\u2661 Save for later</button>
         </div>
         <div class="card">
           <div class="erow"><div class="e-ic">\ud83d\udccd</div><div><b>${c.name}</b><span>${c.city}, ${c.state} \u00b7 campus venue shared after registering</span></div></div>
@@ -1030,7 +2001,7 @@ function renderEvent(){
 }
 
 /* apply modal */
-function openApply(soc,role){
+function openApply(soc,role){_appSoc=soc;_appRole=role;
   $("modalBox").innerHTML=`<h3>Apply — ${role}</h3><p class="m-sub">${soc}</p>
     <div class="autofill"><b>From your UniGrid profile</b>Ananya Gupta · B.A. (Hons) Economics, 1st year · Miranda House · ananya@mirandahouse.ac.in</div>
     <div class="field"><label>Why do you want to join?</label><textarea rows="3" placeholder="A few honest lines beat a long essay"></textarea></div>
@@ -1038,14 +2009,15 @@ function openApply(soc,role){
     <div class="field"><label>CV or portfolio link (optional)</label><input type="text" placeholder="https://…"></div>
     <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:4px">
       <button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-gold btn-sm" onclick="closeModal();toast('Application submitted — track it in My applications')">Submit application</button>
+      <button class="btn btn-gold btn-sm" onclick="submitApp()">Submit application</button>
     </div>`;
   $("modalBg").classList.add("on");
 }
 function closeModal(){$("modalBg").classList.remove("on")}
 
-DATA.forEach(c=>c.societies.forEach(s=>{s.posts=s.posts||[];s.events=s.events||[];s.contact=s.contact||{email:"",insta:"",web:""};s.contact.linkedin=s.contact.linkedin||"";s.recruitment=s.recruitment||{status:"closed",title:"No drive open",closes:"\u2014",orientation:"\u2014",applied:0,roles:[],stages:[]}}));
+[...DATA,INDIE_COL].forEach(c=>c.societies.forEach(s=>{s.posts=s.posts||[];s.events=s.events||[];s.contact=s.contact||{email:"",insta:"",web:""};s.contact.linkedin=s.contact.linkedin||"";s.recruitment=s.recruitment||{status:"closed",title:"No drive open",closes:"\u2014",orientation:"\u2014",applied:0,roles:[],stages:[]}}));
 ["mh","lsr","gargi","jmc","sophia","mcarmel","ethiraj"].forEach(id=>{const c=DATA.find(x=>x.id===id);if(c)c.womens=true});
+const _mh=DATA.find(c=>c.id==="mh");if(_mh)_mh.imgs=[_mh.img,EVIMG[5],EVIMG[4]];
 buildFilters();goHome();
 </script>
 </body>
