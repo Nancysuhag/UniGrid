@@ -526,9 +526,10 @@ nav{position:sticky}
 .mgbar button:hover{background:var(--marigold);color:#231A02}
 </style>
 <style>
-.mgstrip{display:flex;gap:14px;align-items:center;background:var(--ink);color:#fff;border-radius:14px;padding:11px 18px;margin:16px 0 4px;flex-wrap:wrap;font-size:13px}
-.mgstrip .mg-r{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.mgstrip a{color:var(--marigold);font-weight:600;cursor:pointer}
+.mgstrip{display:flex;gap:14px;align-items:center;background:var(--card);color:var(--ink);border:1.5px solid var(--line-strong);border-radius:14px;padding:11px 18px;margin:16px 0 4px;flex-wrap:wrap;font-size:13px;box-shadow:0 4px 14px rgba(27,31,58,.05)}
+.mgstrip .mg-r{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.mgstrip a{color:var(--ink);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.mgstrip a:hover{color:var(--marigold-deep)}
 .sect-h .sedit{margin-left:auto}
 .rowtools{display:inline-flex;gap:6px;margin-left:10px}
 .rowtools button,.tdel,.xdel{width:26px;height:26px;border-radius:8px;background:var(--paper);border:1px solid var(--line-strong);font-size:12px;display:inline-flex;align-items:center;justify-content:center;transition:.12s;flex-shrink:0}
@@ -971,9 +972,9 @@ function isAdminOf(s){return !!(USER&&USER.role==="head"&&USER.manages&&USER.man
 function toggleManage(){MANAGE=!MANAGE;renderSociety(curTab);toast(MANAGE?"Manage mode on \u2014 edit any section right where you see it":"All changes saved \u2014 back to public view")}
 function manageBar(s){
   if(!MANAGE||!isAdminOf(s))return "";
-  return `<div class="mgstrip"><span>\ud83d\udee0 <b>Editing ${s.name}</b> \u00b7 Admin \u00b7 changes save instantly &amp; are logged</span>
-    <span class="mg-r"><a onclick="inviteEditor()">Invite editor</a> \u00b7 <a onclick="transferOwn()">Transfer ownership</a>
-    <button class="btn btn-gold btn-sm" onclick="toggleManage()">\u2713 Done</button></span></div>`;
+  return `<div class="mgstrip"><span>\u270E <b>Editing ${s.name}</b> \u2014 changes save automatically</span>
+    <span class="mg-r"><a onclick="inviteEditor()">Invite editor</a><a onclick="transferOwn()">Transfer ownership</a>
+    <button class="btn btn-ghost btn-sm" onclick="toggleManage()">\u2713 Done</button></span></div>`;
 }
 function mAdm(){return MANAGE&&isAdminOf(curSoc)}
 function editProfileHead(){
@@ -1570,7 +1571,6 @@ function renderSociety(tab){
     <div class="page-stats">
       <div><b>${s.members}</b> <span>members</span></div>
       <div><b>${(s.followers+(isF?1:0)).toLocaleString("en-IN")}</b> <span>followers</span></div>
-      <div><b>${s.posts.length}</b> <span>posts</span></div>
       <div><b>${s.events.length}</b> <span>upcoming events</span></div>
     </div>
     ${rp}
@@ -2020,5 +2020,1068 @@ function closeModal(){$("modalBg").classList.remove("on")}
 const _mh=DATA.find(c=>c.id==="mh");if(_mh)_mh.imgs=[_mh.img,EVIMG[5],EVIMG[4]];
 buildFilters();goHome();
 </script>
+<style>
+/* ===== Recruitment 2.0 — sectioned student view + hiring-rounds builder ===== */
+:root{--rbblue:#2563EB;--rbblue-bg:#EAF1FE;--rbblue-deep:#1D4ED8}
+.rb-sec{margin:26px 0 10px;display:flex;align-items:center;gap:12px}
+.rb-sec h3{font-family:var(--disp);font-size:19px;position:relative;padding-left:14px}
+.rb-sec h3::before{content:"";position:absolute;left:0;top:2px;bottom:2px;width:4px;border-radius:4px;background:var(--rbblue)}
+.rb-sec .btn{margin-left:auto}
+.rb-elig{display:flex;gap:10px 18px;flex-wrap:wrap;font-size:13.5px;color:var(--slate);font-weight:500}
+.rb-elig span{display:inline-flex;align-items:center;gap:7px;background:var(--paper);border:1px solid var(--line);border-radius:99px;padding:7px 14px}
+/* timeline with date bubbles */
+.rb-tl{margin:14px 0 6px}
+.rb-step{display:flex;gap:18px}
+.rb-rail{display:flex;flex-direction:column;align-items:center;width:46px;flex-shrink:0}
+.rb-date{width:44px;border-radius:12px;background:var(--rbblue-bg);text-align:center;padding:5px 0 6px;flex-shrink:0}
+.rb-date b{display:block;background:var(--rbblue);color:#fff;border-radius:9px;font-size:13px;padding:2px 0;margin:0 4px;font-family:var(--disp)}
+.rb-date span{font-size:10.5px;font-weight:700;color:var(--rbblue-deep);display:block;margin-top:2px}
+.rb-date.plain{background:var(--rbblue-bg)}
+.rb-date.plain i{font-style:normal;font-size:17px;line-height:30px}
+.rb-line{width:0;flex:1;border-left:2px dashed #B9CFF7;margin:6px 0;min-height:22px}
+.rb-body{flex:1;padding-bottom:20px;min-width:0}
+.rb-when{font-size:12.5px;color:var(--slate);font-weight:600;margin:2px 0 8px}
+.rb-when em{font-style:normal;color:var(--mist);font-weight:500}
+.rb-cardstep{border:1px solid var(--line);border-radius:16px;padding:16px 18px;background:var(--card);transition:.14s}
+.rb-cardstep:hover{border-color:var(--rbblue)}
+.rb-cardstep h5{font-family:var(--disp);font-size:16px;margin-bottom:3px;display:flex;align-items:center;gap:10px}
+.rb-cardstep p{font-size:13.5px;color:var(--slate);line-height:1.6;margin:0}
+.rb-cardstep .rb-open{margin-top:10px}
+/* deadlines */
+.rb-dl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:12px}
+.rb-dl{display:flex;gap:13px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:12px 15px}
+.rb-dl .rb-date{width:42px}
+.rb-dl b{display:block;font-size:13.5px}
+.rb-dl span{font-size:12.5px;color:var(--mist)}
+.rb-note{display:flex;gap:9px;align-items:flex-start;font-size:13px;font-weight:600;color:#B45309;margin:18px 0 2px}
+.rb-note i{font-style:normal}
+/* eligibility modal */
+.el-card{border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:14px}
+.el-card h6{font-size:14.5px;font-family:var(--disp);margin-bottom:2px}
+.el-card .el-sub{font-size:12.5px;color:var(--mist);margin-bottom:12px}
+.el-chips{display:flex;gap:8px;flex-wrap:wrap}
+.el-chip{border:1.5px dashed var(--line-strong);background:var(--card);border-radius:99px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;color:var(--slate)}
+.el-chip.on{border:1.5px solid var(--rbblue);color:var(--rbblue-deep);background:var(--rbblue-bg)}
+.el-row{display:flex;align-items:center;gap:14px}
+.el-row .el-val{flex:1}
+.el-row .el-val b{color:var(--rbblue-deep);font-size:13px;display:block}
+.el-row .el-val span{font-size:12.5px;color:var(--mist)}
+/* ===== builder overlay ===== */
+#bldBg{position:fixed;inset:0;background:var(--paper);z-index:70;display:none;overflow-y:auto}
+#bldBg.on{display:block}
+.bld-top{position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--line);padding:14px 26px;display:flex;align-items:center;gap:10px;z-index:5}
+.bld-step{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:600;color:var(--mist)}
+.bld-step .bnum{width:30px;height:30px;border-radius:50%;background:var(--paper);border:1px solid var(--line-strong);display:flex;align-items:center;justify-content:center;font-size:13px}
+.bld-step.on{color:var(--ink)}
+.bld-step.on .bnum{background:var(--rbblue);border-color:var(--rbblue);color:#fff}
+.bld-step.done .bnum{background:#D7F0E4;border-color:#D7F0E4;color:var(--green)}
+.bld-dash{width:26px;height:1.5px;background:var(--line-strong)}
+.bld-x{margin-left:auto;border:none;background:none;font-size:22px;cursor:pointer;color:var(--ink)}
+.bld-wrap{max-width:960px;margin:0 auto;padding:30px 22px 60px}
+.bld-h{text-align:center;margin-bottom:6px}
+.bld-h h2{font-family:var(--disp);font-size:28px}
+.bld-h h2 em{font-style:normal;color:var(--rbblue)}
+.bld-h p{font-size:13.5px;color:var(--mist);margin-top:4px}
+/* funnel */
+.fn{display:flex;flex-direction:column;align-items:center;margin-top:22px}
+.fn-pill{background:var(--card);border:1px solid var(--line);border-radius:99px;padding:14px 40px;font-family:var(--disp);font-size:16px;box-shadow:0 6px 18px rgba(27,31,58,.05)}
+.fn-link{display:flex;flex-direction:column;align-items:center}
+.fn-link .fn-l{width:2px;height:16px;background:#B9CFF7}
+.fn-add{width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;border:none;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s}
+.fn-add:hover{background:var(--rbblue);transform:scale(1.08)}
+.fn-round{width:100%;max-width:760px;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--card);box-shadow:0 8px 22px rgba(27,31,58,.05)}
+.fn-round .fr-main{padding:17px 20px;display:flex;align-items:center;gap:14px}
+.fn-round .fr-main>div{flex:1;min-width:0}
+.fn-round h5{font-family:var(--disp);font-size:16.5px;margin-bottom:2px}
+.fn-round .fr-desc{font-size:13px;color:var(--slate);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fr-filter{background:linear-gradient(90deg,#F4EFFF,#FDECEF);padding:9px 20px;font-size:12.5px;font-weight:600;color:#7C3AED}
+.fr-del{border:none;background:none;cursor:pointer;font-size:16px;color:var(--mist)}
+.fr-del:hover{color:#C0392B}
+.fn-offer{display:flex;align-items:center;gap:9px}
+.bld-tplbar{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.bld-next{display:flex;justify-content:center;margin-top:30px;gap:12px}
+.btn-blue{background:var(--rbblue);color:#fff;border:none}
+.btn-blue:hover{background:var(--rbblue-deep)}
+.btn-blueghost{background:var(--card);border:1.5px solid var(--rbblue);color:var(--rbblue-deep)}
+/* round type picker */
+.rt-opt{display:flex;gap:15px;align-items:flex-start;border:1px solid var(--line);border-radius:16px;padding:15px;margin-bottom:11px;cursor:pointer;transition:.13s}
+.rt-opt:hover{border-color:var(--rbblue)}
+.rt-opt.on{border:1.5px solid var(--rbblue);background:var(--rbblue-bg)}
+.rt-ic{width:52px;height:52px;border-radius:13px;background:var(--rbblue-bg);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.rt-opt b{font-size:15px;display:block;margin-bottom:2px}
+.rt-opt p{font-size:12.5px;color:var(--slate);line-height:1.55;margin:0}
+.rt-radio{width:20px;height:20px;border-radius:50%;border:2px solid var(--line-strong);flex-shrink:0;margin-top:4px}
+.rt-opt.on .rt-radio{border:6px solid var(--rbblue)}
+@media(max-width:760px){.bld-step span.blbl{display:none}.fn-pill{padding:12px 26px}}
+</style>
+<script>
+/* ================= RECRUITMENT 2.0 MODULE ================= */
+const ROUND_TYPES=[
+ {k:"screen",ic:"\uD83D\uDCCB",n:"Screening Round",d:"You shortlist candidates based on screening questions in the application form."},
+ {k:"assess",ic:"\uD83E\uDDE0",n:"Assessment",d:"A structured online assessment with multiple-choice and problem-solving questions to evaluate knowledge, analytical thinking and role-relevant skills."},
+ {k:"interview",ic:"\uD83C\uDFA5",n:"Interview",d:"A live interview with the core team \u2014 a conversation about the candidate's experience, interests and fit."},
+ {k:"audition",ic:"\uD83C\uDFAD",n:"Audition / Trial",d:"Perform, debate or demonstrate live \u2014 perfect for theatre, music, dance, debating and sports societies."},
+ {k:"submission",ic:"\uD83D\uDCC1",n:"Submission",d:"Accept submissions like PPTs, articles, portfolios, pictures etc. You can also attach a case file or task brief."},
+ {k:"gd",ic:"\uD83D\uDDE3",n:"Group Discussion",d:"Candidates discuss a topic in groups while the panel evaluates communication and reasoning."},
+ {k:"offline",ic:"\uD83C\uDFEB",n:"Others / On-campus / Offline",d:"For offline & on-campus events, or anything custom that doesn't fit the templates \u2014 you define it."}];
+function rtByKey(k){return ROUND_TYPES.find(r=>r.k===k)||ROUND_TYPES[6]}
+function recTemplate(cat){
+  cat=(cat||"").toLowerCase();
+  const mk=(k,n,d)=>({type:k,s:n,desc:d,d:"TBA"});
+  if(cat.includes("theatre")||cat.includes("music")||cat.includes("danc")||cat.includes("comedy"))
+    return [mk("screen","Screening Round","Shortlist from sign-up form responses."),mk("audition","Auditions","Live audition slots \u2014 performance pieces announced here."),mk("interview","Interview","A short chat with the core team about fit and commitment.")];
+  if(cat.includes("debat"))
+    return [mk("screen","Screening Round","Shortlist from the sign-up form."),mk("audition","Trial Debates","Impromptu and prepared rounds judged by seniors."),mk("interview","Interview","Adjudication-style conversation with the core.")];
+  if(cat.includes("finance")||cat.includes("business")||cat.includes("entrepreneur")||cat.includes("social"))
+    return [mk("screen","Screening Round","Shortlist candidates based on screening questions."),mk("submission","Case Submission","A short case task \u2014 brief and deadline announced here."),mk("gd","Group Discussion","Case defence in groups."),mk("interview","Interview","Final round with the core team.")];
+  if(cat.includes("community")||cat.includes("service"))
+    return [mk("screen","Screening Round","Quick shortlist from the volunteer form."),mk("interview","Orientation & Interaction","Meet the team \u2014 informal conversation, everyone welcome.")];
+  return [mk("screen","Screening Round","You shortlist candidates based on screening questions."),mk("assess","Assessment","Skills / aptitude round \u2014 details announced when live."),mk("interview","Interview","Final conversation with the core team.")];
+}
+function ensureRec2(s){
+  const r=s.recruitment;if(!r)return;
+  if(!r.elig)r.elig={who:"Everyone can apply",college:"Everyone can apply",gender:"Everyone can apply"};
+  (r.stages||[]).forEach(st=>{if(!st.type){const n=(st.s||"").toLowerCase();
+    st.type=n.includes("audition")||n.includes("trial")?"audition":n.includes("interview")?"interview":n.includes("form")||n.includes("application")||n.includes("orientation")||n.includes("screen")?"screen":n.includes("result")||n.includes("close")?"offline":"offline"}});
+}
+function rbDateChip(d){
+  const parts=(d||"").replace(/[\u2013\u2014-]/g," ").split(/\s+/).filter(Boolean);
+  const day=parseInt(parts[0]);const mon=parts.find(p=>isNaN(parseInt(p))&&p.length>=3);
+  if(day&&mon)return `<div class="rb-date"><b>${day}</b><span>${mon.slice(0,3)}</span></div>`;
+  return `<div class="rb-date plain"><i>\uD83D\uDCC5</i></div>`;
+}
+/* ---------- STUDENT VIEW (overrides original tabRecruit) ---------- */
+function tabRecruit(s){
+  ensureRec2(s);
+  const r=s.recruitment;
+  const ADM=MANAGE&&isAdminOf(s);
+  const admBar=ADM?`<div class="card" style="padding:14px 18px;margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;border:1.5px solid var(--marigold)">
+    <b style="font-size:13px;margin-right:auto">\uD83D\uDEE0 Recruitment controls \u2014 every section below is editable in place</b>
+    <button class="btn btn-blue btn-sm" onclick="openBuilder()">\u2699 Hiring rounds builder</button>
+    <button class="btn ${r.status==="live"?"btn-ghost":"btn-gold"} btn-sm" onclick="toggleDrive()">${r.status==="live"?"\u23F8 Close drive":"\u25B6 Open recruitment"}</button>
+    <button class="btn btn-ghost btn-sm" onclick="addRole()">\uFF0B Role</button>
+    <button class="btn btn-ghost btn-sm" onclick="postVacancy()">\uFF0B Vacancy</button></div>`:"";
+  const vacs=VAC[s.id]||[];
+  const vacSec=vacs.length?`
+    <div class="rb-sec"><h3>Vacant positions \u2014 apply anytime</h3></div>
+    <div class="role-grid">${vacs.map((v,vi)=>`<div class="card role-card vac"><h5>${v.r} ${ADM?`<button class="xdel" style="float:right" onclick="delVacancy(${vi})">\u00D7</button>`:""}</h5><span class="r-seats">${v.note}</span>
+      <div style="display:flex;gap:8px"><button class="btn btn-ghost btn-sm" onclick="openVJD(${vi})">View JD</button><button class="btn btn-gold btn-sm" onclick="openVJD(${vi})">Apply</button></div></div>`).join("")}</div>`:"";
+  if(r.status==="closed"||!(r.roles||[]).length){
+    return admBar+(vacs.length?`<div class="card" style="padding:16px 20px;margin-bottom:8px;font-size:13.5px;color:var(--slate)">No fresher drive is live right now \u2014 but there are open vacancies below.</div>${vacSec}`
+      :`<div class="empty">No recruitment drive is open right now.<br><span style="font-size:13px">Follow ${s.name} \u2014 you'll know the second applications drop.${ADM?" As admin, use the Hiring rounds builder above to design and launch a drive.":""}</span></div>`);
+  }
+  const live=r.status==="live";
+  const dl=daysLeft(r.closes);
+  const applied=hasApplied(s);
+  const stages=r.stages||[];
+  /* eligibility */
+  const e=r.elig;
+  const eligSec=`<div class="rb-sec"><h3>Eligibility</h3>${ADM?`<button class="btn btn-ghost btn-sm" onclick="openEligModal()">\u270E Edit</button>`:""}</div>
+    <div class="rb-elig">
+      <span>\u2728 ${e.who}</span>
+      ${e.college!=="Everyone can apply"?`<span>\uD83C\uDFDB ${e.college}</span>`:`<span>\uD83C\uDFDB Any college / organisation</span>`}
+      ${e.gender!=="Everyone can apply"?`<span>\uD83D\uDC64 ${e.gender}</span>`:""}
+      <span>\uD83C\uDFAB Free to apply</span><span>\u2713 No experience needed</span>
+    </div>`;
+  /* process timeline */
+  const tl=stages.map((st,i)=>{
+    const state=st.st||"upcoming";
+    const t=rtByKey(st.type||"offline");
+    const pill=state==="done"?'<span class="pill pill-green">Done \u2713</span>':state==="now"?'<span class="pill pill-gold">In progress</span>':"";
+    const range=st.d&&st.d!=="TBA"?`${st.d}${st.d2?` <em>\u2192 ${st.d2}</em>`:""}`:`<em>Dates to be announced</em>`;
+    const chip=i===0?`<div class="rb-date plain"><i>\uD83D\uDCC4</i></div>`:rbDateChip(st.d);
+    const extra=stageContent(st,s);
+    return `<div class="rb-step">
+      <div class="rb-rail">${chip}${i<stages.length-1?'<div class="rb-line"></div>':''}</div>
+      <div class="rb-body">
+        <div class="rb-when">${range}</div>
+        <div class="rb-cardstep">
+          <h5>${t.ic} ${st.s} ${pill}${ADM?`<button class="xdel" style="margin-left:auto" onclick="delStage(${i})">\u00D7</button>`:""}</h5>
+          <p>${st.desc||t.d}</p>
+          ${state==="now"&&extra?`<div class="rb-open">${extra}</div>`:""}
+        </div>
+      </div></div>`}).join("");
+  /* deadlines */
+  const dls=[];
+  if(r.closes&&r.closes.toLowerCase()!=="closed")dls.push({d:r.closes,t:"Application Deadline",x:"Last date to submit your application"});
+  if(r.orientation&&r.orientation!=="TBA"&&r.orientation!=="\u2014")dls.push({d:r.orientation,t:"Orientation",x:r.orientation});
+  if(stages.length)dls.push({d:stages[stages.length-1].d,t:"Final Round",x:stages[stages.length-1].s});
+  const dlSec=dls.length?`<div class="rb-sec"><h3>Important dates &amp; deadlines</h3></div>
+    <div class="rb-dl-grid">${dls.map(x=>`<div class="rb-dl">${rbDateChip(x.d)}<div><b>${x.t}</b><span>${x.x}</span></div></div>`).join("")}</div>`:"";
+  /* apply hero */
+  const hero=`<div class="card" style="padding:18px 22px;margin-bottom:6px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;border:1.5px solid ${live?"var(--rbblue)":"var(--line)"}">
+    <div style="flex:1;min-width:220px">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h3 style="font-family:var(--disp);font-size:21px">${r.title}</h3>${live?'<span class="pill pill-green">\u25CF Applications open</span>':'<span class="pill pill-gold">\u23F3 Opening soon</span>'}</div>
+      <p style="font-size:13px;color:var(--mist);margin:4px 0 0">by ${s.name} \u00B7 designed with the UniGrid hiring-rounds builder \u00B7 your application auto-fills from your profile</p>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:10px">${avStack(s)}<span style="font-size:12.5px;color:var(--mist)"><b style="color:var(--ink)">${r.applied||0}</b> applied so far ${live&&dl!==null?`\u00B7 <b style="color:var(--marigold-deep)">\u23F1 ${dl>0?dl+" day"+(dl===1?"":"s")+" left":"closes today"}</b>`:""}</span></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;min-width:190px">
+    ${live?(applied?`<button class="btn btn-gold applied-btn" style="justify-content:center">\u2713 Applied \u00B7 track in your profile</button>`
+      :`<button class="btn btn-blue" style="justify-content:center" onclick="openApplyPicker()">Apply now \u2014 free</button>`)
+      :`<button class="btn btn-primary" style="justify-content:center" onclick="notifyMe()">\uD83D\uDD14 Notify me</button>`}
+    <span style="font-size:11.5px;color:var(--mist);text-align:center">Closes ${r.closes}</span></div>
+  </div>`;
+  const rolesSec=`<div class="rb-sec" id="rolesSec"><h3>Open positions</h3><span style="font-size:12.5px;color:var(--mist)">${r.roles.length} role${r.roles.length===1?"":"s"}</span></div>
+    <div class="role-grid">${r.roles.map((x,i)=>`<div class="card role-card"><h5>${x.r} ${ADM?`<button class="xdel" style="float:right" onclick="delRole(${i})">\u00D7</button>`:""}</h5><span class="r-seats">${x.seats} seats \u00B7 ${e.who==="Everyone can apply"?"open to all years":e.who}</span>
+      <button class="btn btn-ghost btn-sm" onclick="openJD(${i})">View JD &amp; terms</button></div>`).join("")}</div>`;
+  return admBar+hero+eligSec+
+    `<div class="rb-sec"><h3>Recruitment Process</h3><span style="font-size:12.5px;color:var(--mist)">designed by ${s.name} \u00B7 ${stages.length} round${stages.length===1?"":"s"}</span>${ADM?`<button class="btn btn-ghost btn-sm" onclick="openBuilder(2)">\u270E Edit rounds</button>`:""}</div>
+    <div class="rb-tl">${tl||'<div class="empty">Rounds will appear here once the society publishes its process.</div>'}</div>
+    ${ADM?`<div class="rb-note"><i>\u24D8</i> Candidates see exactly this preview \u2014 add dates & attachments in the builder to complete it.</div>`:""}
+    ${dlSec}${rolesSec}${vacSec}`;
+}
+/* ---------- ELIGIBILITY EDITOR ---------- */
+function openEligModal(){
+  if(!isAdminOf(curSoc))return;ensureRec2(curSoc);
+  const e=curSoc.recruitment.elig;
+  const WHO=["Everyone can apply","1st years only","1st & 2nd years","College students","Freshers","Professionals"];
+  $("modalBox").innerHTML=`<h3>Eligibility</h3><p class="m-sub">Control who can apply for this drive \u2014 shown to every candidate</p>
+    <div class="el-card"><h6>Who can apply?</h6><div class="el-sub">Select candidate type(s) eligible to apply for this drive</div>
+      <div class="el-chips" id="elWho">${WHO.map(w=>`<button class="el-chip ${e.who===w?"on":""}" onclick="setEligWho(this,'${w}')">${w}</button>`).join("")}</div></div>
+    <div class="el-card"><div class="el-row"><div class="el-val" style="max-width:160px"><b style="color:var(--ink);font-size:14px">College / Organisation</b></div>
+      <div class="el-val"><b>${e.college==="Everyone can apply"?"Default : Everyone can apply":e.college}</b><span>Restrict applicants based on their college</span></div>
+      <button class="btn btn-blueghost btn-sm" onclick="changeEligCollege()">\u270E Change</button></div></div>
+    <div class="el-card"><div class="el-row"><div class="el-val" style="max-width:160px"><b style="color:var(--ink);font-size:14px">Gender</b></div>
+      <div class="el-val"><b>${e.gender==="Everyone can apply"?"Default : Everyone can apply":e.gender}</b><span>Restrict applicants based on their gender</span></div>
+      <button class="btn btn-blueghost btn-sm" onclick="changeEligGender()">\u270E Change</button></div></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Close</button>
+    <button class="btn btn-blue btn-sm" onclick="saveElig()">Save</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function setEligWho(btn,w){curSoc.recruitment.elig.who=w;[...btn.parentElement.children].forEach(c=>c.classList.remove("on"));btn.classList.add("on")}
+function changeEligCollege(){const e=curSoc.recruitment.elig;
+  e.college=e.college==="Everyone can apply"?(curCollege&&curCollege.name?curCollege.name+" students only":"Own college only"):"Everyone can apply";openEligModal()}
+function changeEligGender(){const e=curSoc.recruitment.elig;
+  e.gender=e.gender==="Everyone can apply"?"Women only":e.gender==="Women only"?"Men only":"Everyone can apply";openEligModal()}
+function saveElig(){closeModal();renderSociety("recruit");toast("Eligibility updated \u00B7 logged")}
+/* ---------- HIRING ROUNDS BUILDER ---------- */
+let BLD=null;
+function ensureBldRoot(){
+  if($("bldBg"))return;
+  const d=document.createElement("div");d.id="bldBg";document.body.appendChild(d);
+}
+function openBuilder(step){
+  if(!isAdminOf(curSoc))return;ensureRec2(curSoc);ensureBldRoot();
+  const r=curSoc.recruitment;
+  BLD={step:step||1,d:{
+    title:r.title&&!r.title.includes("(closed)")?r.title:"Fresher recruitment 2026",
+    closes:r.closes&&r.closes.toLowerCase().indexOf("close")===-1&&r.closes.toLowerCase().indexOf("open")===-1?r.closes:"30 Sep 2026",
+    orient:r.orientation&&r.orientation!=="\u2014"?r.orientation:"",
+    rounds:(r.stages&&r.stages.length?r.stages.map(st=>({type:st.type||"offline",s:st.s,desc:st.desc||"",d:st.d||"TBA"})):null)
+  }};
+  if(!BLD.d.rounds)BLD.d.rounds=recTemplate(curSoc.cat);
+  bldShow();
+}
+function closeBuilder(){$("bldBg").classList.remove("on")}
+function bldShow(){
+  const stepper=`<div class="bld-top">
+    ${[["1","Create Drive"],["2","Set Hiring Rounds"],["\uD83D\uDCC4","Preview"]].map((x,i)=>{
+      const n=i+1;const cls=BLD.step===n?"on":BLD.step>n?"done":"";
+      return `${i?'<span class="bld-dash"></span>':''}<span class="bld-step ${cls}"><span class="bnum">${cls==="done"?"\u2713":x[0]}</span><span class="blbl">${x[1]}</span></span>`}).join("")}
+    <button class="bld-x" onclick="closeBuilder()">\u2715</button></div>`;
+  let body="";
+  if(BLD.step===1)body=bldStep1();
+  else if(BLD.step===2)body=bldStep2();
+  else body=bldStep3();
+  $("bldBg").innerHTML=stepper+`<div class="bld-wrap">${body}</div>`;
+  $("bldBg").classList.add("on");
+}
+function bldStep1(){
+  const d=BLD.d;const e=curSoc.recruitment.elig;
+  return `<div class="bld-h"><h2>Create <em>Drive</em></h2><p>Name the drive and set its key dates \u2014 you'll design the rounds next</p></div>
+  <div class="card" style="max-width:640px;margin:20px auto 0;padding:24px">
+    <div class="field"><label>Drive title</label><input id="bdT" value="${d.title}"></div>
+    <div class="field"><label>Applications close</label><input id="bdC" value="${d.closes}" placeholder="30 Sep 2026"></div>
+    <div class="field"><label>Orientation (optional)</label><input id="bdO" value="${d.orient}" placeholder="25 Aug \u00B7 Main auditorium \u00B7 5 pm"></div>
+    <div class="el-card" style="margin-bottom:0"><div class="el-row"><div class="el-val"><b style="color:var(--ink);font-size:14px">Eligibility</b><span>\u2728 ${e.who}${e.gender!=="Everyone can apply"?" \u00B7 "+e.gender:""}${e.college!=="Everyone can apply"?" \u00B7 "+e.college:""}</span></div>
+      <button class="btn btn-blueghost btn-sm" onclick="openEligModal()">\u270E Edit</button></div></div>
+  </div>
+  <div class="bld-next"><button class="btn btn-blue" onclick="bldSave1()">Next</button></div>`;
+}
+function bldSave1(){BLD.d.title=$("bdT").value.trim()||BLD.d.title;BLD.d.closes=$("bdC").value.trim()||BLD.d.closes;BLD.d.orient=$("bdO").value.trim();BLD.step=2;bldShow()}
+function bldStep2(){
+  const rounds=BLD.d.rounds;
+  const roundCard=(rd,i)=>{const t=rtByKey(rd.type);
+    return `<div class="fn-round">
+      <div class="fr-main"><span style="font-size:22px">${t.ic}</span><div><h5>${rd.s}</h5><div class="fr-desc">${rd.desc||t.d}</div></div>
+        <button class="btn btn-blueghost btn-sm" onclick="setupRound(${i})">Setup Round</button>
+        <button class="fr-del" onclick="delBldRound(${i})">\uD83D\uDDD1</button></div>
+      <div class="fr-filter">\u26A1 Auto-filter candidates who don't meet basic criteria</div>
+    </div>`};
+  const link=i=>`<div class="fn-link"><span class="fn-l"></span><button class="fn-add" title="Add a round here" onclick="openRoundPicker(${i})">+</button><span class="fn-l"></span></div>`;
+  return `<div class="bld-h"><h2>Hiring <em>Rounds</em></h2><p>Recommended for ${curSoc.cat} societies \u2014 use it as-is, tweak it, or build your own from scratch</p></div>
+  <div class="bld-tplbar">
+    <button class="btn btn-ghost btn-sm" onclick="useTemplate()">\u2728 Use recommended template</button>
+    <button class="btn btn-ghost btn-sm" onclick="startScratch()">\uD83E\uDDF9 Start from scratch</button>
+  </div>
+  <div class="fn">
+    <div class="fn-pill">\uD83D\uDCC4 Application Form</div>
+    ${link(0)}
+    ${rounds.map((rd,i)=>roundCard(rd,i)+(i<rounds.length?link(i+1):"")).join("")}
+    <div class="fn-pill fn-offer">\uD83C\uDF96 Offer Rollout</div>
+  </div>
+  <div class="bld-next"><button class="btn btn-ghost" onclick="BLD.step=1;bldShow()">Back</button><button class="btn btn-blue" onclick="BLD.step=3;bldShow()">Next</button></div>`;
+}
+function useTemplate(){BLD.d.rounds=recTemplate(curSoc.cat);bldShow();toast("Recommended template loaded \u2014 tweak anything")}
+function startScratch(){BLD.d.rounds=[];bldShow();toast("Blank canvas \u2014 hit + to add your first round")}
+function delBldRound(i){BLD.d.rounds.splice(i,1);bldShow()}
+let RT_SEL=null,RT_AT=0;
+function openRoundPicker(at){
+  RT_AT=at;RT_SEL=null;
+  $("modalBox").innerHTML=`<h3>Select round type</h3><p class="m-sub">Pick a template \u2014 or "Others" to define your own custom round</p>
+    <div style="max-height:52vh;overflow-y:auto;padding-right:4px">
+    ${ROUND_TYPES.map(t=>`<div class="rt-opt" id="rt_${t.k}" onclick="pickRT('${t.k}')"><div class="rt-ic">${t.ic}</div><div style="flex:1"><b>${t.n}</b><p>${t.d}</p></div><span class="rt-radio"></span></div>`).join("")}
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-blue btn-sm" id="rtConfirm" style="opacity:.5" onclick="confirmRT()">Confirm</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function pickRT(k){RT_SEL=k;ROUND_TYPES.forEach(t=>$("rt_"+t.k).classList.toggle("on",t.k===k));$("rtConfirm").style.opacity=1}
+function confirmRT(){
+  if(!RT_SEL){toast("Pick a round type first");return}
+  const t=rtByKey(RT_SEL);
+  BLD.d.rounds.splice(RT_AT,0,{type:t.k,s:t.n,desc:"",d:"TBA"});
+  closeModal();bldShow();setupRound(RT_AT);
+}
+function setupRound(i){
+  const rd=BLD.d.rounds[i];const t=rtByKey(rd.type);
+  $("modalBox").innerHTML=`<h3>${t.ic} Setup round</h3><p class="m-sub">Everything here is yours to customise \u2014 candidates see it on the timeline</p>
+    <div class="field"><label>Round name</label><input id="srN" value="${rd.s}"></div>
+    <div class="field"><label>Date</label><input id="srD" value="${rd.d==="TBA"?"":rd.d}" placeholder="28 Aug 2026"></div>
+    <div class="field"><label>Description for candidates</label><input id="srX" value="${(rd.desc||"").replace(/"/g,'&quot;')}" placeholder="${t.d}"></div>
+    <div class="field"><label>Attach</label><select id="srA"><option value="">Nothing</option><option value="form" ${rd.form?"selected":""}>Application form link</option><option value="group" ${rd.group?"selected":""}>Round group join</option><option value="task" ${rd.task?"selected":""}>Task / case file for candidates</option></select></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-blue btn-sm" onclick="saveRoundSetup(${i})">Save round</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function saveRoundSetup(i){
+  const rd=BLD.d.rounds[i];
+  rd.s=$("srN").value.trim()||rd.s;rd.d=$("srD").value.trim()||"TBA";rd.desc=$("srX").value.trim();
+  delete rd.form;delete rd.group;delete rd.task;
+  const a=$("srA").value;if(a==="form")rd.form=1;if(a==="group")rd.group=1;if(a==="task")rd.task="Task details added by the society.";
+  closeModal();bldShow();toast("Round saved");
+}
+function bldStep3(){
+  const d=BLD.d;const e=curSoc.recruitment.elig;
+  const tl=d.rounds.map((rd,i)=>{const t=rtByKey(rd.type);
+    return `<div class="rb-step"><div class="rb-rail">${i===0?'<div class="rb-date plain"><i>\uD83D\uDCC4</i></div>':rbDateChip(rd.d)}${i<d.rounds.length-1?'<div class="rb-line"></div>':''}</div>
+    <div class="rb-body"><div class="rb-when">${rd.d!=="TBA"?rd.d:"<em>Dates to be announced</em>"}</div>
+    <div class="rb-cardstep"><h5>${t.ic} ${rd.s}</h5><p>${rd.desc||t.d}</p></div></div></div>`}).join("");
+  return `<div class="bld-h"><h2>Preview <em>&amp; Publish</em></h2><p>This is exactly what candidates will see on your Recruitment tab</p></div>
+  <div class="card" style="max-width:760px;margin:20px auto 0;padding:24px">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px"><h3 style="font-family:var(--disp);font-size:20px">${d.title}</h3><span class="pill pill-green">Live on publish</span></div>
+    <div class="rb-elig" style="margin:8px 0 4px"><span>\u2728 ${e.who}</span>${e.gender!=="Everyone can apply"?`<span>\uD83D\uDC64 ${e.gender}</span>`:""}<span>\uD83C\uDFAB Free to apply</span></div>
+    <div class="rb-sec"><h3>Recruitment Process</h3></div>
+    <div class="rb-tl">${tl||'<div class="empty">No rounds yet \u2014 go back and add at least one.</div>'}</div>
+    <div class="rb-note"><i>\u24D8</i> This is a demo representation \u2014 add the dates / attachments to complete the candidate preview!</div>
+    <div class="rb-sec"><h3>Important dates &amp; deadlines</h3></div>
+    <div class="rb-dl-grid"><div class="rb-dl">${rbDateChip(d.closes)}<div><b>Application Deadline</b><span>${d.closes}</span></div></div>
+    ${d.orient?`<div class="rb-dl">${rbDateChip(d.orient)}<div><b>Orientation</b><span>${d.orient}</span></div></div>`:""}</div>
+  </div>
+  <div class="bld-next"><button class="btn btn-ghost" onclick="BLD.step=2;bldShow()">Back</button><button class="btn btn-blue" onclick="publishDrive()">\uD83D\uDE80 Publish drive</button></div>`;
+}
+function publishDrive(){
+  const r=curSoc.recruitment;const d=BLD.d;
+  r.title=d.title;r.closes=d.closes;r.orientation=d.orient||"TBA";
+  r.stages=d.rounds.map((rd,i)=>{const st={d:rd.d,d2:rd.d2,s:rd.s,st:i===0?"now":"upcoming",type:rd.type,desc:rd.desc||rtByKey(rd.type).d};
+    if(rd.form||i===0)st.form=1;if(rd.group)st.group=1;if(rd.task)st.task=rd.task;return st});
+  if(!(r.roles||[]).length)r.roles=[{r:"Member",seats:20}];
+  r.applied=r.applied||0;r.status="live";
+  closeBuilder();renderSociety("recruit");toast("\uD83C\uDF89 Drive published \u2014 followers notified \u00B7 logged");
+}
+</script>
+
+<style>
+/* ===== Profile & History 2.0 ===== */
+.p2-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:16px}
+.p2-stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;text-align:center;position:relative}
+.p2-stat b{font-family:var(--disp);font-size:24px;display:block;color:var(--ink)}
+.p2-stat span{font-size:12.5px;color:var(--mist)}
+.p2-stat .xdel{position:absolute;top:8px;right:10px}
+.p2-chips{display:flex;gap:9px;flex-wrap:wrap}
+.p2-chip{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:1px solid var(--line);border-radius:99px;padding:8px 16px;font-size:13px;font-weight:600}
+.p2-chip .xdel{font-size:13px}
+.wt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:13px}
+.wt{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:17px 18px;transition:.14s;position:relative}
+.wt:hover{border-color:var(--marigold)}
+.wt h5{font-family:var(--disp);font-size:15.5px;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.wt p{font-size:13px;color:var(--slate);line-height:1.6;margin:0 0 8px}
+.wt .wt-size{font-size:12px;color:var(--marigold-deep);font-weight:700}
+.wt .xdel{position:absolute;top:12px;right:12px}
+.al-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:13px}
+.al{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;gap:13px;align-items:center;position:relative}
+.al b{font-size:14px;display:block}
+.al .al-role{font-size:12.5px;color:var(--slate)}
+.al .al-batch{font-size:11.5px;color:var(--mist)}
+.al .xdel{position:absolute;top:10px;right:11px}
+.p2-team{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.p2-team .mem{position:relative}
+.p2-team .mem .xdel{position:absolute;top:8px;right:10px;margin:0}
+.act-list .mrow-flex{padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+.act-list .mrow-flex:last-child{border-bottom:none}
+.p2-addsec{margin:30px 0 50px;display:flex;justify-content:center}
+.p2-secdel{margin-left:6px}
+.p2-custom p{font-size:14.5px;color:var(--slate);line-height:1.75;max-width:760px;white-space:pre-line}
+</style>
+<script>
+/* ================= PROFILE & HISTORY 2.0 ================= */
+const P2_DEF=["about","team","why","stats","workteams","life","alumni","reviews","faqs"];
+const P2_LABELS={about:"Introduction / About",team:"Our Team",why:"Why join?",stats:"Statistics & prominent recruiters",workteams:"Work Teams",life:"Activities & life",alumni:"Alumni",reviews:"Reviews",faqs:"FAQs",journey:"Journey & milestones"};
+function p2Seed(s){return [...s.id].reduce((a,ch)=>a+ch.charCodeAt(0),0)}
+function p2Names(s,count,off){
+  const seed=p2Seed(s)+(off||0);
+  const FE=["Aisha","Riya","Sara","Meera","Zoya","Naina","Ananya","Priya"],MIX=["Aisha","Kabir","Riya","Aarav","Sara","Ishaan","Meera","Dev"],L=["Sharma","Verma","Khan","Mehta","Iyer","Das","Kapoor","Singh"];
+  const pool=(curCollege&&curCollege.womens)?FE:MIX;
+  return Array.from({length:count}).map((_,i)=>pool[(seed+i*3)%pool.length]+" "+L[(seed+i*5)%L.length]);
+}
+function ensureP2(s){
+  if(s.p2)return;
+  const cat=(s.cat||"").toLowerCase();const seed=p2Seed(s);
+  const roles=["President","Vice president","General secretary","Treasurer","Events head","Marketing head"];
+  const CO=["B.A. (H) Economics","B.Com (H)","B.Sc (H) Maths","B.A. (H) Pol. Science","B.A. (H) English","B.Sc (H) Physics"];
+  const names=p2Names(s,6);
+  const isBiz=cat.includes("finance")||cat.includes("business")||cat.includes("entrepreneur")||cat.includes("social");
+  s.p2={
+    order:[...P2_DEF],
+    team:names.map((n,i)=>({n,r:roles[i],co:CO[(seed+i)%CO.length]+" \u00B7 3rd year"})),
+    stats:[{v:s.members+"",l:"active members"},{v:(s.followers||0).toLocaleString("en-IN"),l:"followers"},{v:(2026-(s.founded||2010))+"+",l:"years of legacy"},{v:(s.events||[]).length+((s.posts||[]).length||2)+"",l:"events & wins logged"}],
+    recruiters:isBiz?["Deloitte","KPMG","Bain Capability Network","D. E. Shaw","Teach For India","Zomato"]
+      :cat.includes("theatre")||cat.includes("music")||cat.includes("comedy")?["NSD workshops","Prithvi Theatre fest","Zee Theatre","T-Series campus tour"]
+      :cat.includes("debat")?["Oxford Union exchange","Harvard MUN circuit","The Hindu Ed."]
+      :cat.includes("community")||cat.includes("service")?["UNV India","Goonj","Teach For India","Smile Foundation"]
+      :["Campus placement cell partners","Alumni startups","Inter-college fests"],
+    workteams:isBiz?[{n:"Research & Projects",ic:"\uD83D\uDD2C",d:"Field research, impact measurement and running live projects end-to-end.",sz:Math.max(6,Math.round(s.members*.3))},
+        {n:"Marketing & Outreach",ic:"\uD83D\uDCE3",d:"Brand, socials, sponsorships and campus campaigns.",sz:Math.max(4,Math.round(s.members*.22))},
+        {n:"Finance & Operations",ic:"\uD83D\uDCB0",d:"Budgets, vendor management and event operations.",sz:Math.max(4,Math.round(s.members*.2))},
+        {n:"Content & Design",ic:"\uD83C\uDFA8",d:"Decks, reels, posters and everything the world sees.",sz:Math.max(3,Math.round(s.members*.15))}]
+      :[{n:"Core / Production",ic:"\u2699",d:"Owns the flagship work of the society end-to-end.",sz:Math.max(6,Math.round(s.members*.35))},
+        {n:"Events & Logistics",ic:"\uD83C\uDFAA",d:"Plans and runs every event, big or small.",sz:Math.max(4,Math.round(s.members*.25))},
+        {n:"Marketing & Socials",ic:"\uD83D\uDCE3",d:"Outreach, collabs and the society's public face.",sz:Math.max(3,Math.round(s.members*.2))},
+        {n:"Design & Content",ic:"\uD83C\uDFA8",d:"Posters, reels and documentation.",sz:Math.max(3,Math.round(s.members*.15))}],
+    activities:["Weekly team meets & mentoring circles","Flagship annual event run entirely by members","Inter-college competitions and fests","Team day-outs, farewells and fresher welcomes"],
+    alumni:p2Names(s,4,17).map((n,i)=>({n,r:["Consultant \u00B7 BCG","Product @ Razorpay","MBA \u00B7 IIM Ahmedabad","Founder \u00B7 early-stage startup"][i],b:"Batch of "+(2019+i)})),
+    custom:[]
+  };
+}
+/* ---------- SECTION RENDERERS ---------- */
+function p2Btn(ADM,fn,label){return ADM?`<button class="btn btn-ghost btn-sm sedit" onclick="${fn}">${label}</button>`:""}
+function p2Del(ADM,key){return ADM?`<button class="btn btn-ghost btn-sm p2-secdel" title="Remove this section" onclick="remSection('${key}')">\uD83D\uDDD1 Remove</button>`:""}
+function tabProfile(s){
+  ensureP2(s);
+  const ADM=MANAGE&&isAdminOf(s);
+  const R=richFor(s);const p2=s.p2;const ct=s.contact||{};
+  const SEC={};
+  /* 1. Introduction / About */
+  const det=[["\uD83C\uDFF7","Category",s.cat],["\uD83D\uDCC5","Founded",s.founded],["\uD83D\uDC65","Members",s.members+" active members"],["\u2709","Email",ct.email],["\uD83D\uDCF7","Instagram",ct.insta],["\uD83D\uDD17","LinkedIn",ct.linkedin],["\uD83C\uDF10","Website",ct.web]].filter(x=>x[2]);
+  det.push(["\u2705","Status",s.verified?"Verified on UniGrid":"Verification pending"]);
+  SEC.about=`<div class="sect sect-first"><div class="sect-h"><h3>Introduction</h3>${p2Btn(ADM,"editAbout()","\u270E Edit")}${p2Del(ADM,"about")}</div>
+    <p class="about-p">${s.about}</p>
+    <div class="sect-h" style="margin-top:18px"><h3 style="font-size:16px">Details</h3>${p2Btn(ADM,"editDetails()","\u270E Edit details")}</div>
+    <div class="det-grid">${det.map(([ic,l,v])=>`<div class="det-row"><span class="det-ic">${ic}</span><span class="det-l">${l}</span><span class="det-v">${v}</span></div>`).join("")}</div></div>`;
+  /* 2. Our Team */
+  SEC.team=`<div class="sect"><div class="sect-h"><h3>Our Team</h3><span>core committee ${s.founded?2026-s.founded>1?"2026\u201327":"":""}</span>${p2Btn(ADM,"addTeamMem()","\uFF0B Add member")}${p2Del(ADM,"team")}</div>
+    <div class="p2-team">${p2.team.map((m,i)=>{const mc=avColor(m.n);
+      return `<div class="mem" style="padding:15px"><div class="avatar" style="background:${mc[0]};color:${mc[1]};width:48px;height:48px;margin:0 auto 8px;font-size:14px">${initials(m.n)}</div>
+      <b style="font-size:13.5px">${m.n}</b><span class="m-role" style="font-size:12px">${m.r}</span><div class="m-course" style="margin-bottom:0">${m.co||""}</div>
+      ${ADM?`<button class="xdel" onclick="delTeamMem(${i})">\u00D7</button>`:""}</div>`}).join("")}</div>
+    <div style="margin-top:12px"><button class="btn btn-ghost btn-sm" onclick="renderSociety('members')">See the full roster \u2192 Members tab</button></div></div>`;
+  /* 3. Why join */
+  SEC.why=`<div class="sect"><div class="sect-h"><h3>Why ${s.name}?</h3><span>what you actually get out of it</span>${p2Btn(ADM,"addLearn()","\uFF0B Add")}${p2Del(ADM,"why")}</div>
+    <div class="learn-list">${R.learn.map((l,i)=>`<div class="mrow-flex"><span style="flex:1">\u2726&nbsp; ${l}</span>${ADM?`<button class="xdel" onclick="delLearn(${i})">\u00D7</button>`:""}</div>`).join("")}</div></div>`;
+  /* 4. Statistics & recruiters */
+  SEC.stats=`<div class="sect"><div class="sect-h"><h3>Statistics</h3>${p2Btn(ADM,"addStat()","\uFF0B Add stat")}${p2Del(ADM,"stats")}</div>
+    <div class="p2-stats">${p2.stats.map((st,i)=>`<div class="p2-stat"><b>${st.v}</b><span>${st.l}</span>${ADM?`<button class="xdel" onclick="delStat(${i})">\u00D7</button>`:""}</div>`).join("")}</div>
+    <div class="sect-h" style="margin-top:6px"><h3 style="font-size:16px">Prominent recruiters &amp; partners</h3>${p2Btn(ADM,"addRecruiter()","\uFF0B Add")}</div>
+    <div class="p2-chips">${p2.recruiters.map((r,i)=>`<span class="p2-chip">${r}${ADM?`<button class="xdel" onclick="delRecruiter(${i})">\u00D7</button>`:""}</span>`).join("")||'<span style="font-size:13px;color:var(--mist)">None added yet.</span>'}</div></div>`;
+  /* 5. Work Teams */
+  SEC.workteams=`<div class="sect"><div class="sect-h"><h3>Work Teams</h3><span>where you'd actually be placed</span>${p2Btn(ADM,"addWorkteam()","\uFF0B Add team")}${p2Del(ADM,"workteams")}</div>
+    <div class="wt-grid">${p2.workteams.map((w,i)=>`<div class="wt"><h5>${w.ic||"\u2699"} ${w.n}</h5><p>${w.d}</p><span class="wt-size">${w.sz} members</span>${ADM?`<button class="xdel" onclick="delWorkteam(${i})">\u00D7</button>`:""}</div>`).join("")}</div></div>`;
+  /* 6. Activities & life */
+  SEC.life=`<div class="sect"><div class="sect-h"><h3>Activities &amp; life at ${s.name}</h3><span>events \u00B7 team bonding \u00B7 day outs</span>${p2Btn(ADM,"addActivity()","\uFF0B Add activity")}${p2Del(ADM,"life")}</div>
+    <div class="act-list" style="margin-bottom:16px">${p2.activities.map((a,i)=>`<div class="mrow-flex"><span style="flex:1">\uD83C\uDFAF&nbsp; ${a}</span>${ADM?`<button class="xdel" onclick="delActivity(${i})">\u00D7</button>`:""}</div>`).join("")}</div>
+    <div class="gal-grid">${R.gallery.slice(0,ADM?12:6).map((g,i)=>`<div class="gal-tile gt${i%4}"><span>${g}</span>${ADM?`<button class="tdel" onclick="delPhoto(${i})">\u00D7</button>`:""}</div>`).join("")}
+    ${ADM?`<div class="gal-tile gal-add" onclick="addPhoto()">\uFF0B Add photo</div>`:""}</div></div>`;
+  /* 7. Alumni */
+  SEC.alumni=`<div class="sect"><div class="sect-h"><h3>Alumni</h3><span>where our people end up</span>${p2Btn(ADM,"addAlum()","\uFF0B Add alum")}${p2Del(ADM,"alumni")}</div>
+    <div class="al-grid">${p2.alumni.map((a,i)=>{const ac=avColor(a.n);
+      return `<div class="al"><div class="avatar" style="background:${ac[0]};color:${ac[1]};width:44px;height:44px;font-size:13px;flex-shrink:0">${initials(a.n)}</div>
+      <div><b>${a.n}</b><span class="al-role">${a.r}</span><div class="al-batch">${a.b}</div></div>
+      ${ADM?`<button class="xdel" onclick="delAlum(${i})">\u00D7</button>`:""}</div>`}).join("")||'<div class="empty" style="grid-column:1/-1;text-align:left;padding:16px 20px">No alumni added yet.</div>'}</div></div>`;
+  /* 8. Reviews */
+  SEC.reviews=`<div class="sect"><div class="sect-h"><h3>Reviews</h3><span>from current &amp; past members</span>${p2Btn(ADM,"addTesti()","\uFF0B Add review")}${p2Del(ADM,"reviews")}</div>
+    <div class="testi-grid">${R.testi.map((t,i)=>`<div class="testi"><p>\u201C${t.q}\u201D</p><div class="mrow-flex"><span style="flex:1"><b>${t.n}</b><span style="display:block;font-size:12.5px;color:var(--mist)">${t.y}</span></span>${ADM?`<button class="xdel" onclick="delTesti(${i})">\u00D7</button>`:""}</div></div>`).join("")}</div></div>`;
+  /* 9. FAQs */
+  SEC.faqs=`<div class="sect"><div class="sect-h"><h3>FAQs</h3>${p2Btn(ADM,"addFaq()","\uFF0B Add FAQ")}${p2Del(ADM,"faqs")}</div>
+    <div class="faq-list">${R.faqs.map(([q,a],i)=>`<details class="faq"><summary>${q}${ADM?`<button class="xdel" style="margin-left:auto" onclick="event.preventDefault();event.stopPropagation();delFaq(${i})">\u00D7</button>`:""}</summary><p>${a}</p></details>`).join("")}</div></div>`;
+  /* optional: journey & milestones (re-addable) */
+  const idx=s.posts.map((p,oi)=>({p,oi})).sort((a,b)=>b.p.y-a.p.y);
+  const groups={};idx.forEach(x=>{const k=ayStart(x.p);(groups[k]=groups[k]||[]).push(x)});
+  const years=Object.keys(groups).map(Number).sort((a,b)=>b-a);
+  const msRow=x=>{const p=x.p;const tagPill=p.tag==="Achievement"?"pill-gold":p.tag==="Recruitment"?"pill-green":"pill-gray";
+    return `<div class="mstone"><div class="ms-dot"></div><div class="ms-body">
+      <div class="ms-top"><b>${p.title}</b><span class="pill ${tagPill}">${p.tag}</span>${ADM?`<span class="rowtools"><button onclick="addMilestone(${x.oi})">\u270E</button><button onclick="delMilestone(${x.oi})">\uD83D\uDDD1</button></span>`:""}</div>
+      <span class="ms-date">${p.date}</span><p>${p.text}</p></div></div>`};
+  SEC.journey=`<div class="sect"><div class="sect-h"><h3>Journey &amp; milestones</h3><span>year by year</span>${p2Btn(ADM,"addMilestone()","\uFF0B Add milestone")}${p2Del(ADM,"journey")}</div>
+    ${idx.length?`<div class="mstone-list">${years.map(y=>`<div class="ms-year">${y}\u2013${String((y+1)%100).padStart(2,"0")}</div>${groups[y].map(msRow).join("")}`).join("")}</div>`:`<div class="empty" style="text-align:left;padding:18px 22px;max-width:660px">No milestones yet \u2014 add your first one.</div>`}</div>`;
+  /* custom sections */
+  const customHTML=i=>{const cs=p2.custom[i];
+    return `<div class="sect p2-custom"><div class="sect-h"><h3>${cs.t}</h3>${p2Btn(ADM,`editCustomSec(${i})`,"\u270E Edit")}${ADM?`<button class="btn btn-ghost btn-sm p2-secdel" onclick="delCustomSec(${i})">\uD83D\uDDD1 Remove</button>`:""}</div><p>${cs.x}</p></div>`};
+  /* assemble in owner-controlled order */
+  let out=p2.order.map(k=>k.startsWith("custom:")?customHTML(parseInt(k.split(":")[1])):(SEC[k]||"")).join("");
+  if(ADM)out+=`<div class="p2-addsec"><button class="btn btn-gold" onclick="openAddSection()">\uFF0B Add a section</button></div>`;
+  else out+=`<div style="height:44px"></div>`;
+  return out;
+}
+/* ---------- SECTION MANAGEMENT ---------- */
+function remSection(k){if(!isAdminOf(curSoc))return;
+  curSoc.p2.order=curSoc.p2.order.filter(x=>x!==k);renderSociety("profile");toast("Section removed \u2014 re-add it anytime via \u201C\uFF0B Add a section\u201D \u00B7 logged")}
+function openAddSection(){
+  if(!isAdminOf(curSoc))return;const p2=curSoc.p2;
+  const missing=[...P2_DEF,"journey"].filter(k=>!p2.order.includes(k));
+  $("modalBox").innerHTML=`<h3>Add a section</h3><p class="m-sub">Bring back a removed section, or create a completely custom one</p>
+    ${missing.length?missing.map(k=>`<div class="ropt" onclick="addBackSection('${k}')"><b>${P2_LABELS[k]}</b><span>Standard UniGrid section</span></div>`).join(""):'<p style="font-size:13px;color:var(--mist);margin-bottom:12px">All standard sections are already on your page.</p>'}
+    <div class="ropt" onclick="closeModal();editCustomSec(-1)"><b>\u2728 Custom section</b><span>Your own title + content \u2014 anything you want the world to know</span></div>`;
+  $("modalBg").classList.add("on");
+}
+function addBackSection(k){curSoc.p2.order.push(k);closeModal();renderSociety("profile");toast("Section added \u00B7 logged")}
+function editCustomSec(i){
+  const cs=i>=0?curSoc.p2.custom[i]:{t:"",x:""};
+  $("modalBox").innerHTML=`<h3>${i>=0?"Edit":"New"} custom section</h3>
+    <div class="field"><label>Section title</label><input id="csT" value="${(cs.t||"").replace(/"/g,'&quot;')}" placeholder="Our national wins / Sponsors / Press coverage\u2026"></div>
+    <div class="field"><label>Content</label><textarea id="csX" rows="5" style="width:100%;border:1px solid var(--line-strong);border-radius:10px;padding:10px;font:inherit">${cs.x||""}</textarea></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="saveCustomSec(${i})">Save section</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function saveCustomSec(i){
+  const t=$("csT").value.trim(),x=$("csX").value.trim();
+  if(!t){toast("Give the section a title");return}
+  if(i>=0){curSoc.p2.custom[i]={t,x}}
+  else{curSoc.p2.custom.push({t,x});curSoc.p2.order.push("custom:"+(curSoc.p2.custom.length-1))}
+  closeModal();renderSociety("profile");toast("Custom section saved \u00B7 logged");
+}
+function delCustomSec(i){if(!isAdminOf(curSoc))return;
+  curSoc.p2.order=curSoc.p2.order.filter(x=>x!=="custom:"+i);renderSociety("profile");toast("Section removed \u00B7 logged")}
+/* ---------- ITEM EDITORS ---------- */
+function p2TwoField(title,f1,f2,onSave,f3){
+  $("modalBox").innerHTML=`<h3>${title}</h3>
+    <div class="field"><label>${f1[0]}</label><input id="p2A" placeholder="${f1[1]}"></div>
+    ${f2?`<div class="field"><label>${f2[0]}</label><input id="p2B" placeholder="${f2[1]}"></div>`:""}
+    ${f3?`<div class="field"><label>${f3[0]}</label><input id="p2C" placeholder="${f3[1]}"></div>`:""}
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="${onSave}">Add</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function addStat(){p2TwoField("Add a statistic",["Value","120+"],["Label","women artisans supported"],"saveStat()")}
+function saveStat(){const v=$("p2A").value.trim(),l=$("p2B").value.trim();if(!v||!l){toast("Fill both fields");return}
+  curSoc.p2.stats.push({v,l});closeModal();renderSociety("profile");toast("Stat added \u00B7 logged")}
+function delStat(i){curSoc.p2.stats.splice(i,1);renderSociety("profile");toast("Removed \u00B7 logged")}
+function addRecruiter(){p2TwoField("Add recruiter / partner",["Name","Deloitte \u00B7 KPMG \u00B7 NSD\u2026"],null,"saveRecruiter()")}
+function saveRecruiter(){const v=$("p2A").value.trim();if(!v){toast("Name it first");return}
+  curSoc.p2.recruiters.push(v);closeModal();renderSociety("profile");toast("Added \u00B7 logged")}
+function delRecruiter(i){curSoc.p2.recruiters.splice(i,1);renderSociety("profile");toast("Removed \u00B7 logged")}
+function addWorkteam(){p2TwoField("Add a work team",["Team name","Sponsorship & PR"],["What it does","Owns brand deals and media partnerships"],"saveWorkteam()",["Team size","8"])}
+function saveWorkteam(){const n=$("p2A").value.trim();if(!n){toast("Name the team");return}
+  curSoc.p2.workteams.push({n,ic:"\u2699",d:$("p2B").value.trim()||"Details coming soon.",sz:parseInt($("p2C").value)||5});
+  closeModal();renderSociety("profile");toast("Team added \u00B7 logged")}
+function delWorkteam(i){curSoc.p2.workteams.splice(i,1);renderSociety("profile");toast("Removed \u00B7 logged")}
+function addActivity(){p2TwoField("Add an activity",["Activity","Annual production tour across 5 cities"],null,"saveActivity()")}
+function saveActivity(){const v=$("p2A").value.trim();if(!v){toast("Describe the activity");return}
+  curSoc.p2.activities.push(v);closeModal();renderSociety("profile");toast("Added \u00B7 logged")}
+function delActivity(i){curSoc.p2.activities.splice(i,1);renderSociety("profile");toast("Removed \u00B7 logged")}
+function addAlum(){p2TwoField("Add an alum",["Name","Ishita Verma"],["Now at","Consultant \u00B7 BCG"],"saveAlum()",["Batch","Batch of 2021"])}
+function saveAlum(){const n=$("p2A").value.trim();if(!n){toast("Name them first");return}
+  curSoc.p2.alumni.push({n,r:$("p2B").value.trim()||"\u2014",b:$("p2C").value.trim()||""});
+  closeModal();renderSociety("profile");toast("Alum added \u00B7 logged")}
+function delAlum(i){curSoc.p2.alumni.splice(i,1);renderSociety("profile");toast("Removed \u00B7 logged")}
+function addTeamMem(){p2TwoField("Add a core team member",["Name","Ananya Gupta"],["Role","Cultural secretary"],"saveTeamMem()",["Course & year","B.Com (H) \u00B7 2nd year"])}
+function saveTeamMem(){const n=$("p2A").value.trim();if(!n){toast("Name them first");return}
+  curSoc.p2.team.push({n,r:$("p2B").value.trim()||"Core team",co:$("p2C").value.trim()||""});
+  closeModal();renderSociety("profile");toast("Member added \u00B7 logged")}
+function delTeamMem(i){curSoc.p2.team.splice(i,1);renderSociety("profile");toast("Removed \u00B7 logged")}
+</script>
+
+<style>
+/* ===== Profile & History 3.0 — LinkedIn-style controls ===== */
+.lki{width:38px;height:38px;border-radius:50%;border:none;background:transparent;font-size:17px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:#3D3D3D;transition:.12s;flex-shrink:0}
+.lki:hover{background:rgba(0,0,0,.08)}
+.lki.sm{width:30px;height:30px;font-size:14px}
+.sect-h .lkgrp{margin-left:auto;display:flex;align-items:center;gap:2px}
+.lk-text{white-space:pre-line;font-size:14.5px;color:var(--slate);line-height:1.75;max-width:780px}
+.lk-ta{width:100%;border:1px solid var(--line-strong);border-radius:10px;padding:12px;font:inherit;font-size:14px;line-height:1.65;resize:vertical}
+/* stats editor rows */
+.sted{display:flex;gap:8px;align-items:center;margin-bottom:9px}
+.sted input{flex:1;min-width:0}
+.sted input.v{max-width:110px}
+/* activity cards with photo+desc */
+.actc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.actc{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;position:relative;transition:.14s;display:flex;flex-direction:column}
+.actc:hover{border-color:var(--marigold)}
+.actc-ph{height:120px;background:linear-gradient(135deg,#EFEDE4,#DEDCCF);display:flex;align-items:flex-end;padding:12px;font-size:12px;color:var(--slate);font-weight:600}
+.actc-ph.p1{background:linear-gradient(135deg,#E7EBDD,#CFD8C2)}
+.actc-ph.p2{background:linear-gradient(135deg,#EDE3EA,#DCC8D8)}
+.actc-ph.p3{background:linear-gradient(135deg,#E2E7EE,#C7D2E0)}
+.actc-body{padding:13px 15px 15px;flex:1}
+.actc-body h5{font-family:var(--disp);font-size:15px;margin-bottom:4px}
+.actc-body p{font-size:13px;color:var(--slate);line-height:1.55;margin:0}
+.actc .actools{position:absolute;top:8px;right:8px;display:flex;gap:4px}
+.actc .actools .lki{background:rgba(255,255,255,.85)}
+.actc .actools .lki:hover{background:#fff}
+/* alumni card extras */
+.al{flex-wrap:wrap}
+.al .al-desc{width:100%;font-size:12.5px;color:var(--slate);line-height:1.55;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+.al .altools{position:absolute;top:8px;right:9px;display:flex;gap:2px}
+.al-ph{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#EFEDE4,#DEDCCF);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+/* team card tools */
+.p2-team .mem .memtools{position:absolute;top:6px;right:8px;display:flex;gap:2px}
+</style>
+<script>
+/* ================= PROFILE & HISTORY 3.0 ================= */
+function p3esc(v){return String(v==null?"":v).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;")}
+function migrateP2(s){
+  ensureP2(s);const p2=s.p2;
+  p2.team.forEach(m=>{
+    if(m.course===undefined){const parts=(m.co||"").split("\u00B7").map(x=>x.trim());m.course=parts[0]||"";m.yr=parts[1]||"";delete m.co}
+    if(m.email===undefined)m.email=""});
+  if(p2.whyText===undefined){const R=richFor(s);
+    p2.whyText="Joining "+s.name+" isn't just a line on your CV \u2014 it's the room where you learn by doing.\n\n"+R.learn.map(l=>"\u2192 "+l).join("\n")}
+  p2.activities=p2.activities.map(a=>typeof a==="string"?{t:a,d:"",ph:""}:a);
+  p2.alumni.forEach(a=>{if(a.d===undefined)a.d="";if(a.ph===undefined)a.ph=""});
+}
+const P3_ICON={edit:"\u270E",add:"\uFF0B",del:"\uD83D\uDDD1"};
+function lkE(ADM,fn,title){return ADM?`<button class="lki" title="${title||'Edit'}" onclick="${fn}">${P3_ICON.edit}</button>`:""}
+function lkA(ADM,fn,title){return ADM?`<button class="lki" title="${title||'Add'}" onclick="${fn}">${P3_ICON.add}</button>`:""}
+function lkD(ADM,key){return ADM?`<button class="lki" title="Remove this section" onclick="remSection('${key}')">${P3_ICON.del}</button>`:""}
+function tabProfile(s){
+  migrateP2(s);
+  const ADM=MANAGE&&isAdminOf(s);
+  const R=richFor(s);const p2=s.p2;const ct=s.contact||{};
+  const SEC={};
+  /* 1. Introduction — LinkedIn buttons, NO remove */
+  const det=[["\uD83C\uDFF7","Category",s.cat],["\uD83D\uDCC5","Founded",s.founded],["\uD83D\uDC65","Members",s.members+" active members"],["\u2709","Email",ct.email],["\uD83D\uDCF7","Instagram",ct.insta],["\uD83D\uDD17","LinkedIn",ct.linkedin],["\uD83C\uDF10","Website",ct.web]].filter(x=>x[2]);
+  det.push(["\u2705","Status",s.verified?"Verified on UniGrid":"Verification pending"]);
+  SEC.about=`<div class="sect sect-first"><div class="sect-h"><h3>Introduction</h3><span class="lkgrp">${lkE(ADM,"editAbout()","Edit introduction")}</span></div>
+    <p class="about-p">${s.about}</p>
+    <div class="sect-h" style="margin-top:18px"><h3 style="font-size:16px">Details</h3><span class="lkgrp">${lkE(ADM,"editDetailsFull()","Edit all details")}</span></div>
+    <div class="det-grid">${det.map(([ic,l,v])=>`<div class="det-row"><span class="det-ic">${ic}</span><span class="det-l">${l}</span><span class="det-v">${v}</span></div>`).join("")}</div></div>`;
+  /* 2. Our Team — uniform "course · year", edit per member, NO remove */
+  SEC.team=`<div class="sect"><div class="sect-h"><h3>Our Team</h3><span>core committee 2026\u201327</span><span class="lkgrp">${lkA(ADM,"memModal(-1)","Add member")}</span></div>
+    <div class="p2-team">${p2.team.map((m,i)=>{const mc=avColor(m.n);const cy=[m.course,m.yr].filter(Boolean).join(" \u00B7 ");
+      return `<div class="mem" style="padding:15px"><div class="avatar" style="background:${mc[0]};color:${mc[1]};width:48px;height:48px;margin:0 auto 8px;font-size:14px">${initials(m.n)}</div>
+      <b style="font-size:13.5px">${m.n}</b><span class="m-role" style="font-size:12px">${m.r}</span><div class="m-course" style="margin-bottom:0">${cy}</div>
+      ${ADM?`<span class="memtools"><button class="lki sm" title="Edit member" onclick="memModal(${i})">${P3_ICON.edit}</button><button class="lki sm" title="Remove member" onclick="delTeamMem(${i})">\u00D7</button></span>`:""}</div>`}).join("")}</div>
+    <div style="margin-top:12px"><button class="btn btn-ghost btn-sm" onclick="renderSociety('members')">Click to see all members list</button></div></div>`;
+  /* 3. Why — LinkedIn About-style free writing, NO remove, NO subtitle */
+  SEC.why=`<div class="sect"><div class="sect-h"><h3>Why ${s.name}?</h3><span class="lkgrp">${lkE(ADM,"editWhy()","Edit \u2014 full writing space")}</span></div>
+    <div class="lk-text">${p2.whyText}</div></div>`;
+  /* 4. Statistics — LinkedIn-style edit modal for every stat; recruiters with per-item remove */
+  SEC.stats=`<div class="sect"><div class="sect-h"><h3>Statistics</h3><span class="lkgrp">${lkE(ADM,"editStats()","Edit statistics")}${lkD(ADM,"stats")}</span></div>
+    <div class="p2-stats">${p2.stats.map(st=>`<div class="p2-stat"><b>${st.v}</b><span>${st.l}</span></div>`).join("")}</div>
+    <div class="sect-h" style="margin-top:6px"><h3 style="font-size:16px">Prominent recruiters &amp; partners</h3><span class="lkgrp">${lkA(ADM,"addRecruiter()","Add recruiter / partner")}</span></div>
+    <div class="p2-chips">${p2.recruiters.map((r,i)=>`<span class="p2-chip">${r}${ADM?`<button class="xdel" title="Remove" onclick="delRecruiter(${i})">\u00D7</button>`:""}</span>`).join("")||'<span style="font-size:13px;color:var(--mist)">None added yet.</span>'}</div></div>`;
+  /* 5. Work Teams — no subtitle, edit once-added teams */
+  SEC.workteams=`<div class="sect"><div class="sect-h"><h3>Work Teams</h3><span class="lkgrp">${lkA(ADM,"wtModal(-1)","Add team")}${lkD(ADM,"workteams")}</span></div>
+    <div class="wt-grid">${p2.workteams.map((w,i)=>`<div class="wt">${w.ph?`<div title="${p3esc(w.ph)}" style="height:64px;border-radius:10px;margin-bottom:10px;background-image:linear-gradient(180deg,rgba(12,14,32,0),rgba(12,14,32,.45)),url(${EVIMG[(p2Seed(s)+i)%EVIMG.length]});background-size:cover;background-position:center;display:flex;align-items:flex-end;padding:6px 9px;color:#fff;font-size:11px;font-weight:600">\uD83D\uDCF7 ${w.ph}</div>`:""}<h5>${w.n}</h5><p>${w.d}</p><span class="wt-size">${w.sz} members</span>
+      ${ADM?`<span style="position:absolute;top:8px;right:8px;display:flex;gap:2px"><button class="lki sm" title="Edit team" onclick="wtModal(${i})">${P3_ICON.edit}</button><button class="lki sm" title="Remove team" onclick="delWorkteam(${i})">\u00D7</button></span>`:""}</div>`).join("")}</div></div>`;
+  /* 6. Activities & life — name + description + photo together, NO remove, no gallery/add-photo tile */
+  SEC.life=`<div class="sect"><div class="sect-h"><h3>Activities &amp; life at ${s.name}</h3><span>events \u00B7 team bonding \u00B7 day outs</span><span class="lkgrp">${lkA(ADM,"actModal(-1)","Add activity")}</span></div>
+    <div class="actc-grid">${p2.activities.map((a,i)=>`<div class="actc" style="cursor:pointer" onclick="viewActivity(${i})" title="Click to view the full post">
+      <div class="actc-ph p${i%4}" style="background-image:linear-gradient(180deg,rgba(12,14,32,0) 45%,rgba(12,14,32,.62) 100%),url(${EVIMG[(p2Seed(s)+i)%EVIMG.length]});background-size:cover;background-position:center;color:#fff">${a.ph?`\uD83D\uDCF7 ${a.ph}`:""}</div>
+      <div class="actc-body"><h5>${a.t}</h5>${a.d?`<p>${a.d}</p>`:""}</div>
+      ${ADM?`<span class="actools"><button class="lki sm" title="Edit activity" onclick="event.stopPropagation();actModal(${i})">${P3_ICON.edit}</button><button class="lki sm" title="Remove activity" onclick="event.stopPropagation();delActivity(${i})">\u00D7</button></span>`:""}</div>`).join("")||'<div class="empty" style="grid-column:1/-1;text-align:left;padding:16px 20px">No activities added yet.</div>'}</div></div>`;
+  /* 7. Alumni — edit added profiles, photo + optional description, NO remove, no subtitle */
+  SEC.alumni=`<div class="sect"><div class="sect-h"><h3>Alumni</h3><span class="lkgrp">${lkA(ADM,"alModal(-1)","Add alum")}</span></div>
+    <div class="al-grid">${p2.alumni.map((a,i)=>{const ac=avColor(a.n);
+      return `<div class="al">${a.ph?`<div class="al-ph" title="${p3esc(a.ph)}">\uD83D\uDCF7</div>`:`<div class="avatar" style="background:${ac[0]};color:${ac[1]};width:44px;height:44px;font-size:13px;flex-shrink:0">${initials(a.n)}</div>`}
+      <div style="flex:1;min-width:0"><b>${a.n}</b><span class="al-role">${a.r}</span><div class="al-batch">${a.b}</div></div>
+      ${a.d?`<div class="al-desc">${a.d}</div>`:""}
+      ${ADM?`<span class="altools"><button class="lki sm" title="Edit alum" onclick="alModal(${i})">${P3_ICON.edit}</button><button class="lki sm" title="Remove alum" onclick="delAlum(${i})">\u00D7</button></span>`:""}</div>`}).join("")||'<div class="empty" style="grid-column:1/-1;text-align:left;padding:16px 20px">No alumni added yet.</div>'}</div></div>`;
+  /* 8. Reviews — no add button, no subtitle */
+  SEC.reviews=`<div class="sect"><div class="sect-h"><h3>Reviews</h3><span>honest words from students \u2014 the real picture</span><span class="lkgrp">${canReview(s)?`<button class="btn btn-ghost btn-sm" onclick="writeReview()">\u270D Write a review</button>`:""}${lkD(ADM,"reviews")}</span></div>
+    <div class="testi-grid">${R.testi.map((t,i)=>`<div class="testi"><p>\u201C${t.q}\u201D</p><div class="mrow-flex"><span style="flex:1"><b>${t.n}</b><span style="display:block;font-size:12.5px;color:var(--mist)">${t.y}</span></span></div></div>`).join("")}</div></div>`;
+  /* 9. FAQs — NO remove */
+  SEC.faqs=`<div class="sect"><div class="sect-h"><h3>FAQs</h3><span class="lkgrp">${lkA(ADM,"addFaq()","Add FAQ")}</span></div>
+    <div class="faq-list">${R.faqs.map(([q,a],i)=>`<details class="faq"><summary>${q}${ADM?`<button class="xdel" style="margin-left:auto" onclick="event.preventDefault();event.stopPropagation();delFaq(${i})">\u00D7</button>`:""}</summary><p>${a}</p></details>`).join("")}</div></div>`;
+  /* optional: journey & milestones */
+  const idx=s.posts.map((p,oi)=>({p,oi})).sort((a,b)=>b.p.y-a.p.y);
+  const groups={};idx.forEach(x=>{const k=ayStart(x.p);(groups[k]=groups[k]||[]).push(x)});
+  const years=Object.keys(groups).map(Number).sort((a,b)=>b-a);
+  const msRow=x=>{const p=x.p;const tagPill=p.tag==="Achievement"?"pill-gold":p.tag==="Recruitment"?"pill-green":"pill-gray";
+    return `<div class="mstone"><div class="ms-dot"></div><div class="ms-body">
+      <div class="ms-top"><b>${p.title}</b><span class="pill ${tagPill}">${p.tag}</span>${ADM?`<span class="rowtools"><button onclick="addMilestone(${x.oi})">${P3_ICON.edit}</button><button onclick="delMilestone(${x.oi})">${P3_ICON.del}</button></span>`:""}</div>
+      <span class="ms-date">${p.date}</span><p>${p.text}</p></div></div>`};
+  SEC.journey=`<div class="sect"><div class="sect-h"><h3>Journey &amp; milestones</h3><span>year by year</span><span class="lkgrp">${lkA(ADM,"addMilestone()","Add milestone")}${lkD(ADM,"journey")}</span></div>
+    ${idx.length?`<div class="mstone-list">${years.map(y=>`<div class="ms-year">${y}\u2013${String((y+1)%100).padStart(2,"0")}</div>${groups[y].map(msRow).join("")}`).join("")}</div>`:`<div class="empty" style="text-align:left;padding:18px 22px;max-width:660px">No milestones yet \u2014 add your first one.</div>`}</div>`;
+  const customHTML=i=>{const cs=p2.custom[i];
+    return `<div class="sect p2-custom"><div class="sect-h"><h3>${cs.t}</h3><span class="lkgrp">${lkE(ADM,`editCustomSec(${i})`,"Edit section")}${ADM?`<button class="lki" title="Remove section" onclick="delCustomSec(${i})">${P3_ICON.del}</button>`:""}</span></div><p>${cs.x}</p></div>`};
+  let out=p2.order.map(k=>k.startsWith("custom:")?customHTML(parseInt(k.split(":")[1])):(SEC[k]||"")).join("");
+  if(ADM)out+=`<div class="p2-addsec"><button class="btn btn-gold" onclick="openAddSection()">\uFF0B Add a section</button></div>`;
+  else out+=`<div style="height:44px"></div>`;
+  return out;
+}
+/* ---------- FULL DETAILS EDITOR (every field) ---------- */
+function editDetailsFull(){
+  if(!isAdminOf(curSoc))return;const s=curSoc;const ct=s.contact||(s.contact={});
+  $("modalBox").innerHTML=`<h3>Edit details</h3><p class="m-sub">Every field shown in the Details grid \u2014 all editable</p>
+    <div class="field"><label>Category</label><input id="ddCat" value="${p3esc(s.cat)}"></div>
+    <div class="field"><label>Founded (year)</label><input id="ddF" value="${p3esc(s.founded)}"></div>
+    <div class="field"><label>Active members</label><input id="ddM" value="${p3esc(s.members)}"></div>
+    <div class="field"><label>Email</label><input id="ddE" value="${p3esc(ct.email)}"></div>
+    <div class="field"><label>Instagram</label><input id="ddI" value="${p3esc(ct.insta)}"></div>
+    <div class="field"><label>LinkedIn</label><input id="ddL" value="${p3esc(ct.linkedin)}"></div>
+    <div class="field"><label>Website</label><input id="ddW" value="${p3esc(ct.web)}"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="saveDetailsFull()">Save</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function saveDetailsFull(){const s=curSoc;
+  s.cat=$("ddCat").value.trim()||s.cat;
+  s.founded=parseInt($("ddF").value)||s.founded;
+  s.members=parseInt($("ddM").value)||s.members;
+  s.contact.email=$("ddE").value.trim();s.contact.insta=$("ddI").value.trim();
+  s.contact.linkedin=$("ddL").value.trim();s.contact.web=$("ddW").value.trim();
+  closeModal();renderSociety("profile");toast("Details updated \u00B7 logged")}
+/* ---------- TEAM MEMBER add/edit (course & year separate + email) ---------- */
+function memModal(i){
+  if(!isAdminOf(curSoc))return;const m=i>=0?curSoc.p2.team[i]:{n:"",r:"",course:"",yr:"",email:""};
+  $("modalBox").innerHTML=`<h3>${i>=0?"Edit":"Add a"} core team member</h3><p class="m-sub">Course and year are separate so every profile reads the same way</p>
+    <div class="field"><label>Name</label><input id="mmN" value="${p3esc(m.n)}" placeholder="Ananya Gupta"></div>
+    <div class="field"><label>Role</label><input id="mmR" value="${p3esc(m.r)}" placeholder="Cultural secretary"></div>
+    <div class="field"><label>Course</label><input id="mmC" value="${p3esc(m.course)}" placeholder="B.Com (H)"></div>
+    <div class="field"><label>Year</label><select id="mmY">${["","1st year","2nd year","3rd year","4th year","5th year"].map(y=>`<option ${m.yr===y?"selected":""}>${y}</option>`).join("")}</select></div>
+    <div class="field"><label>Email</label><input id="mmE" value="${p3esc(m.email)}" placeholder="name@college.ac.in"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="saveMem(${i})">${i>=0?"Save changes":"Add member"}</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function saveMem(i){
+  const n=$("mmN").value.trim();if(!n){toast("Name them first");return}
+  const m={n,r:$("mmR").value.trim()||"Core team",course:$("mmC").value.trim(),yr:$("mmY").value,email:$("mmE").value.trim()};
+  if(i>=0)curSoc.p2.team[i]=m;else curSoc.p2.team.push(m);
+  closeModal();renderSociety("profile");toast(i>=0?"Member updated \u00B7 logged":"Member added \u00B7 logged")}
+/* ---------- WHY — LinkedIn "Edit about"-style full writing space ---------- */
+function editWhy(){
+  if(!isAdminOf(curSoc))return;
+  $("modalBox").innerHTML=`<h3>Why ${curSoc.name}?</h3>
+    <textarea id="whyTxt" class="lk-ta" rows="12">${curSoc.p2.whyText}</textarea>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="saveWhy()">Save</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function saveWhy(){curSoc.p2.whyText=$("whyTxt").value.trim();closeModal();renderSociety("profile");toast("Saved \u00B7 logged")}
+/* ---------- STATISTICS — proper LinkedIn-style editor for every stat ---------- */
+let ST_TMP=null;
+function editStats(){
+  if(!isAdminOf(curSoc))return;
+  ST_TMP=curSoc.p2.stats.map(x=>({...x}));stModal();
+}
+function stModal(){
+  $("modalBox").innerHTML=`<h3>Edit statistics</h3><p class="m-sub">Edit any value or label, remove a stat, or add a new one</p>
+    ${ST_TMP.map((st,i)=>`<div class="sted"><input class="v" id="st_v_${i}" value="${p3esc(st.v)}" placeholder="120+"><input id="st_l_${i}" value="${p3esc(st.l)}" placeholder="label"><button class="lki sm" title="Remove" onclick="stCapture();ST_TMP.splice(${i},1);stModal()">\u00D7</button></div>`).join("")}
+    <button class="btn btn-ghost btn-sm" style="margin:4px 0 14px" onclick="stCapture();ST_TMP.push({v:'',l:''});stModal()">\uFF0B Add a stat</button>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="saveStats()">Save</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function stCapture(){ST_TMP.forEach((st,i)=>{const v=$("st_v_"+i),l=$("st_l_"+i);if(v)st.v=v.value;if(l)st.l=l.value})}
+function saveStats(){stCapture();curSoc.p2.stats=ST_TMP.filter(x=>x.v.trim()&&x.l.trim());closeModal();renderSociety("profile");toast("Statistics updated \u00B7 logged")}
+/* ---------- WORK TEAMS add/edit ---------- */
+function wtModal(i){
+  if(!isAdminOf(curSoc))return;const w=i>=0?curSoc.p2.workteams[i]:{n:"",ph:"",d:"",sz:5};
+  $("modalBox").innerHTML=`<h3>${i>=0?"Edit":"Add a"} work team</h3>
+    <div class="field"><label>Team name</label><input id="wtN" value="${p3esc(w.n)}" placeholder="Sponsorship &amp; PR"></div>
+    <div class="field"><label>Photo (optional \u2014 add a caption if you like, or skip)</label><input id="wtP" value="${p3esc(w.ph)}" placeholder="Team at the annual fest"></div>
+    <div class="field"><label>What it does</label><input id="wtD" value="${p3esc(w.d)}" placeholder="Owns brand deals and media partnerships"></div>
+    <div class="field"><label>Team size</label><input id="wtS" value="${p3esc(w.sz)}"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="saveWt(${i})">${i>=0?"Save changes":"Add team"}</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function saveWt(i){
+  const n=$("wtN").value.trim();if(!n){toast("Name the team");return}
+  const w={n,ph:$("wtP").value.trim(),d:$("wtD").value.trim()||"Details coming soon.",sz:parseInt($("wtS").value)||5};
+  if(i>=0)curSoc.p2.workteams[i]=w;else curSoc.p2.workteams.push(w);
+  closeModal();renderSociety("profile");toast(i>=0?"Team updated \u00B7 logged":"Team added \u00B7 logged")}
+/* ---------- ACTIVITIES — name + description + photo together ---------- */
+function actModal(i){
+  if(!isAdminOf(curSoc))return;const a=i>=0?curSoc.p2.activities[i]:{t:"",d:"",ph:""};
+  $("modalBox").innerHTML=`<h3>${i>=0?"Edit":"Add an"} activity</h3><p class="m-sub">Name, description and photo live together \u2014 so students can relate the moment to the picture</p>
+    <div class="field"><label>Activity / event name</label><input id="acT" value="${p3esc(a.t)}" placeholder="Annual production tour across 5 cities"></div>
+    <div class="field"><label>Description</label><textarea id="acD" class="lk-ta" rows="3" placeholder="What happens, who's involved, why it's special\u2026">${a.d||""}</textarea></div>
+    <div class="field"><label>Photo (caption \u2014 upload arrives with backend)</label><input id="acP" value="${p3esc(a.ph)}" placeholder="Nationals '26 \u00B7 group photo on stage"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="saveAct(${i})">${i>=0?"Save changes":"Add activity"}</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function saveAct(i){
+  const t=$("acT").value.trim();if(!t){toast("Name the activity");return}
+  const a={t,d:$("acD").value.trim(),ph:$("acP").value.trim()};
+  if(i>=0)curSoc.p2.activities[i]=a;else curSoc.p2.activities.push(a);
+  closeModal();renderSociety("profile");toast(i>=0?"Activity updated \u00B7 logged":"Activity added \u00B7 logged")}
+/* ---------- ALUMNI — edit added profiles, photo + optional description ---------- */
+function alModal(i){
+  if(!isAdminOf(curSoc))return;const a=i>=0?curSoc.p2.alumni[i]:{n:"",r:"",b:"",ph:"",d:""};
+  $("modalBox").innerHTML=`<h3>${i>=0?"Edit":"Add an"} alum</h3>
+    <div class="field"><label>Name</label><input id="alN" value="${p3esc(a.n)}" placeholder="Ishita Verma"></div>
+    <div class="field"><label>Now at</label><input id="alR" value="${p3esc(a.r)}" placeholder="Consultant \u00B7 BCG"></div>
+    <div class="field"><label>Batch</label><input id="alB" value="${p3esc(a.b)}" placeholder="Batch of 2021"></div>
+    <div class="field"><label>Photo (optional caption \u2014 upload arrives with backend)</label><input id="alP" value="${p3esc(a.ph)}" placeholder="Convocation day photo"></div>
+    <div class="field"><label>Description (optional \u2014 leave empty if you like)</label><textarea id="alD" class="lk-ta" rows="3" placeholder="Their journey, what they did here, a line of advice\u2026">${a.d||""}</textarea></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="saveAl(${i})">${i>=0?"Save changes":"Add alum"}</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function saveAl(i){
+  const n=$("alN").value.trim();if(!n){toast("Name them first");return}
+  const a={n,r:$("alR").value.trim()||"\u2014",b:$("alB").value.trim()||"",ph:$("alP").value.trim(),d:$("alD").value.trim()};
+  if(i>=0)curSoc.p2.alumni[i]=a;else curSoc.p2.alumni.push(a);
+  closeModal();renderSociety("profile");toast(i>=0?"Alum updated \u00B7 logged":"Alum added \u00B7 logged")}
+/* ---------- ADD-A-SECTION — lists every optional (removable) section ---------- */
+function openAddSection(){
+  if(!isAdminOf(curSoc))return;const p2=curSoc.p2;
+  const OPTIONAL=["stats","workteams","reviews","journey"];
+  const missing=OPTIONAL.filter(k=>!p2.order.includes(k));
+  $("modalBox").innerHTML=`<h3>Add a section</h3><p class="m-sub">Every optional section lives here \u2014 add it back whenever your page needs it</p>
+    ${missing.length?missing.map(k=>`<div class="ropt" onclick="addBackSection('${k}')"><b>${P2_LABELS[k]}</b><span>Optional UniGrid section</span></div>`).join(""):'<p style="font-size:13px;color:var(--mist);margin-bottom:12px">All optional sections are already on your page.</p>'}
+    <div class="ropt" onclick="closeModal();editCustomSec(-1)"><b>\u2728 Custom section</b><span>Your own title + content \u2014 anything you want the world to know</span></div>`;
+  $("modalBg").classList.add("on");
+}
+</script>
+
+<script>
+/* ---------- STUDENT REVIEWS — anyone can publish their honest take ---------- */
+function writeReview(){
+  const nm=(USER&&USER.name)||"";
+  $("modalBox").innerHTML=`<h3>Write a review</h3><p class="m-sub">Your honest words go live on ${curSoc.name}'s page \u2014 help juniors see the real picture</p>
+    <div class="field"><label>Your name</label><input id="rvN" value="${p3esc(nm)}" placeholder="Ananya Gupta"></div>
+    <div class="field"><label>Year</label><select id="rvY">${["1st year","2nd year","3rd year","4th year","Alum"].map(y=>`<option>${y}</option>`).join("")}</select></div>
+    <div class="field"><label>Your role / what you did (optional)</label><input id="rvR" placeholder="Marketing \u00B7 volunteer"></div>
+    <div class="field"><label>Your review</label><textarea id="rvQ" class="lk-ta" rows="4" placeholder="What was it really like? The good, the hard, the honest."></textarea></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="saveReview()">Publish review</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function saveReview(){
+  const n=$("rvN").value.trim(),q=$("rvQ").value.trim();
+  if(!n||!q){toast("Add your name and your review");return}
+  ensureRich(curSoc,"testi");
+  const y=[$("rvY").value,$("rvR").value.trim()].filter(Boolean).join(" \u00B7 ");
+  curSoc.testi.push({q,n,y});
+  closeModal();renderSociety("profile");toast("\u2705 Review published \u2014 thanks for keeping it real");
+}
+</script>
+
+<style>
+/* LinkedIn-post style activity viewer */
+.postv{max-width:100%}
+.postv .pv-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.postv .pv-head b{display:block;font-size:14.5px}
+.postv .pv-head span{font-size:12px;color:var(--mist)}
+.postv .pv-photo{width:100%;height:250px;border-radius:14px;background-size:cover;background-position:center;display:flex;align-items:flex-end;padding:12px;color:#fff;font-size:12.5px;font-weight:600;margin:12px 0}
+.postv .pv-title{font-family:var(--disp);font-size:19px;margin-bottom:6px}
+.postv .pv-desc{font-size:14px;color:var(--slate);line-height:1.75;white-space:pre-line}
+</style>
+<script>
+/* ---------- Reviews: only genuine students, never admins or invited editors ---------- */
+function canReview(s){
+  if(!USER)return true;
+  if(isAdminOf(s))return false;
+  const em=(USER.email||"").toLowerCase();
+  const eds=(s.editors||[]).map(e=>String(e).toLowerCase());
+  if(em&&eds.includes(em))return false;
+  return true;
+}
+const _writeReview=writeReview;
+writeReview=function(){
+  if(!canReview(curSoc)){toast("Society admins and editors can't review their own society \u2014 reviews belong to students");return}
+  _writeReview();
+};
+const _saveReview=saveReview;
+saveReview=function(){
+  if(!canReview(curSoc)){closeModal();toast("Society admins and editors can't review their own society");return}
+  _saveReview();
+};
+/* ---------- Activity post viewer — like a LinkedIn post ---------- */
+function viewActivity(i){
+  const s=curSoc;const a=s.p2.activities[i];if(!a)return;
+  const c=avColor(s.name);
+  $("modalBox").innerHTML=`<div class="postv">
+    <div class="pv-head"><div class="avatar" style="background:${c[0]};color:${c[1]};width:46px;height:46px;font-size:14px">${initials(s.name)}</div>
+      <div><b>${s.name}</b><span>${s.members} members \u00B7 Activities &amp; life</span></div></div>
+    <div class="pv-title">${a.t}</div>
+    <div class="pv-desc">${a.d||"One of the moments that makes life at "+s.name+" what it is \u2014 ask any member and they'll have a story from this."}</div>
+    <div class="pv-photo" style="background-image:linear-gradient(180deg,rgba(12,14,32,0) 50%,rgba(12,14,32,.6) 100%),url(${EVIMG[(p2Seed(s)+i)%EVIMG.length]})">${a.ph?`\uD83D\uDCF7 ${a.ph}`:""}</div>
+    <div style="display:flex;justify-content:flex-end;margin-top:14px"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Close</button></div>
+  </div>`;
+  $("modalBg").classList.add("on");
+}
+</script>
+
+<style>
+/* ===== Point of Contact card (Members tab) ===== */
+.poc{background:var(--card);border:1.5px solid var(--marigold);border-radius:18px;padding:18px 22px;margin:16px 0 22px;display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;box-shadow:0 6px 18px rgba(27,31,58,.05)}
+.poc .poc-av{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;flex-shrink:0}
+.poc .poc-main{flex:1;min-width:220px}
+.poc .poc-tag{display:inline-block;background:#FFF3D6;color:var(--marigold-deep);font-size:11.5px;font-weight:700;border-radius:99px;padding:3px 11px;margin-bottom:6px;letter-spacing:.3px}
+.poc h4{font-family:var(--disp);font-size:17px;margin-bottom:2px}
+.poc .poc-role{font-size:13px;color:var(--slate);font-weight:600}
+.poc .poc-note{font-size:13px;color:var(--slate);margin-top:8px;line-height:1.6}
+.poc .poc-contacts{display:flex;flex-direction:column;gap:8px;min-width:200px}
+.poc .poc-contacts a{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink);text-decoration:none;background:var(--paper);border:1px solid var(--line);border-radius:99px;padding:7px 14px;transition:.13s}
+.poc .poc-contacts a:hover{border-color:var(--marigold)}
+.poc-empty{border:1.5px dashed var(--line-strong);border-radius:18px;padding:16px 22px;margin:16px 0 22px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:13.5px;color:var(--slate)}
+</style>
+<script>
+/* ================= POINT OF CONTACT — set by the society head ================= */
+function pocSection(s){
+  migrateP2(s);
+  if(s.p2.poc===undefined)s.p2.poc=null;
+  const ADM=MANAGE&&isAdminOf(s);
+  const poc=s.p2.poc;
+  if(!poc){
+    return ADM?`<div class="poc-empty"><span>\uD83D\uDCCC No point of contact set \u2014 add one so students know exactly who to reach out to.</span>
+      <button class="btn btn-gold btn-sm" style="margin-left:auto" onclick="pocModal()">\uFF0B Set point of contact</button></div>`:"";
+  }
+  const c=avColor(poc.n);
+  return `<div class="poc">
+    <div class="poc-av" style="background:${c[0]};color:${c[1]}">${initials(poc.n)}</div>
+    <div class="poc-main">
+      <span class="poc-tag">\uD83D\uDCCC POINT OF CONTACT</span>
+      <h4>${poc.n}</h4>
+      <div class="poc-role">${poc.r}${poc.avail?` \u00B7 ${poc.avail}`:""}</div>
+      ${poc.note?`<div class="poc-note">${poc.note}</div>`:""}
+    </div>
+    <div class="poc-contacts">
+      ${poc.phone?`<a href="tel:${poc.phone.replace(/\s/g,"")}">\uD83D\uDCDE ${poc.phone}</a>`:""}
+      ${poc.wa?`<a href="https://wa.me/${poc.wa.replace(/[^0-9]/g,"")}" target="_blank">\uD83D\uDCAC WhatsApp</a>`:""}
+      ${poc.email?`<a href="mailto:${poc.email}">\u2709 ${poc.email}</a>`:""}
+    </div>
+    ${ADM?`<span style="display:flex;gap:2px"><button class="lki sm" title="Edit POC" onclick="pocModal()">${P3_ICON.edit}</button><button class="lki sm" title="Remove POC notice" onclick="delPoc()">\u00D7</button></span>`:""}
+  </div>`;
+}
+function pocModal(){
+  if(!isAdminOf(curSoc))return;
+  const p=curSoc.p2.poc||{n:"",r:"",phone:"",wa:"",email:"",avail:"",note:""};
+  $("modalBox").innerHTML=`<h3>\uD83D\uDCCC Point of contact</h3><p class="m-sub">This notice sits on top of the Members tab \u2014 students will reach out directly, so keep it current</p>
+    <div class="field"><label>Name</label><input id="pcN" value="${p3esc(p.n)}" placeholder="Ananya Sharma"></div>
+    <div class="field"><label>Role</label><input id="pcR" value="${p3esc(p.r)}" placeholder="Vice president \u00B7 handles recruitment queries"></div>
+    <div class="field"><label>Phone</label><input id="pcP" value="${p3esc(p.phone)}" placeholder="+91 98XXXXXX21"></div>
+    <div class="field"><label>WhatsApp (optional \u2014 number with country code)</label><input id="pcW" value="${p3esc(p.wa)}" placeholder="+91 98XXXXXX21"></div>
+    <div class="field"><label>Email</label><input id="pcE" value="${p3esc(p.email)}" placeholder="ananya@college.ac.in"></div>
+    <div class="field"><label>Available (optional)</label><input id="pcA" value="${p3esc(p.avail)}" placeholder="Weekdays 4\u20137 pm"></div>
+    <div class="field"><label>Notice for students (optional)</label><textarea id="pcX" class="lk-ta" rows="3" placeholder="DM before calling \u00B7 recruitment queries only on WhatsApp \u00B7 mention your course + year">${p.note||""}</textarea></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="savePoc()">Publish notice</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function savePoc(){
+  const n=$("pcN").value.trim();if(!n){toast("Name the point of contact");return}
+  const phone=$("pcP").value.trim(),email=$("pcE").value.trim(),wa=$("pcW").value.trim();
+  if(!phone&&!email&&!wa){toast("Add at least one way to reach them \u2014 phone, WhatsApp or email");return}
+  curSoc.p2.poc={n,r:$("pcR").value.trim()||"Core team",phone,wa,email,avail:$("pcA").value.trim(),note:$("pcX").value.trim()};
+  closeModal();renderSociety("members");toast("\uD83D\uDCCC POC notice published \u00B7 logged");
+}
+function delPoc(){if(!isAdminOf(curSoc))return;curSoc.p2.poc=null;renderSociety("members");toast("POC notice removed \u00B7 logged")}
+/* mount on top of the Members tab */
+const _tabMembers=tabMembers;
+tabMembers=function(s){return pocSection(s)+_tabMembers(s)};
+</script>
+
+<style>
+.chipmem{position:relative}
+.chipmem .amtools{margin-left:auto;display:flex;gap:2px;flex-shrink:0}
+.chipmem.am{border:1px solid var(--line-strong)}
+</style>
+<script>
+/* ================= HEAD-ADDED MEMBERS (Members tab) ================= */
+function amModal(i){
+  if(!isAdminOf(curSoc))return;
+  migrateP2(curSoc);if(!curSoc.p2.addedMembers)curSoc.p2.addedMembers=[];
+  const m=i>=0?curSoc.p2.addedMembers[i]:{n:"",course:"",yr:"",email:""};
+  $("modalBox").innerHTML=`<h3>${i>=0?"Edit":"Add a"} member</h3><p class="m-sub">Same structure as everywhere else \u2014 course and year kept separate</p>
+    <div class="field"><label>Name</label><input id="amN" value="${p3esc(m.n)}" placeholder="Ananya Gupta"></div>
+    <div class="field"><label>Course</label><input id="amC" value="${p3esc(m.course)}" placeholder="B.Com (H)"></div>
+    <div class="field"><label>Year</label><select id="amY">${["","1st year","2nd year","3rd year","4th year","5th year"].map(y=>`<option ${m.yr===y?"selected":""}>${y}</option>`).join("")}</select></div>
+    <div class="field"><label>Email</label><input id="amE" value="${p3esc(m.email)}" placeholder="name@college.ac.in"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-gold btn-sm" onclick="saveAm(${i})">${i>=0?"Save changes":"Add member"}</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function saveAm(i){
+  const n=$("amN").value.trim();if(!n){toast("Name the member first");return}
+  const m={n,course:$("amC").value.trim(),yr:$("amY").value,email:$("amE").value.trim()};
+  if(i>=0)curSoc.p2.addedMembers[i]=m;else curSoc.p2.addedMembers.push(m);
+  closeModal();renderSociety("members");toast(i>=0?"Member updated \u00B7 logged":"Member added \u00B7 logged");
+}
+function delAm(i){if(!isAdminOf(curSoc))return;curSoc.p2.addedMembers.splice(i,1);renderSociety("members");toast("Member removed \u00B7 logged")}
+/* wrap the members tab: LinkedIn-style + button, added-member chips with edit */
+const _tabMembersPOC=tabMembers;
+tabMembers=function(s){
+  migrateP2(s);if(!s.p2.addedMembers)s.p2.addedMembers=[];
+  const ADM=MANAGE&&isAdminOf(s);
+  const added=s.p2.addedMembers;
+  let html=_tabMembersPOC(s);
+  const chips=added.map((m,i)=>{const nc=avColor(m.n);const sub=[m.course,m.yr].filter(Boolean).join(" \u00B7 ");
+    return `<div class="chipmem am" title="${p3esc([sub,m.email].filter(Boolean).join(" \u00B7 "))}"><div class="avatar" style="background:${nc[0]};color:${nc[1]}">${initials(m.n)}</div>
+      <span>${m.n}${sub?`<span style="display:block;font-size:11px;color:var(--mist);font-weight:500">${sub}</span>`:""}</span>
+      ${ADM?`<span class="amtools"><button class="lki sm" title="Edit member" onclick="amModal(${i})">${P3_ICON.edit}</button><button class="lki sm" title="Remove member" onclick="delAm(${i})">\u00D7</button></span>`:""}</div>`}).join("");
+  const addBtn=ADM?`<button class="lki" title="Add a member" onclick="amModal(-1)">${P3_ICON.add}</button>`:"";
+  const marker=`${s.members} total</span>`;
+  if(html.includes(marker)){
+    html=html.replace(marker,`${s.members+added.length} total</span>${addBtn}`);
+    html=html.replace('<div class="allmem">','<div class="allmem">'+chips);
+  }else if(ADM||added.length){
+    html+=`<div class="sec-title"><h3>All members</h3><span style="font-size:13px;color:var(--mist)">${added.length} total</span>${addBtn}</div>
+      <div class="allmem">${chips||'<div class="chipmem" style="justify-content:center;color:var(--mist)">No members added yet \u2014 hit \uFF0B</div>'}</div>`;
+  }
+  return html;
+};
+</script>
+
+<script>
+/* ================= CORE TEAM ADD/EDIT ON MEMBERS TAB ================= */
+/* team edits now return you to whichever tab you were on */
+saveMem=function(i){
+  const n=$("mmN").value.trim();if(!n){toast("Name them first");return}
+  const m={n,r:$("mmR").value.trim()||"Core team",course:$("mmC").value.trim(),yr:$("mmY").value,email:$("mmE").value.trim()};
+  if(i>=0)curSoc.p2.team[i]=m;else curSoc.p2.team.push(m);
+  closeModal();renderSociety(curTab||"profile");toast(i>=0?"Member updated \u00B7 logged":"Member added \u00B7 logged");
+};
+delTeamMem=function(i){if(!isAdminOf(curSoc))return;curSoc.p2.team.splice(i,1);renderSociety(curTab||"profile");toast("Removed \u00B7 logged")};
+/* rebuild the Members tab: core team now reads the same editable team as Profile */
+tabMembers=function(s){
+  migrateP2(s);if(!s.p2.addedMembers)s.p2.addedMembers=[];
+  const ADM=MANAGE&&isAdminOf(s);
+  const team=s.p2.team;const added=s.p2.addedMembers;
+  const cards=team.map((m,i)=>{const mc=avColor(m.n);const cy=[m.course,m.yr].filter(Boolean).join(" \u00B7 ");
+    const li="linkedin.com/in/"+m.n.toLowerCase().replace(/\s+/g,"-");
+    return `<div class="mem" style="position:relative"><div class="avatar" style="background:${mc[0]};color:${mc[1]}">${initials(m.n)}</div>
+      <b>${m.n}</b><span class="m-role">${m.r}</span><div class="m-course">${cy}</div>
+      <div class="m-actions">
+        <button class="btn btn-ghost btn-sm" onclick="toast('Opening ${li}')" title="${li}">in</button>
+        <button class="btn btn-primary btn-sm" onclick="openMsg('${m.n.replace(/'/g,"\\'")}')">Message</button>
+      </div>
+      ${ADM?`<span style="position:absolute;top:8px;right:10px;display:flex;gap:2px"><button class="lki sm" title="Edit member" onclick="memModal(${i})">${P3_ICON.edit}</button><button class="lki sm" title="Remove member" onclick="delTeamMem(${i})">\u00D7</button></span>`:""}</div>`}).join("");
+  const seed=[...s.id].reduce((a,ch)=>a+ch.charCodeAt(0),0);
+  const FE=["Aisha","Riya","Sara","Meera","Zoya","Naina","Ananya","Priya","Tara","Diya","Ishita","Kavya"];
+  const MIX=["Aisha","Kabir","Riya","Aarav","Sara","Ishaan","Meera","Dev","Zoya","Arjun","Naina","Vihaan"];
+  const L=["Sharma","Verma","Khan","Mehta","Iyer","Das","Kapoor","Singh","Nair","Gupta","Bose","Reddy"];
+  const pool=curCollege.womens?FE:MIX;
+  const allCount=Math.max(0,s.members-team.length);
+  const allNames=Array.from({length:Math.min(12,allCount)}).map((_,i)=>pool[(seed+7+i*2)%pool.length]+" "+L[(seed+11+i*3)%L.length]);
+  const chips=added.map((m,i)=>{const nc=avColor(m.n);const sub=[m.course,m.yr].filter(Boolean).join(" \u00B7 ");
+    return `<div class="chipmem am" title="${p3esc([sub,m.email].filter(Boolean).join(" \u00B7 "))}"><div class="avatar" style="background:${nc[0]};color:${nc[1]}">${initials(m.n)}</div>
+      <span>${m.n}${sub?`<span style="display:block;font-size:11px;color:var(--mist);font-weight:500">${sub}</span>`:""}</span>
+      ${ADM?`<span class="amtools"><button class="lki sm" title="Edit member" onclick="amModal(${i})">${P3_ICON.edit}</button><button class="lki sm" title="Remove member" onclick="delAm(${i})">\u00D7</button></span>`:""}</div>`}).join("");
+  const procChips=allNames.map(n=>{const nc=avColor(n);return `<div class="chipmem"><div class="avatar" style="background:${nc[0]};color:${nc[1]}">${initials(n)}</div><span>${n}</span></div>`}).join("");
+  const total=s.members+added.length;
+  const allSec=(allCount||added.length||ADM)?`<div class="sec-title"><h3>All members</h3><span style="font-size:13px;color:var(--mist)">${total} total</span>${ADM?`<button class="lki" title="Add a member" onclick="amModal(-1)">${P3_ICON.add}</button>`:""}</div>
+    <div class="allmem">${chips}${procChips}
+    ${allCount>12?`<div class="chipmem" style="justify-content:center;color:var(--mist)">+ ${allCount-12} more</div>`:""}</div>
+    <div class="card" style="padding:14px 18px;margin-top:14px;font-size:13px;color:var(--slate)">Rosters update automatically \u2014 selected applicants are added after each recruitment drive, and every membership shows on the student's own UniGrid profile as verified experience.</div>`:"";
+  return pocSection(s)+`<div class="sec-title" style="margin-top:0"><h3>Core team 2026\u201327</h3>${ADM?`<button class="lki" title="Add a core team member" onclick="memModal(-1)">${P3_ICON.add}</button>`:""}</div><div class="mem-grid">${cards}</div>${allSec}`;
+};
+</script>
+
 </body>
 </html>
