@@ -907,6 +907,14 @@ function openProfile(){
   det.push(["\ud83d\udcc5","Member since","Jul 2026"]);
   const detSec=`<div class="sect"><div class="sect-h"><h3>My details</h3><button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="toast('Profile editing arrives with full accounts')">Edit</button></div>
     <div class="det-grid">${det.map(([ic,l,v])=>`<div class="det-row"><span class="det-ic">${ic}</span><span class="det-l">${l}</span><span class="det-v">${v}</span></div>`).join("")}</div></div>`;
+  const mng=USER.role==="head"?mySoc():null;
+  const adminSec=mng?`<div class="sect"><div class="sect-h"><h3>My society page</h3><span>owner controls \u2014 only you see this</span></div>
+    <div class="card" style="padding:16px 20px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+      <div style="flex:1;min-width:220px"><b style="font-size:14.5px">${mng.name}</b><span style="display:block;font-size:12.5px;color:var(--mist)">You own this page \u00b7 ${(mng.editors||[]).length}/4 editors invited</span></div>
+      <button class="btn btn-ghost btn-sm" onclick="inviteEditor()">\uFF0B Invite editor</button>
+      <button class="btn btn-ghost btn-sm" onclick="transferOwn()">\u21C4 Transfer ownership</button>
+      <button class="btn btn-primary btn-sm" onclick="openSociety(USER.manages.cid,USER.manages.sid)">Open page</button>
+    </div></div>`:"";
   const STAGES=["Applied","Shortlist","Interview","Result"];
   const appSec=`<div class="sect" id="sec-apps"><div class="sect-h"><h3>My applications</h3><span>every drive you've applied to, one tracker</span></div>
     ${APPS.length?APPS.map(a=>`<div class="app-row">
@@ -943,7 +951,7 @@ function openProfile(){
       <div style="flex:1;min-width:200px"><h2>${USER.name}</h2><div class="sub">${roleLabel}${col?` \u00b7 ${col.name}`:""}${USER.city?` \u00b7 ${USER.city}`:""}</div></div>
       <button class="btn btn-ghost btn-sm" onclick="signOut()">Sign out</button>
     </div>
-    ${tiles}${detSec}${appSec}${socSec}${savedSec}${tixSec}${notifSec}`;
+    ${tiles}${detSec}${adminSec}${appSec}${socSec}${savedSec}${tixSec}${notifSec}`;
   window.scrollTo({top:0});
 }
 
@@ -973,8 +981,7 @@ function toggleManage(){MANAGE=!MANAGE;renderSociety(curTab);toast(MANAGE?"Manag
 function manageBar(s){
   if(!MANAGE||!isAdminOf(s))return "";
   return `<div class="mgstrip"><span>\u270E <b>Editing ${s.name}</b> \u2014 changes save automatically</span>
-    <span class="mg-r"><a onclick="inviteEditor()">Invite editor</a><a onclick="transferOwn()">Transfer ownership</a>
-    <button class="btn btn-ghost btn-sm" onclick="toggleManage()">\u2713 Done</button></span></div>`;
+    <span class="mg-r"><button class="btn btn-ghost btn-sm" onclick="toggleManage()">\u2713 Done</button></span></div>`;
 }
 function mAdm(){return MANAGE&&isAdminOf(curSoc)}
 function editProfileHead(){
@@ -1091,17 +1098,23 @@ function toggleDrive(){
   }
   renderSociety("recruit");
 }
-function addRole(){
+function addRole(i){
   if(!isAdminOf(curSoc))return;
-  $("modalBox").innerHTML=`<h3>Add a role</h3>
-    <div class="field"><label>Role name</label><input id="arR" placeholder="Marketing &amp; outreach"></div>
-    <div class="field"><label>Seats</label><input id="arS" value="5"></div>
+  if(i===undefined)i=-1;
+  const ed=i>=0?curSoc.recruitment.roles[i]:null;
+  $("modalBox").innerHTML=`<h3>${ed?"Edit position":"Add a position"}</h3>
+    <div class="field"><label>Role name</label><input id="arR" value="${ed?ed.r.replace(/"/g,'&quot;'):""}" placeholder="Marketing &amp; outreach"></div>
+    <div class="field"><label>Seats</label><input id="arS" value="${ed?ed.seats:5}"></div>
+    <div class="field"><label>Job description (optional \u2014 leave blank to auto-generate)</label><textarea id="arJ" rows="6" placeholder="What they'll do, who it's for, expectations, time commitment...">${ed&&ed.jd?ed.jd.replace(/</g,"&lt;"):""}</textarea></div>
     <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
-    <button class="btn btn-gold btn-sm" onclick="saveRole()">Add</button></div>`;
+    <button class="btn btn-gold btn-sm" onclick="saveRole(${i})">${ed?"Save":"Add"}</button></div>`;
   $("modalBg").classList.add("on");
 }
-function saveRole(){const r=$("arR").value.trim();if(!r){toast("Name the role");return}
-  curSoc.recruitment.roles.push({r:r,seats:parseInt($("arS").value)||5});closeModal();renderSociety("recruit");toast("Role added \u00b7 logged")}
+function saveRole(i){const r=$("arR").value.trim();if(!r){toast("Name the role");return}
+  const seats=parseInt($("arS").value)||5;const jd=$("arJ").value.trim();
+  if(i>=0){const x=curSoc.recruitment.roles[i];x.r=r;x.seats=seats;x.jd=jd;}
+  else curSoc.recruitment.roles.push({r:r,seats:seats,jd:jd});
+  closeModal();renderSociety("recruit");toast(i>=0?"Position updated \u00b7 logged":"Position added \u00b7 logged")}
 function delRole(i){if(!isAdminOf(curSoc))return;curSoc.recruitment.roles.splice(i,1);renderSociety("recruit");toast("Role removed \u00b7 logged")}
 function addStage(){
   if(!isAdminOf(curSoc))return;
@@ -1134,17 +1147,22 @@ function saveVacancy(){
   closeModal();renderSociety("recruit");toast("Vacancy posted \u00b7 logged");
 }
 function delVacancy(i){if(!isAdminOf(curSoc))return;VAC[curSoc.id].splice(i,1);renderSociety("recruit");toast("Vacancy removed \u00b7 logged")}
+function mySoc(){
+  if(curSoc&&isAdminOf(curSoc))return curSoc;
+  if(USER&&USER.role==="head"&&USER.manages){const c=findCollege(USER.manages.cid);return (c&&(c.societies||[]).find(x=>x.id===USER.manages.sid))||null}
+  return null;
+}
 function inviteEditor(){
-  if(!isAdminOf(curSoc))return;
-  $("modalBox").innerHTML=`<h3>Invite an editor</h3><p class="m-sub">Editors update content and post \u2014 they can't delete the page or manage access. Max 4.</h3></p>
+  const s=mySoc();if(!s)return;
+  $("modalBox").innerHTML=`<h3>Invite an editor</h3><p class="m-sub">Editors update ${s.name}'s content and post \u2014 they can't delete the page or manage access. Max 4.</p>
     <div class="field"><label>Their email</label><input id="ieM" placeholder="coreteam@member.com"></div>
     <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
-    <button class="btn btn-gold btn-sm" onclick="(curSoc.editors=curSoc.editors||[]).push($('ieM').value.trim());closeModal();toast('Editor invite sent \u00b7 logged')">Send invite</button></div>`;
+    <button class="btn btn-gold btn-sm" onclick="(mySoc().editors=mySoc().editors||[]).push($('ieM').value.trim());closeModal();openProfile();toast('Editor invite sent \u00b7 logged')">Send invite</button></div>`;
   $("modalBg").classList.add("on");
 }
 function transferOwn(){
-  if(!isAdminOf(curSoc))return;
-  $("modalBox").innerHTML=`<h3>Transfer ownership</h3><p class="m-sub">For committee handover \u2014 the page belongs to the official email, so it survives every year's change.</p>
+  const s=mySoc();if(!s)return;
+  $("modalBox").innerHTML=`<h3>Transfer ownership</h3><p class="m-sub">For committee handover of ${s.name} \u2014 the page belongs to the official email, so it survives every year's change.</p>
     <div class="field"><label>New admin's official email</label><input id="toM" placeholder="newpresident@college.ac.in"></div>
     <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
     <button class="btn btn-gold btn-sm" onclick="isOfficialEmail($('toM').value)?(closeModal(),toast('Transfer link sent \u2014 ownership moves once they confirm \u00b7 logged')):toast('Use an OFFICIAL email \u2014 personal Gmail/Yahoo won\\'t work')">Send transfer link</button></div>`;
@@ -1676,13 +1694,16 @@ function jdFor(role){
     terms:["Selection is merit-based through the stages listed on this page","Membership is reviewed each semester on participation","Members follow the society's and the college's code of conduct","On selection, the role appears on your UniGrid profile as verified experience"]};
 }
 function openJD(i){
-  const role=curSoc.recruitment.roles[i].r,jd=jdFor(role);
-  $("modalBox").innerHTML=`<h3>${role}</h3><p class="m-sub">${curSoc.name} \u00b7 job description &amp; terms</p>
-    <div class="jd-sec"><b>What you'll do</b><ul>${jd.resp.map(x=>`<li>${x}</li>`).join("")}</ul>
+  const x=curSoc.recruitment.roles[i],role=x.r,jd=jdFor(role);
+  const ADM=MANAGE&&isAdminOf(curSoc);
+  const body=x.jd?`<div class="jd-sec"><b>Job description \u00b7 written by the society</b><p style="font-size:13.5px;line-height:1.7;white-space:pre-line;margin-top:6px">${x.jd}</p></div>`
+    :`<div class="jd-sec"><b>What you'll do</b><ul>${jd.resp.map(x=>`<li>${x}</li>`).join("")}</ul>
     <b>Who it's for</b><ul>${jd.req.map(x=>`<li>${x}</li>`).join("")}</ul>
-    <b>Terms &amp; conditions</b><ul>${jd.terms.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+    <b>Terms &amp; conditions</b><ul>${jd.terms.map(x=>`<li>${x}</li>`).join("")}</ul></div>`;
+  $("modalBox").innerHTML=`<h3>${role}</h3><p class="m-sub">${curSoc.name} \u00b7 job description &amp; terms</p>
+    ${body}
     <p style="font-size:12.5px;color:var(--mist);margin-top:12px">To apply, follow the recruitment process above \u2014 applications go through the Form filling stage.</p>
-    <div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Close</button></div>`;
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">${ADM?`<button class="btn btn-ghost btn-sm" onclick="closeModal();addRole(${i})">\u270E Edit JD</button>`:""}<button class="btn btn-ghost btn-sm" onclick="closeModal()">Close</button></div>`;
   $("modalBg").classList.add("on");
 }
 function openVJD(vi){
@@ -1706,8 +1727,10 @@ function stageContent(st,soc){
   if(st.names)out+=`<div style="font-size:12px;font-weight:700;color:var(--marigold-deep);text-transform:uppercase;letter-spacing:.08em;margin-top:10px">Selected for this round</div><div class="jnames">${st.names.map(n=>`<span class="chipmem">${n}</span>`).join("")}</div>`;
   if(st.materials)out+=`<div class="jlinks">${st.materials.map(m=>`<button class="jlink" onclick="toast('${m.m}')">${m.l}</button>`).join("")}</div>`;
   const acts=[];
-  if(st.form)acts.push(`<button class="btn btn-gold btn-sm" onclick="toast('Opening the application form added by the society')">\ud83d\udcdd Fill the application form</button>`);
-  if(st.group)acts.push(`<button class="btn btn-ghost btn-sm" onclick="toast('Request sent \u2014 the society adds this round\\'s candidates to the group')">\ud83d\udcac Join this round's group</button>`);
+  const go=l=>`href="${l}" target="_blank" rel="noopener"`;
+  if(st.form)acts.push(st.link?`<a class="btn btn-gold btn-sm" ${go(st.link)}>\ud83d\udcdd Fill the application form</a>`:`<button class="btn btn-gold btn-sm" onclick="toast('The society hasn\\'t added the form link yet')">\ud83d\udcdd Fill the application form</button>`);
+  if(st.group)acts.push(st.link&&!st.form?`<a class="btn btn-ghost btn-sm" ${go(st.link)}>\ud83d\udcac Join this round's group</a>`:`<button class="btn btn-ghost btn-sm" onclick="toast('Request sent \u2014 the society adds this round\\'s candidates to the group')">\ud83d\udcac Join this round's group</button>`);
+  if(st.link&&!st.form&&!st.group)acts.push(`<a class="btn btn-gold btn-sm" ${go(st.link)}>\ud83d\udd17 Open round link</a>`);
   if(acts.length)out+=`<div style="display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 6px">${acts.join("")}</div>`;
   return out;
 }
@@ -2067,37 +2090,47 @@ buildFilters();goHome();
 .el-row .el-val b{color:var(--rbblue-deep);font-size:13px;display:block}
 .el-row .el-val span{font-size:12.5px;color:var(--mist)}
 /* ===== builder overlay ===== */
-#bldBg{position:fixed;inset:0;background:var(--paper);z-index:70;display:none;overflow-y:auto}
+#bldBg{position:fixed;inset:0;background:var(--paper);background-image:radial-gradient(var(--line-strong) 1.1px,transparent 1.1px);background-size:22px 22px;z-index:70;display:none;overflow-y:auto}
 #bldBg.on{display:block}
 .bld-top{position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--line);padding:14px 26px;display:flex;align-items:center;gap:10px;z-index:5}
 .bld-step{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:600;color:var(--mist)}
 .bld-step .bnum{width:30px;height:30px;border-radius:50%;background:var(--paper);border:1px solid var(--line-strong);display:flex;align-items:center;justify-content:center;font-size:13px}
 .bld-step.on{color:var(--ink)}
-.bld-step.on .bnum{background:var(--rbblue);border-color:var(--rbblue);color:#fff}
+.bld-step.on .bnum{background:var(--ink);border-color:var(--ink);color:#fff}
 .bld-step.done .bnum{background:#D7F0E4;border-color:#D7F0E4;color:var(--green)}
 .bld-dash{width:26px;height:1.5px;background:var(--line-strong)}
 .bld-x{margin-left:auto;border:none;background:none;font-size:22px;cursor:pointer;color:var(--ink)}
 .bld-wrap{max-width:960px;margin:0 auto;padding:30px 22px 60px}
 .bld-h{text-align:center;margin-bottom:6px}
 .bld-h h2{font-family:var(--disp);font-size:28px}
-.bld-h h2 em{font-style:normal;color:var(--rbblue)}
+.bld-h h2 em{font-style:normal;color:var(--marigold-deep)}
 .bld-h p{font-size:13.5px;color:var(--mist);margin-top:4px}
 /* funnel */
-.fn{display:flex;flex-direction:column;align-items:center;margin-top:22px}
-.fn-pill{background:var(--card);border:1px solid var(--line);border-radius:99px;padding:14px 40px;font-family:var(--disp);font-size:16px;box-shadow:0 6px 18px rgba(27,31,58,.05)}
+.fn{display:flex;flex-direction:column;align-items:center;margin-top:26px}
+.fn-pill{position:relative;background:var(--card);border:1.5px solid var(--ink);border-radius:99px;padding:13px 34px;font-family:var(--disp);font-size:16px;font-weight:700;box-shadow:0 8px 20px rgba(27,31,58,.08);display:flex;align-items:center;gap:9px}
+.fn-tag{position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--marigold);color:#231A02;font-family:var(--body);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:2px 10px;border-radius:99px;white-space:nowrap}
 .fn-link{display:flex;flex-direction:column;align-items:center}
-.fn-link .fn-l{width:2px;height:16px;background:#B9CFF7}
-.fn-add{width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;border:none;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s}
-.fn-add:hover{background:var(--rbblue);transform:scale(1.08)}
-.fn-round{width:100%;max-width:760px;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--card);box-shadow:0 8px 22px rgba(27,31,58,.05)}
-.fn-round .fr-main{padding:17px 20px;display:flex;align-items:center;gap:14px}
+.fn-link .fn-l{width:2px;height:18px;background:var(--line-strong)}
+.fn-link .fn-l:last-child{position:relative}
+.fn-link .fn-l:last-child::after{content:"";position:absolute;bottom:-3px;left:50%;transform:translateX(-50%);border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid var(--line-strong)}
+.fn-add{width:32px;height:32px;border-radius:50%;background:var(--card);color:var(--ink);border:1.5px solid var(--ink);font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;box-shadow:0 4px 12px rgba(27,31,58,.10)}
+.fn-add:hover{background:var(--marigold);border-color:var(--marigold);color:#231A02;transform:scale(1.1)}
+.fn-round{width:100%;max-width:760px;border-radius:16px;border:1.5px solid var(--line);background:var(--card);box-shadow:0 10px 26px rgba(27,31,58,.06);transition:.14s;position:relative}
+.fn-round:hover{border-color:var(--marigold);box-shadow:0 12px 30px rgba(242,168,29,.16)}
+.fn-round::before,.fn-round::after{content:"";position:absolute;left:50%;transform:translateX(-50%);width:9px;height:9px;border-radius:50%;background:var(--card);border:2px solid var(--line-strong)}
+.fn-round::before{top:-5px}
+.fn-round::after{bottom:-5px}
+.fn-round:hover::before,.fn-round:hover::after{border-color:var(--marigold)}
+.fn-round .fr-main{padding:16px 18px;display:flex;align-items:center;gap:14px}
 .fn-round .fr-main>div{flex:1;min-width:0}
+.fr-ic{width:46px;height:46px;border-radius:12px;background:var(--marigold-bg);border:1px solid #F0DFB6;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
 .fn-round h5{font-family:var(--disp);font-size:16.5px;margin-bottom:2px}
 .fn-round .fr-desc{font-size:13px;color:var(--slate);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.fr-filter{background:linear-gradient(90deg,#F4EFFF,#FDECEF);padding:9px 20px;font-size:12.5px;font-weight:600;color:#7C3AED}
-.fr-del{border:none;background:none;cursor:pointer;font-size:16px;color:var(--mist)}
-.fr-del:hover{color:#C0392B}
-.fn-offer{display:flex;align-items:center;gap:9px}
+.fr-foot{border-top:1px solid var(--line);background:var(--paper);padding:8px 18px;font-size:12px;font-weight:600;color:var(--mist);border-radius:0 0 14px 14px;display:flex;gap:16px;flex-wrap:wrap}
+.fr-foot span{display:inline-flex;align-items:center;gap:5px}
+.fr-del{border:none;background:none;cursor:pointer;font-size:16px;color:var(--mist);transition:.12s}
+.fr-del:hover{color:var(--marigold-deep)}
+.fn-offer{border-color:var(--green);display:flex;align-items:center;gap:9px}
 .bld-tplbar{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:14px}
 .bld-next{display:flex;justify-content:center;margin-top:30px;gap:12px}
 .btn-blue{background:var(--rbblue);color:#fff;border:none}
@@ -2123,8 +2156,12 @@ const ROUND_TYPES=[
  {k:"audition",ic:"\uD83C\uDFAD",n:"Audition / Trial",d:"Perform, debate or demonstrate live \u2014 perfect for theatre, music, dance, debating and sports societies."},
  {k:"submission",ic:"\uD83D\uDCC1",n:"Submission",d:"Accept submissions like PPTs, articles, portfolios, pictures etc. You can also attach a case file or task brief."},
  {k:"gd",ic:"\uD83D\uDDE3",n:"Group Discussion",d:"Candidates discuss a topic in groups while the panel evaluates communication and reasoning."},
+ {k:"test",ic:"\uD83D\uDCDD",n:"Written / Online Test",d:"A timed test \u2014 aptitude, quiz or subject round, conducted online or on paper."},
+ {k:"task",ic:"\uD83E\uDDE9",n:"Task / Case Assignment",d:"Give candidates a task, case or creative brief with a deadline \u2014 attach the brief via the round's direct link."},
+ {k:"meet",ic:"\u2615",n:"Informal Meet / Coffee Chat",d:"A relaxed meet-and-greet with the team \u2014 no evaluation pressure."},
+ {k:"result",ic:"\uD83D\uDCE3",n:"Result / Shortlist Announcement",d:"Announce shortlisted candidates and next steps at this point in the flow."},
  {k:"offline",ic:"\uD83C\uDFEB",n:"Others / On-campus / Offline",d:"For offline & on-campus events, or anything custom that doesn't fit the templates \u2014 you define it."}];
-function rtByKey(k){return ROUND_TYPES.find(r=>r.k===k)||ROUND_TYPES[6]}
+function rtByKey(k){return ROUND_TYPES.find(r=>r.k===k)||ROUND_TYPES.find(r=>r.k==="offline")}
 function recTemplate(cat){
   cat=(cat||"").toLowerCase();
   const mk=(k,n,d)=>({type:k,s:n,desc:d,d:"TBA"});
@@ -2158,9 +2195,7 @@ function tabRecruit(s){
   const admBar=ADM?`<div class="card" style="padding:14px 18px;margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;border:1.5px solid var(--marigold)">
     <b style="font-size:13px;margin-right:auto">\uD83D\uDEE0 Recruitment controls \u2014 every section below is editable in place</b>
     <button class="btn btn-blue btn-sm" onclick="openBuilder()">\u2699 Hiring rounds builder</button>
-    <button class="btn ${r.status==="live"?"btn-ghost":"btn-gold"} btn-sm" onclick="toggleDrive()">${r.status==="live"?"\u23F8 Close drive":"\u25B6 Open recruitment"}</button>
-    <button class="btn btn-ghost btn-sm" onclick="addRole()">\uFF0B Role</button>
-    <button class="btn btn-ghost btn-sm" onclick="postVacancy()">\uFF0B Vacancy</button></div>`:"";
+    <button class="btn ${r.status==="live"?"btn-ghost":"btn-gold"} btn-sm" onclick="toggleDrive()">${r.status==="live"?"\u23F8 Close drive":"\u25B6 Open recruitment"}</button></div>`:"";
   const vacs=VAC[s.id]||[];
   const vacSec=vacs.length?`
     <div class="rb-sec"><h3>Vacant positions \u2014 apply anytime</h3></div>
@@ -2198,62 +2233,85 @@ function tabRecruit(s){
         <div class="rb-cardstep">
           <h5>${t.ic} ${st.s} ${pill}${ADM?`<button class="xdel" style="margin-left:auto" onclick="delStage(${i})">\u00D7</button>`:""}</h5>
           <p>${st.desc||t.d}</p>
+          ${(st.mode||st.venue)?`<div class="rb-when" style="margin-top:4px">\uD83D\uDCCD ${[st.mode,st.venue].filter(Boolean).join(" \u00B7 ")}</div>`:""}
           ${state==="now"&&extra?`<div class="rb-open">${extra}</div>`:""}
         </div>
       </div></div>`}).join("");
-  /* deadlines */
-  const dls=[];
-  if(r.closes&&r.closes.toLowerCase()!=="closed")dls.push({d:r.closes,t:"Application Deadline",x:"Last date to submit your application"});
-  if(r.orientation&&r.orientation!=="TBA"&&r.orientation!=="\u2014")dls.push({d:r.orientation,t:"Orientation",x:r.orientation});
-  if(stages.length)dls.push({d:stages[stages.length-1].d,t:"Final Round",x:stages[stages.length-1].s});
-  const dlSec=dls.length?`<div class="rb-sec"><h3>Important dates &amp; deadlines</h3></div>
-    <div class="rb-dl-grid">${dls.map(x=>`<div class="rb-dl">${rbDateChip(x.d)}<div><b>${x.t}</b><span>${x.x}</span></div></div>`).join("")}</div>`:"";
+  /* deadlines \u2014 editable list, seeded once from the drive's own dates */
+  if(!r.deadlines){
+    const seed=[];
+    if(r.closes&&r.closes.toLowerCase()!=="closed")seed.push({d:r.closes,t:"Application Deadline",x:"Last date to submit your application"});
+    if(r.orientation&&r.orientation!=="TBA"&&r.orientation!=="\u2014")seed.push({d:r.orientation,t:"Orientation",x:r.orientation});
+    if(stages.length)seed.push({d:stages[stages.length-1].d,t:"Final Round",x:stages[stages.length-1].s});
+    r.deadlines=seed;
+  }
+  const dlSec=(r.deadlines.length||ADM)?`<div class="rb-sec"><h3>Important dates &amp; deadlines</h3>${ADM?`<button class="btn btn-ghost btn-sm" onclick="dlModal(-1)">\uFF0B Add date</button>`:""}</div>
+    <div class="rb-dl-grid">${r.deadlines.map((x,i)=>`<div class="rb-dl" style="position:relative">${rbDateChip(x.d)}<div><b>${x.t}</b><span>${x.x}</span></div>
+      ${ADM?`<span style="position:absolute;top:8px;right:10px;display:flex;gap:4px"><button class="xdel" title="Edit" onclick="dlModal(${i})">\u270E</button><button class="xdel" title="Delete" onclick="delDl(${i})">\u00D7</button></span>`:""}</div>`).join("")||'<div class="empty" style="grid-column:1/-1">No dates added yet \u2014 hit \uFF0B Add date.</div>'}</div>`:"";
   /* apply hero */
   const hero=`<div class="card" style="padding:18px 22px;margin-bottom:6px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;border:1.5px solid ${live?"var(--rbblue)":"var(--line)"}">
     <div style="flex:1;min-width:220px">
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h3 style="font-family:var(--disp);font-size:21px">${r.title}</h3>${live?'<span class="pill pill-green">\u25CF Applications open</span>':'<span class="pill pill-gold">\u23F3 Opening soon</span>'}</div>
-      <p style="font-size:13px;color:var(--mist);margin:4px 0 0">by ${s.name} \u00B7 designed with the UniGrid hiring-rounds builder \u00B7 your application auto-fills from your profile</p>
+      <p style="font-size:13px;color:var(--mist);margin:4px 0 0">by ${s.name} \u00B7 designed with the UniGrid hiring-rounds builder \u00B7 apply directly via the society's links in each round</p>
       <div style="display:flex;align-items:center;gap:10px;margin-top:10px">${avStack(s)}<span style="font-size:12.5px;color:var(--mist)"><b style="color:var(--ink)">${r.applied||0}</b> applied so far ${live&&dl!==null?`\u00B7 <b style="color:var(--marigold-deep)">\u23F1 ${dl>0?dl+" day"+(dl===1?"":"s")+" left":"closes today"}</b>`:""}</span></div>
     </div>
     <div style="display:flex;flex-direction:column;gap:8px;min-width:190px">
-    ${live?(applied?`<button class="btn btn-gold applied-btn" style="justify-content:center">\u2713 Applied \u00B7 track in your profile</button>`
-      :`<button class="btn btn-blue" style="justify-content:center" onclick="openApplyPicker()">Apply now \u2014 free</button>`)
+    ${live?`<div style="font-size:12.5px;color:var(--slate);text-align:center;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px 14px;max-width:210px">\uD83D\uDCDD Apply through the society's <b>links in the process below</b></div>`
       :`<button class="btn btn-primary" style="justify-content:center" onclick="notifyMe()">\uD83D\uDD14 Notify me</button>`}
     <span style="font-size:11.5px;color:var(--mist);text-align:center">Closes ${r.closes}</span></div>
   </div>`;
-  const rolesSec=`<div class="rb-sec" id="rolesSec"><h3>Open positions</h3><span style="font-size:12.5px;color:var(--mist)">${r.roles.length} role${r.roles.length===1?"":"s"}</span></div>
-    <div class="role-grid">${r.roles.map((x,i)=>`<div class="card role-card"><h5>${x.r} ${ADM?`<button class="xdel" style="float:right" onclick="delRole(${i})">\u00D7</button>`:""}</h5><span class="r-seats">${x.seats} seats \u00B7 ${e.who==="Everyone can apply"?"open to all years":e.who}</span>
+  const rolesSec=`<div class="rb-sec" id="rolesSec"><h3>Open positions</h3><span style="font-size:12.5px;color:var(--mist)">${r.roles.length} role${r.roles.length===1?"":"s"}</span>${ADM?`<button class="btn btn-ghost btn-sm" onclick="addRole(-1)">\uFF0B Add position</button>`:""}</div>
+    <div class="role-grid">${r.roles.map((x,i)=>`<div class="card role-card"><h5>${x.r} ${ADM?`<span style="float:right;display:flex;gap:4px"><button class="xdel" title="Edit" onclick="addRole(${i})">\u270E</button><button class="xdel" title="Delete" onclick="delRole(${i})">\u00D7</button></span>`:""}</h5><span class="r-seats">${x.seats} seats \u00B7 ${e.who==="Everyone can apply"?"open to all years":e.who}</span>
       <button class="btn btn-ghost btn-sm" onclick="openJD(${i})">View JD &amp; terms</button></div>`).join("")}</div>`;
-  return admBar+hero+eligSec+
+  return admBar+hero+eligSec+dlSec+rolesSec+
     `<div class="rb-sec"><h3>Recruitment Process</h3><span style="font-size:12.5px;color:var(--mist)">designed by ${s.name} \u00B7 ${stages.length} round${stages.length===1?"":"s"}</span>${ADM?`<button class="btn btn-ghost btn-sm" onclick="openBuilder(2)">\u270E Edit rounds</button>`:""}</div>
     <div class="rb-tl">${tl||'<div class="empty">Rounds will appear here once the society publishes its process.</div>'}</div>
     ${ADM?`<div class="rb-note"><i>\u24D8</i> Candidates see exactly this preview \u2014 add dates & attachments in the builder to complete it.</div>`:""}
-    ${dlSec}${rolesSec}${vacSec}`;
+    ${vacSec}`;
 }
 /* ---------- ELIGIBILITY EDITOR ---------- */
 function openEligModal(){
   if(!isAdminOf(curSoc))return;ensureRec2(curSoc);
   const e=curSoc.recruitment.elig;
   const WHO=["Everyone can apply","1st years only","1st & 2nd years","College students","Freshers","Professionals"];
+  const COLL=["Everyone can apply",(curCollege&&curCollege.name?curCollege.name+" students only":"Own college only"),"College students only","Other organisations welcome"];
+  const GEN=["Everyone can apply","Women only","Men only"];
+  EL_OPTS={college:COLL,gender:GEN};
   $("modalBox").innerHTML=`<h3>Eligibility</h3><p class="m-sub">Control who can apply for this drive \u2014 shown to every candidate</p>
     <div class="el-card"><h6>Who can apply?</h6><div class="el-sub">Select candidate type(s) eligible to apply for this drive</div>
       <div class="el-chips" id="elWho">${WHO.map(w=>`<button class="el-chip ${e.who===w?"on":""}" onclick="setEligWho(this,'${w}')">${w}</button>`).join("")}</div></div>
-    <div class="el-card"><div class="el-row"><div class="el-val" style="max-width:160px"><b style="color:var(--ink);font-size:14px">College / Organisation</b></div>
-      <div class="el-val"><b>${e.college==="Everyone can apply"?"Default : Everyone can apply":e.college}</b><span>Restrict applicants based on their college</span></div>
-      <button class="btn btn-blueghost btn-sm" onclick="changeEligCollege()">\u270E Change</button></div></div>
-    <div class="el-card"><div class="el-row"><div class="el-val" style="max-width:160px"><b style="color:var(--ink);font-size:14px">Gender</b></div>
-      <div class="el-val"><b>${e.gender==="Everyone can apply"?"Default : Everyone can apply":e.gender}</b><span>Restrict applicants based on their gender</span></div>
-      <button class="btn btn-blueghost btn-sm" onclick="changeEligGender()">\u270E Change</button></div></div>
+    <div class="el-card"><h6>College / Organisation</h6><div class="el-sub">Restrict applicants based on their college</div>
+      <div class="el-chips" id="elCol">${COLL.map((w,i)=>`<button class="el-chip ${e.college===w?"on":""}" onclick="setEligOpt(this,'college',${i})">${w}</button>`).join("")}</div></div>
+    <div class="el-card"><h6>Gender</h6><div class="el-sub">Restrict applicants based on their gender</div>
+      <div class="el-chips" id="elGen">${GEN.map((w,i)=>`<button class="el-chip ${e.gender===w?"on":""}" onclick="setEligOpt(this,'gender',${i})">${w}</button>`).join("")}</div></div>
     <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Close</button>
     <button class="btn btn-blue btn-sm" onclick="saveElig()">Save</button></div>`;
   $("modalBg").classList.add("on");
 }
 function setEligWho(btn,w){curSoc.recruitment.elig.who=w;[...btn.parentElement.children].forEach(c=>c.classList.remove("on"));btn.classList.add("on")}
-function changeEligCollege(){const e=curSoc.recruitment.elig;
-  e.college=e.college==="Everyone can apply"?(curCollege&&curCollege.name?curCollege.name+" students only":"Own college only"):"Everyone can apply";openEligModal()}
-function changeEligGender(){const e=curSoc.recruitment.elig;
-  e.gender=e.gender==="Everyone can apply"?"Women only":e.gender==="Women only"?"Men only":"Everyone can apply";openEligModal()}
+let EL_OPTS={};
+function setEligOpt(btn,key,i){curSoc.recruitment.elig[key]=EL_OPTS[key][i];[...btn.parentElement.children].forEach(c=>c.classList.remove("on"));btn.classList.add("on")}
 function saveElig(){closeModal();renderSociety("recruit");toast("Eligibility updated \u00B7 logged")}
+/* ---------- IMPORTANT DATES editor ---------- */
+function dlModal(i){
+  if(!isAdminOf(curSoc))return;
+  const r=curSoc.recruitment;r.deadlines=r.deadlines||[];
+  const ed=i>=0?r.deadlines[i]:null;
+  $("modalBox").innerHTML=`<h3>${ed?"Edit date":"Add an important date"}</h3><p class="m-sub">Shown to every candidate under Important dates &amp; deadlines</p>
+    <div class="field"><label>Title</label><input id="wdT" value="${ed?ed.t.replace(/"/g,'&quot;'):""}" placeholder="Round 2 \u00b7 Group discussion"></div>
+    <div class="field"><label>Date</label><input id="wdD" value="${ed?ed.d:""}" placeholder="28 Aug 2026"></div>
+    <div class="field"><label>Note for candidates</label><input id="wdX" value="${ed?(ed.x||"").replace(/"/g,'&quot;'):""}" placeholder="Venue / time / what to prepare"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-blue btn-sm" onclick="saveDl(${i})">${ed?"Save":"Add"}</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function saveDl(i){
+  const r=curSoc.recruitment;const t=$("wdT").value.trim();if(!t){toast("Give the date a title");return}
+  const item={t:t,d:$("wdD").value.trim()||"TBA",x:$("wdX").value.trim()};
+  if(i>=0)r.deadlines[i]=item;else r.deadlines.push(item);
+  closeModal();renderSociety("recruit");toast(i>=0?"Date updated \u00b7 logged":"Date added \u00b7 logged");
+}
+function delDl(i){if(!isAdminOf(curSoc))return;curSoc.recruitment.deadlines.splice(i,1);renderSociety("recruit");toast("Date removed \u00b7 logged")}
 /* ---------- HIRING ROUNDS BUILDER ---------- */
 let BLD=null;
 function ensureBldRoot(){
@@ -2267,7 +2325,7 @@ function openBuilder(step){
     title:r.title&&!r.title.includes("(closed)")?r.title:"Fresher recruitment 2026",
     closes:r.closes&&r.closes.toLowerCase().indexOf("close")===-1&&r.closes.toLowerCase().indexOf("open")===-1?r.closes:"30 Sep 2026",
     orient:r.orientation&&r.orientation!=="\u2014"?r.orientation:"",
-    rounds:(r.stages&&r.stages.length?r.stages.map(st=>({type:st.type||"offline",s:st.s,desc:st.desc||"",d:st.d||"TBA"})):null)
+    rounds:(r.stages&&r.stages.length?r.stages.map(st=>({type:st.type||"offline",s:st.s,desc:st.desc||"",d:st.d||"TBA",link:st.link||"",mode:st.mode||"",venue:st.venue||"",form:st.form,group:st.group,task:st.task})):null)
   }};
   if(!BLD.d.rounds)BLD.d.rounds=recTemplate(curSoc.cat);
   bldShow();
@@ -2302,29 +2360,45 @@ function bldSave1(){BLD.d.title=$("bdT").value.trim()||BLD.d.title;BLD.d.closes=
 function bldStep2(){
   const rounds=BLD.d.rounds;
   const roundCard=(rd,i)=>{const t=rtByKey(rd.type);
+    const meta=[`\uD83D\uDCC5 ${rd.d&&rd.d!=="TBA"?rd.d:"Date TBA"}`,rd.mode?`\u2699 ${rd.mode}`:null,rd.venue?`\uD83D\uDCCD ${rd.venue}`:null,rd.link?"\uD83D\uDD17 Link attached":"\uD83D\uDD17 No link yet"].filter(Boolean);
     return `<div class="fn-round">
-      <div class="fr-main"><span style="font-size:22px">${t.ic}</span><div><h5>${rd.s}</h5><div class="fr-desc">${rd.desc||t.d}</div></div>
-        <button class="btn btn-blueghost btn-sm" onclick="setupRound(${i})">Setup Round</button>
-        <button class="fr-del" onclick="delBldRound(${i})">\uD83D\uDDD1</button></div>
-      <div class="fr-filter">\u26A1 Auto-filter candidates who don't meet basic criteria</div>
+      <div class="fr-main"><span class="fr-ic">${t.ic}</span><div><h5>${rd.s}</h5><div class="fr-desc">${rd.desc||t.d}</div></div>
+        <span style="display:flex;gap:4px;align-items:center">
+        <button class="fr-del" title="Move up" ${i===0?'disabled style="opacity:.3"':''} onclick="moveBldRound(${i},-1)">\u2191</button>
+        <button class="fr-del" title="Move down" ${i===rounds.length-1?'disabled style="opacity:.3"':''} onclick="moveBldRound(${i},1)">\u2193</button>
+        <button class="fr-del" title="Duplicate this round" onclick="dupBldRound(${i})">\u29C9</button></span>
+        <button class="btn btn-gold btn-sm" onclick="setupRound(${i})">Setup</button>
+        <button class="fr-del" title="Delete round" onclick="delBldRound(${i})">\uD83D\uDDD1</button></div>
+      <div class="fr-foot">${meta.map(m=>`<span>${m}</span>`).join("")}</div>
     </div>`};
   const link=i=>`<div class="fn-link"><span class="fn-l"></span><button class="fn-add" title="Add a round here" onclick="openRoundPicker(${i})">+</button><span class="fn-l"></span></div>`;
-  return `<div class="bld-h"><h2>Hiring <em>Rounds</em></h2><p>Recommended for ${curSoc.cat} societies \u2014 use it as-is, tweak it, or build your own from scratch</p></div>
+  return `<div class="bld-h"><h2>Hiring <em>Rounds</em></h2><p>Your flow, your rules \u2014 add rounds with \uFF0B, reorder with \u2191\u2193, duplicate with \u29C9, and set up each node exactly how you want</p></div>
   <div class="bld-tplbar">
     <button class="btn btn-ghost btn-sm" onclick="useTemplate()">\u2728 Use recommended template</button>
     <button class="btn btn-ghost btn-sm" onclick="startScratch()">\uD83E\uDDF9 Start from scratch</button>
   </div>
   <div class="fn">
-    <div class="fn-pill">\uD83D\uDCC4 Application Form</div>
+    <div class="fn-pill" title="Entry node \u2014 every candidate begins here by submitting your sign-up form"><span class="fn-tag">Entry</span>\uD83D\uDCC4 ${BLD.d.startLabel||"Application Form"} <button class="fr-del" style="margin-left:4px" title="Rename" onclick="renamePill('start')">\u270E</button></div>
     ${link(0)}
     ${rounds.map((rd,i)=>roundCard(rd,i)+(i<rounds.length?link(i+1):"")).join("")}
-    <div class="fn-pill fn-offer">\uD83C\uDF96 Offer Rollout</div>
+    <div class="fn-pill fn-offer" title="Exit node \u2014 selected candidates receive their offer / welcome here"><span class="fn-tag" style="background:var(--green);color:#fff">Finish</span>\uD83C\uDF96 ${BLD.d.endLabel||"Offer Rollout"} <button class="fr-del" style="margin-left:4px" title="Rename" onclick="renamePill('end')">\u270E</button></div>
   </div>
   <div class="bld-next"><button class="btn btn-ghost" onclick="BLD.step=1;bldShow()">Back</button><button class="btn btn-blue" onclick="BLD.step=3;bldShow()">Next</button></div>`;
 }
 function useTemplate(){BLD.d.rounds=recTemplate(curSoc.cat);bldShow();toast("Recommended template loaded \u2014 tweak anything")}
 function startScratch(){BLD.d.rounds=[];bldShow();toast("Blank canvas \u2014 hit + to add your first round")}
 function delBldRound(i){BLD.d.rounds.splice(i,1);bldShow()}
+function moveBldRound(i,dir){const r=BLD.d.rounds;const j=i+dir;if(j<0||j>=r.length)return;[r[i],r[j]]=[r[j],r[i]];bldShow()}
+function dupBldRound(i){const c=JSON.parse(JSON.stringify(BLD.d.rounds[i]));BLD.d.rounds.splice(i+1,0,c);bldShow();toast("Round duplicated \u2014 set it up independently")}
+function renamePill(which){
+  const cur=which==="start"?(BLD.d.startLabel||"Application Form"):(BLD.d.endLabel||"Offer Rollout");
+  $("modalBox").innerHTML=`<h3>Rename ${which==="start"?"entry":"final"} step</h3><p class="m-sub">${which==="start"?"The fixed entry node \u2014 every candidate begins by filling your sign-up / application form.":"The fixed exit node \u2014 where selected candidates receive their offer / welcome."}</p>
+    <div class="field"><label>Label</label><input id="pnL" value="${cur.replace(/"/g,'&quot;')}"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-blue btn-sm" onclick="savePill('${which}')">Save</button></div>`;
+  $("modalBg").classList.add("on");
+}
+function savePill(which){const v=$("pnL").value.trim();if(which==="start")BLD.d.startLabel=v||"Application Form";else BLD.d.endLabel=v||"Offer Rollout";closeModal();bldShow()}
 let RT_SEL=null,RT_AT=0;
 function openRoundPicker(at){
   RT_AT=at;RT_SEL=null;
@@ -2349,7 +2423,10 @@ function setupRound(i){
     <div class="field"><label>Round name</label><input id="srN" value="${rd.s}"></div>
     <div class="field"><label>Date</label><input id="srD" value="${rd.d==="TBA"?"":rd.d}" placeholder="28 Aug 2026"></div>
     <div class="field"><label>Description for candidates</label><input id="srX" value="${(rd.desc||"").replace(/"/g,'&quot;')}" placeholder="${t.d}"></div>
+    <div class="field"><label>Mode</label><select id="srM"><option ${!rd.mode||rd.mode==="Online"?"selected":""}>Online</option><option ${rd.mode==="Offline / On-campus"?"selected":""}>Offline / On-campus</option><option ${rd.mode==="Hybrid"?"selected":""}>Hybrid</option></select></div>
+    <div class="field"><label>Venue / platform (optional)</label><input id="srV" value="${(rd.venue||"").replace(/"/g,'&quot;')}" placeholder="Seminar hall 2 \u00b7 or \u00b7 Google Meet"></div>
     <div class="field"><label>Attach</label><select id="srA"><option value="">Nothing</option><option value="form" ${rd.form?"selected":""}>Application form link</option><option value="group" ${rd.group?"selected":""}>Round group join</option><option value="task" ${rd.task?"selected":""}>Task / case file for candidates</option></select></div>
+    <div class="field"><label>Direct link \u2014 Google Form / WhatsApp group / doc (candidates open this from the round)</label><input id="srL" value="${(rd.link||"").replace(/"/g,'&quot;')}" placeholder="https://forms.gle/..."></div>
     <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
     <button class="btn btn-blue btn-sm" onclick="saveRoundSetup(${i})">Save round</button></div>`;
   $("modalBg").classList.add("on");
@@ -2357,6 +2434,8 @@ function setupRound(i){
 function saveRoundSetup(i){
   const rd=BLD.d.rounds[i];
   rd.s=$("srN").value.trim()||rd.s;rd.d=$("srD").value.trim()||"TBA";rd.desc=$("srX").value.trim();
+  rd.link=$("srL").value.trim();
+  rd.mode=$("srM").value;rd.venue=$("srV").value.trim();
   delete rd.form;delete rd.group;delete rd.task;
   const a=$("srA").value;if(a==="form")rd.form=1;if(a==="group")rd.group=1;if(a==="task")rd.task="Task details added by the society.";
   closeModal();bldShow();toast("Round saved");
@@ -2384,7 +2463,8 @@ function publishDrive(){
   const r=curSoc.recruitment;const d=BLD.d;
   r.title=d.title;r.closes=d.closes;r.orientation=d.orient||"TBA";
   r.stages=d.rounds.map((rd,i)=>{const st={d:rd.d,d2:rd.d2,s:rd.s,st:i===0?"now":"upcoming",type:rd.type,desc:rd.desc||rtByKey(rd.type).d};
-    if(rd.form||i===0)st.form=1;if(rd.group)st.group=1;if(rd.task)st.task=rd.task;return st});
+    if(rd.form||i===0)st.form=1;if(rd.group)st.group=1;if(rd.task)st.task=rd.task;if(rd.link)st.link=rd.link;if(rd.mode)st.mode=rd.mode;if(rd.venue)st.venue=rd.venue;return st});
+  delete r.deadlines;
   if(!(r.roles||[]).length)r.roles=[{r:"Member",seats:20}];
   r.applied=r.applied||0;r.status="live";
   closeBuilder();renderSociety("recruit");toast("\uD83C\uDF89 Drive published \u2014 followers notified \u00B7 logged");
